@@ -28,8 +28,12 @@ public class Main extends Application {
         Button button1 = new Button("Light");
         button1.setOnAction(e -> window.setScene(light));
 
+        //Profile Button
+        Button profile = new Button("Profile");
+        profile.setOnAction(event -> Profile.diplay("Title","Good"));
+
         VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1,button1);
+        layout1.getChildren().addAll(label1,button1,profile);
         home = new Scene(layout1,400,400);
 
         //Button2
