@@ -23,28 +23,22 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
-
+        //
         Label label1 = new Label("Home");
-        Button button1 = new Button("Light");
-        button1.setOnAction(e -> window.setScene(light));
 
         //Profile Button
         Button profile = new Button("Profile");
-        profile.setOnAction(event -> Profile.diplay("Title","Good"));
+        profile.setOnAction(event -> Profile.display("Title","Good"));
 
+        //Light Button
+        Button light = new Button("Light");
+        light.setOnAction(event ->  Light.display("Light","Light page"));
+
+        //Layout for home page
         VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1,button1,profile);
+        layout1.getChildren().addAll(label1,profile,light);
         home = new Scene(layout1,400,400);
 
-        //Button2
-        Button button2 = new Button("Light");
-        button2.setOnAction(e -> window.setScene(home));
-
-        //Layout 2
-        VBox layout2 = new VBox(20);
-        Label label2 = new Label("Light");
-        layout2.getChildren().addAll(label2,button2);
-        light = new Scene(layout2,500,250);
 
         window.setScene(home);
         window.setTitle("SHS");
