@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-//Put the common methods for all different functionality of the SRS
 public class display {
     public static void display(String title, String message) {
         Stage window = new Stage();
