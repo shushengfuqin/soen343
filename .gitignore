@@ -1,0 +1,4 @@
+# files we wish not to see in repo (.idea is for IntelliJ IDEA and .DS_Store is for macOS)
+.idea
+.idea/*
+.DS_Store
