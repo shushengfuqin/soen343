@@ -15,6 +15,7 @@ public class PrimaryController {
 
     @FXML
     private Label label;
+    public Button closeButton;
     public void showTime(ActionEvent event){
         Date date=java.util.Calendar.getInstance().getTime();
         label.setText(date.toString());
@@ -22,6 +23,14 @@ public class PrimaryController {
     public void closeTime(ActionEvent event){
         label.setText("");
     }
+
+    public void closeButtonAction(ActionEvent event){
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
+
+
 
     public void heat(ActionEvent event){
         Stage window = new Stage();
@@ -76,4 +85,7 @@ public class PrimaryController {
         window.setScene(scene);
         window.show();
     }
+
+
+
 }
