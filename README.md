@@ -24,6 +24,6 @@ The dependencies are handled by Maven
 |---------------|---------------------------------------------------|------------------------|
 | Phong Le      | [phong1233](https://github.com/phong1233)         | phong.le0499@gmail.com |
 | Ruochen Jia   | [shushengfuqin](https://github.com/shushengfuqin) | ruocjia@gmail.com      |
-| Yuxin Wang    | [shirlywy](https://github.com/shirlywy)           |                        |
+| Yuxin Wang    | [shirlywy](https://github.com/shirlywy)           | shirly970711@gmail.com |
 | Killian Kelly | [immaroot](https://github.com/immaroot)           |                        |
 | Saebom Shin   | [successsb89](https://github.com/successsb89)     |                        |
