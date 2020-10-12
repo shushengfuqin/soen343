@@ -17,13 +17,13 @@ The dependencies are handled by Maven
 ## Technologies
 * Backend is written in Java
 * Frontend is written in Java using Javafx
-* Unittesting is ran using JUnit
+* Unit testing is ran using JUnit
 
 ## Contributors
 | Name          | Github                                            | Email                  |
 |---------------|---------------------------------------------------|------------------------|
 | Phong Le      | [phong1233](https://github.com/phong1233)         | phong.le0499@gmail.com |
-| Ruochen Jia   | [shushengfuqin](https://github.com/shushengfuqin) |                        |
+| Ruochen Jia   | [shushengfuqin](https://github.com/shushengfuqin) | ruocjia@gmail.com      |
 | Yuxin Wang    | [shirlywy](https://github.com/shirlywy)           |                        |
 | Killian Kelly | [immaroot](https://github.com/immaroot)           |                        |
 | Saebom Shin   | [successsb89](https://github.com/successsb89)     |                        |
