@@ -14,6 +14,11 @@ The dependencies are handled by Maven
 2. Run `mvm compile`
 3. Run `plugin -> javafx -> javafx:run`
 
+### Running Test
+1. Run `mvm clean`
+2. Run `mvm install`
+3. Run `mvm test`
+
 ## Technologies
 * Backend is written in Java
 * Frontend is written in Java using Javafx
