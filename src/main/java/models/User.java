@@ -49,32 +49,16 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Location getCoord() {
         return this.coord;
-    }
-
-    public void setCoord(int x, int y) {
-        this.coord = new Location(x,y);
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public int getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     private JSONObject toJson() {
