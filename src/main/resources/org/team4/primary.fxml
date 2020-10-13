@@ -11,6 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.image.*?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.PrimaryController">
    <children>
@@ -114,7 +115,11 @@
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" text="All/Done" />
                </children>
             </VBox>
-            <Button fx:id="closeButton" layoutX="1274.0" layoutY="91.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Exit" />
+            <fx:define>
+               <Image fx:id="btnImage" url="img/closebutton.png" />
+            </fx:define>
+            <Button fx:id="closeButton" layoutX="1274.0" layoutY="91.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Exit">
+            </Button>
          </children>
          <opaqueInsets>
             <Insets left="10.0" />
