@@ -1,4 +1,4 @@
-package org.team4;
+package helpers;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
