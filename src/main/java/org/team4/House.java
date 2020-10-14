@@ -80,8 +80,8 @@ public class House {
             Shape formattedRoomShape = room.getRoomShape();
             formattedRoomShape.setStroke(Color.RED);
             formattedRoomShape.setStrokeWidth(10);
-            formattedRoomShape.setFill(null);
-            formattedRoomShape.setOnMouseDragOver(new EventHandler<MouseEvent>() {
+            formattedRoomShape.setFill(Color.WHITE);
+            formattedRoomShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     roomInfo.setText(room.getName());
