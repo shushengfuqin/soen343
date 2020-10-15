@@ -9,6 +9,7 @@ public class People {
     int x_coordinate;
     int y_coordinate;
     Circle peopleShape;
+    String location;
 
     public String getName() {
         return name;
