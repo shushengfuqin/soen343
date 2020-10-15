@@ -4,5 +4,6 @@ module org.example {
     requires org.json;
 
     opens org.team4 to javafx.fxml;
+    opens user to javafx.fxml;
     exports org.team4;
 }

@@ -1,4 +1,4 @@
-package org.team4.unit;
+package org.unit;
 
 import org.junit.Assert;
 import org.junit.Test;

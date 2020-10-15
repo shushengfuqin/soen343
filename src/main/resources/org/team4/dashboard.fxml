@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.PrimaryController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.DashboardController">
    <children>
       <AnchorPane onDragDetected="#closeButtonAction" prefHeight="800.0" prefWidth="1183.0" style="-fx-background-color: #494ca2;">
          <children>
@@ -32,7 +32,7 @@
                <children>
                   <Label prefHeight="241.0" prefWidth="211.0" style="-fx-background-color: black;" />
                   <Label prefHeight="53.0" prefWidth="127.0" />
-                  <Button alignment="CENTER" layoutX="10.0" layoutY="304.0" onAction="#profile" prefHeight="50.0" prefWidth="318.0" style="-fx-background-color: #8186d5;" text="Home" textFill="black">
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="304.0" onAction="#openUserOptions" prefHeight="50.0" prefWidth="318.0" style="-fx-background-color: #8186d5;" text="Home" textFill="black">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -44,7 +44,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="CENTER" onAction="#profile" prefHeight="50.0" prefWidth="318.0" style="-fx-background-color: #8186d5;" text="Profile" textFill="black">
+                  <Button alignment="CENTER" onAction="#openUserOptions" prefHeight="50.0" prefWidth="318.0" style="-fx-background-color: #8186d5;" text="Profile" textFill="black">
                      <font>
                         <Font size="14.0" />
                      </font>

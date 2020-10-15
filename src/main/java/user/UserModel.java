@@ -1,4 +1,4 @@
-package models;
+package user;
 
 import helpers.Coordinate;
 import org.json.JSONArray;
@@ -10,28 +10,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class User {
+public class UserModel {
     public static int adultThreshold = 18;
+    public static String userFileName = "users.json";
     private Coordinate coord;
     private int age;
     private String status;
     private String name;
 
-    public User(String name, String status, int age) {
+    public UserModel(String name, String status, int age) {
         this.status = status;
         this.age = age;
         this.name = name;
         this.coord = new Coordinate(0, 0);
     }
 
-    public User(String name, String status, int age, int x, int y) {
+    public UserModel(String name, String status, int age, int x, int y) {
         this.status = status;
         this.age = age;
         this.coord = new Coordinate(x,y);
         this.name = name;
     }
 
-    public User(JSONObject user) {
+    public UserModel(JSONObject user) {
         this.age = user.getInt("age");
         this.name = user.getString("name");
         this.status = user.getString("status");
@@ -42,7 +43,7 @@ public class User {
     }
 
     public boolean isAdult() {
-        return this.age >= User.adultThreshold;
+        return this.age >= UserModel.adultThreshold;
     }
 
     public String getName() {
@@ -76,33 +77,33 @@ public class User {
     }
 
     public static boolean userExist(String name) throws IOException {
-        ArrayList<User> userList = User.getAllUsers();
-        for(User user: userList) {
-            if(user.getName().equals(name)) return true;
+        ArrayList<UserModel> userList = UserModel.getAllUsers();
+        for(UserModel user: userList) {
+            if(user.getName().equalsIgnoreCase(name)) return true;
         }
         return false;
     }
 
-    public static boolean addNewUsers(User u) throws IOException {
+    public static boolean addNewUsers(UserModel u) throws IOException {
         String userName = u.getName();
-        if(User.userExist(userName)) {
+        if(UserModel.userExist(userName)) {
             System.out.println("User add failed - Reason: Already exist");
             return false;
         }
 
-        ArrayList<User> userList = User.getAllUsers();
+        ArrayList<UserModel> userList = UserModel.getAllUsers();
         userList.add(u);
 
         JSONArray ja = new JSONArray();
 
-        for(User user : userList ) {
+        for(UserModel user : userList ) {
             JSONObject jo = user.toJson();
             ja.put(jo);
         }
 
         String userStr = ja.toString();
 
-        if(User.writeToUserFile(userStr)) {
+        if(UserModel.writeToUserFile(userStr)) {
             System.out.println("User add success");
             return true;
         }
@@ -111,21 +112,21 @@ public class User {
     }
 
     public static boolean deleteUser(String name) throws IOException {
-        if(!User.userExist(name)) {
+        if(!UserModel.userExist(name)) {
             System.out.println("User delete failed - Reason: User does not exist");
             return false;
         }
-        ArrayList<User> userList = User.getAllUsers();
+        ArrayList<UserModel> userList = UserModel.getAllUsers();
         JSONArray ja = new JSONArray();
 
-        for(User user : userList ) {
+        for(UserModel user : userList ) {
             if(user.getName().equals(name)) continue;
             JSONObject jo = user.toJson();
             ja.put(jo);
         }
 
         String userStr = ja.toString();
-        if(User.writeToUserFile(userStr)) {
+        if(UserModel.writeToUserFile(userStr)) {
             System.out.println("User delete success");
             return true;
         }
@@ -136,17 +137,17 @@ public class User {
     }
 
     public static boolean modifyUser(String name, String status, int age, int x, int y) throws IOException {
-        if(!User.userExist(name)) {
+        if(!UserModel.userExist(name)) {
             System.out.println("User modification failed - Reason: User does not exist");
             return false;
         }
 
-        ArrayList<User> userList = User.getAllUsers();
+        ArrayList<UserModel> userList = UserModel.getAllUsers();
         JSONArray ja = new JSONArray();
 
-        User tempUser = new User(name, status, age, x, y);
+        UserModel tempUser = new UserModel(name, status, age, x, y);
 
-        for(User user : userList ) {
+        for(UserModel user : userList ) {
             JSONObject jo = user.toJson();
             if(user.getName().equals(name)) {
                 jo = tempUser.toJson();
@@ -155,7 +156,7 @@ public class User {
         }
 
         String userStr = ja.toString();
-        if(User.writeToUserFile(userStr)) {
+        if(UserModel.writeToUserFile(userStr)) {
             System.out.println("User modification success");
             return true;
         }
@@ -165,22 +166,22 @@ public class User {
 
     }
 
-    public static User getUser(String name) throws IOException {
-        ArrayList<User> userList = User.getAllUsers();
-        for(User user: userList) {
+    public static UserModel getUser(String name) throws IOException {
+        ArrayList<UserModel> userList = UserModel.getAllUsers();
+        for(UserModel user: userList) {
             if(user.getName().equals(name)) return user;
         }
         return null;
     }
 
     public static boolean updateUserCoordinate(String name, int x, int y) throws IOException {
-        User user = User.getUser(name);
-        return User.modifyUser(name, user.getStatus(), user.getAge(), x,y);
+        UserModel user = UserModel.getUser(name);
+        return UserModel.modifyUser(name, user.getStatus(), user.getAge(), x,y);
     }
 
-    public static ArrayList<User> getAllUsers() throws IOException {
-        ArrayList<User> allUsers = new ArrayList<User>();
-        String userJson = User.readFromUserFile();
+    public static ArrayList<UserModel> getAllUsers() throws IOException {
+        ArrayList<UserModel> allUsers = new ArrayList<UserModel>();
+        String userJson = UserModel.readFromUserFile();
         if(userJson == null || userJson.equals("[]")) {
             System.out.println("User list is empty");
             return allUsers;
@@ -190,7 +191,7 @@ public class User {
 
         for(int i = 0; i < ja.length(); i++) {
             JSONObject userJO = ja.getJSONObject(i);
-            User tempUser = new User(userJO);
+            UserModel tempUser = new UserModel(userJO);
             allUsers.add(tempUser);
         }
 
@@ -198,7 +199,7 @@ public class User {
     }
 
     public static String readFromUserFile() throws IOException {
-        File userFile = new File("users.json");
+        File userFile = new File(userFileName);
         if (userFile.exists()) {
             Scanner fileReader = new Scanner(userFile);
             String data = fileReader.nextLine();
@@ -209,7 +210,7 @@ public class User {
 
     public static boolean writeToUserFile(String s) throws IOException {
         try {
-            FileWriter myWriter = new FileWriter("users.json");
+            FileWriter myWriter = new FileWriter(userFileName);
             myWriter.write(s);
             myWriter.close();
             return true;
