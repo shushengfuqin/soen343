@@ -12,15 +12,35 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.team4.settings.SettingsService;
+import org.team4.user.User;
 
 public class DashboardController {
 
     @FXML
     private Label label;
     public Button closeButton;
+    public Button refreshUserButton;
+    public Text nameText;
+    public Text statusText;
+    public Text ageText;
+
+    @FXML
+    public void initialize() {
+        currentUserBoxInit();
+    }
+
+    public void currentUserBoxInit() {
+        User curr = SettingsService.getCurrentUser();
+        nameText.setText(curr.getName());
+        statusText.setText(curr.getStatus());
+        ageText.setText(Integer.toString(curr.getAge()));
+    }
+
     public void showTime(ActionEvent event){
         Date date=java.util.Calendar.getInstance().getTime();
         label.setText(date.toString());

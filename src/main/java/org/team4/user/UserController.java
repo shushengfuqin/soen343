@@ -1,9 +1,10 @@
-package user;
+package org.team4.user;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.team4.settings.SettingsService;
 
 public class UserController {
 
@@ -41,6 +43,7 @@ public class UserController {
 
     @FXML
     public void initialize() throws IOException {
+        nameField1.setEditable(false);
         statusChoiceBoxInit();
         currentChoiceBoxInit();
         initEditSection();
@@ -62,21 +65,14 @@ public class UserController {
     }
 
     public void statusChoiceBoxInit() {
-        statusChoiceBox1.setItems(FXCollections.observableArrayList(
-                "family",
-                "guest",
-                "stranger"
-        ));
-        statusChoiceBox.setItems(FXCollections.observableArrayList(
-                "family",
-                "guest",
-                "stranger"
-        ));
+        ObservableList<String> choices = FXCollections.observableArrayList("family", "guest", "stranger");
+        statusChoiceBox1.setItems(choices);
+        statusChoiceBox.setItems(choices);
         statusChoiceBox.getSelectionModel().select(0);
     }
 
     public void currentChoiceBoxInit() throws IOException {
-        ArrayList<String> allUser = userService.getAllUsers();
+        ArrayList<String> allUser = userService.getAllUsersName();
 
         if(allUser.isEmpty()) return;
 
@@ -95,10 +91,10 @@ public class UserController {
         invalidText.setText(msg);
     }
 
-    public void selectUserAction(ActionEvent event) {
+    public void selectUserAction(ActionEvent event) throws IOException {
         resetText();
         if(userChoiceBox.getValue() == null) return;
-        UserService.currentUser = userChoiceBox.getValue();
+        SettingsService.setCurrentUser(userService.getUser(userChoiceBox.getValue()));
         selectMessage.setFill(Color.GREEN);
         selectMessage.setText("User successfully selected");
     }
@@ -106,7 +102,7 @@ public class UserController {
     public void searchUserAction(ActionEvent event) throws IOException {
         resetText();
         if(editUserChoiceBox.getValue() == null) return;
-        UserModel chosenUser = userService.getUser(editUserChoiceBox.getValue());
+        User chosenUser = userService.getUser(editUserChoiceBox.getValue());
         nameField1.setText(chosenUser.getName());
         String status = chosenUser.getStatus();
         statusChoiceBox1.setValue(status);

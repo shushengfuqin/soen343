@@ -1,15 +1,16 @@
-package user;
+package org.team4.user;
+
+import org.team4.settings.SettingsService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserService {
-    public static String currentUser = null;
 
     public UserService() throws IOException {
-        if(currentUser == null) {
-            ArrayList<UserModel> allUsers = UserModel.getAllUsers();
-            if(!allUsers.isEmpty()) currentUser = allUsers.get(0).getName();
+        if(!SettingsService.isCurrentUserSet()) {
+            ArrayList<User> allUsers = User.getAllUsers();
+            if(!allUsers.isEmpty()) SettingsService.setCurrentUser(allUsers.get(0));
         }
     }
 
@@ -31,15 +32,15 @@ public class UserService {
 
     public String createNewUser(String name, String status, String age) throws IOException {
         String failReason = validateUserInput(name, age);
-        if(UserModel.userExist(name)) failReason += "User already exist\n";
+        if(User.userExist(name)) failReason += "User already exist\n";
         if( !failReason.equals("") ) return failReason;
 
         int intAge = Integer.parseInt(age);
 
-        UserModel newUser = new UserModel(name, status, intAge);
-        UserModel.addNewUsers(newUser);
+        User newUser = new User(name, status, intAge);
+        User.addNewUsers(newUser);
 
-        if( currentUser == null ) currentUser = name;
+        if( !SettingsService.isCurrentUserSet() ) SettingsService.setCurrentUser(newUser);
 
         return null;
     }
@@ -56,55 +57,59 @@ public class UserService {
         return true;
     }
 
-    public ArrayList<String> getAllUsers() throws IOException {
-        ArrayList<UserModel> allUsers = UserModel.getAllUsers();
+    public ArrayList<String> getAllUsersName() throws IOException {
+        ArrayList<User> allUsers = User.getAllUsers();
         ArrayList<String> allUserName = new ArrayList<>();
+        User currentUser = SettingsService.getCurrentUser();
 
-        for(UserModel u : allUsers) {
+        for(User u : allUsers) {
             allUserName.add(u.getName());
         }
 
-        if (!allUserName.isEmpty() && allUserName.size() > 1) {
-            int curIndex = allUserName.indexOf(currentUser);
+        if(!allUserName.isEmpty() && currentUser != null) {
+            String curName = currentUser.getName();
+            int curIndex = allUserName.indexOf(curName);
             String temp = allUserName.get(0);
-            allUserName.set(0, currentUser);
+            allUserName.set(0, curName);
             allUserName.set(curIndex, temp);
         }
-
         return allUserName;
     }
 
-    public UserModel getUser(String name) throws IOException {
-        return UserModel.getUser(name);
+    public User getUser(String name) throws IOException {
+        return User.getUser(name);
     }
 
     public String editUser(String name, String status, String age) throws IOException {
         String failReason = validateUserInput(name, age);
         if(!failReason.equals("")) return failReason;
 
-        if(!UserModel.userExist(name)) {
+        if(!User.userExist(name)) {
             return "User does not exist";
         }
 
         int intAge = Integer.parseInt(age);
-        UserModel user = UserModel.getUser(name);
-        UserModel.modifyUser(name, status, intAge, user.getCoord().x, user.getCoord().y);
+        User user = User.getUser(name);
+        User.modifyUser(name, status, intAge, user.getCoord().x, user.getCoord().y);
+        if(user.getName().equals(SettingsService.getCurrentUser().getName())) {
+            user = User.getUser(name);
+            SettingsService.setCurrentUser(user);
+        }
 
         return null;
     }
 
-    public String deleteUser(String name) throws IOException {
-        ArrayList<UserModel> allUsers = UserModel.getAllUsers();
+    public String deleteUser(String name) throws  IOException {
+        ArrayList<User> allUsers = User.getAllUsers();
         if(allUsers.size() <= 1){
             return "Unable to delete the last user";
         }
-        UserModel.deleteUser(name);
-        if(UserModel.userExist(currentUser)) return null;
-
-        allUsers = UserModel.getAllUsers();
-
-        currentUser = allUsers.get(0).getName();
+        User.deleteUser(name);
+        if(!SettingsService.isCurrentUserSet() || SettingsService.getCurrentUser().getName().equals(name)) {
+            allUsers = User.getAllUsers();
+            SettingsService.setCurrentUser(allUsers.get(0));
+        }
         return null;
-
     }
+
 }
