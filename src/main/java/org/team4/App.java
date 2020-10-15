@@ -7,8 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.team4.view.HouseView;
 
 import java.io.IOException;
 
@@ -42,6 +45,26 @@ public class App extends Application {
         });
         stage.setScene(scene);
         stage.show();
+
+        House house = House.getDefaultHouse();
+        HouseView houseView = new HouseView(house);
+
+        Stage layoutStage = new Stage();
+        Pane housePane = new Pane();
+        Button btn = new Button("Add more people");
+        btn.relocate(350, 10);
+        btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                HouseView.addOccupant(new People("some random name", Color.BROWN,20, 20));
+            }
+        });
+
+        housePane.getChildren().addAll(houseView.getHousePane(), btn);
+        housePane.setPrefSize(500, 500);
+        layoutStage.setTitle("House Simulator");
+        layoutStage.setScene(new Scene(housePane));
+        layoutStage.show();
 
     }
 

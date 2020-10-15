@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -68,31 +69,48 @@ public class House {
         this.occupants = occupants;
     }
 
-    public Pane getHousePane() {
+    public static House getDefaultHouse() {
+        Shape room1Shape = new Rectangle(104, 46,127, 100);
 
-        Text roomInfo = new Text();
-        roomInfo.setFont(new Font(18));
-        roomInfo.relocate(100,100);
-        roomInfo.setText("test");
-        Pane houseCanvas = new Pane();
-        Group houseRooms = new Group();
-        for (Room room : rooms) {
-            Shape formattedRoomShape = room.getRoomShape();
-            formattedRoomShape.setStroke(Color.RED);
-            formattedRoomShape.setStrokeWidth(10);
-            formattedRoomShape.setFill(Color.WHITE);
-            formattedRoomShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    roomInfo.setText(room.getName());
-                }
-            });
-            houseRooms.getChildren().add(formattedRoomShape);
-        }
-        houseCanvas.getChildren().addAll(houseRooms);
-        houseCanvas.getChildren().add(roomInfo);
+        ArrayList<Window> room1_windows = new ArrayList<Window>();
+        room1_windows.add(new Window("room1_window1", 231, 75, 231, 105));
 
-        return houseCanvas;
+        ArrayList<Door> room1_doors = new ArrayList<Door>();
+        room1_doors.add(new Door("room1_door1", 130, 46, 200, 46));
+
+
+        Shape room2Shape = new Rectangle(104, 146,127, 124);
+
+        ArrayList<Window> room2_windows = new ArrayList<Window>();
+        room2_windows.add(new Window("room2_window1", 231, 75, 231, 105));
+        room1_windows.add(new Window("room2_window2", 143, 270, 180, 270));
+
+        ArrayList<Door> room2_doors = new ArrayList<Door>();
+        room1_doors.add(new Door("room2_door1", 130, 146, 180, 146));
+
+
+        Shape room3Shape = new Rectangle(23, 114,81, 156);
+
+        ArrayList<Window> room3_windows = new ArrayList<Window>();
+        room1_windows.add(new Window("room3_window1", 23, 130, 23, 180));
+
+        ArrayList<Door> room3_doors = new ArrayList<Door>();
+        room3_doors.add(new Door("room3_door1", 104, 130, 104, 180));
+
+
+        Room room1 = new Room("room1", room1Shape, room1_doors, room1_windows);
+        Room room2 = new Room("room2", room2Shape, room2_doors, room2_windows);
+        Room room3 = new Room("room3", room3Shape, room3_doors, room3_windows);
+
+        ArrayList<Room> rooms = new ArrayList<Room>();
+        rooms.add(room1);
+        rooms.add(room2);
+        rooms.add(room3);
+
+        ArrayList<People> occupants = new ArrayList<People>();
+        occupants.add(new People("bob", Color.AQUA, 20,30));
+
+        return new House(rooms,occupants);
     }
 
     public void saveHouseConfig() throws JsonProcessingException {
