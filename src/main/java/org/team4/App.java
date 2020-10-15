@@ -1,6 +1,6 @@
 package org.team4;
 
-import helpers.Location;
+import helpers.Coordinate;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -93,7 +93,7 @@ public class App extends Application {
                     int x6 = key.nextInt();
                     System.out.println("Y:" );
                     int y6 = key.nextInt();
-                    User.updateUserLocation(name6, x6, y6);
+                    User.updateUserCoordinate(name6, x6, y6);
             }
 
         }

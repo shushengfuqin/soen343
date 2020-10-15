@@ -1,6 +1,6 @@
 package models;
 
-import helpers.Location;
+import helpers.Coordinate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class User {
     public static int adultThreshold = 18;
-    private Location coord;
+    private Coordinate coord;
     private int age;
     private String status;
     private String name;
@@ -21,13 +21,13 @@ public class User {
         this.status = status;
         this.age = age;
         this.name = name;
-        this.coord = new Location(0, 0);
+        this.coord = new Coordinate(0, 0);
     }
 
     public User(String name, String status, int age, int x, int y) {
         this.status = status;
         this.age = age;
-        this.coord = new Location(x,y);
+        this.coord = new Coordinate(x,y);
         this.name = name;
     }
 
@@ -38,7 +38,7 @@ public class User {
         JSONObject coordinate = user.getJSONObject("coord");
         int x = coordinate.getInt("x");
         int y = coordinate.getInt("y");
-        this.coord = new Location(x,y);
+        this.coord = new Coordinate(x,y);
     }
 
     public boolean isAdult() {
@@ -49,7 +49,7 @@ public class User {
         return name;
     }
 
-    public Location getCoord() {
+    public Coordinate getCoord() {
         return this.coord;
     }
 
@@ -173,7 +173,7 @@ public class User {
         return null;
     }
 
-    public static boolean updateUserLocation(String name, int x, int y) throws IOException {
+    public static boolean updateUserCoordinate(String name, int x, int y) throws IOException {
         User user = User.getUser(name);
         return User.modifyUser(name, user.getStatus(), user.getAge(), x,y);
     }
