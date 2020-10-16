@@ -76,13 +76,9 @@
             <Pane layoutX="200.0" layoutY="660.0" prefHeight="20.0" prefWidth="1300.0" style="-fx-background-color: #1b1b1b;" />
             <Pane layoutX="220.0" layoutY="680.0" prefHeight="100.0" prefWidth="1260.0" style="-fx-background-color: #292929;" />
             <Pane layoutX="770.0" layoutY="20.0" prefHeight="640.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" />
-<<<<<<< HEAD
-            <Pane layoutX="790.0" layoutY="20.0" prefHeight="640.0" prefWidth="690.0" style="-fx-background-color: #292929;" />
-=======
             <Pane layoutX="790.0" layoutY="20.0" prefHeight="640.0" prefWidth="690.0" style="-fx-background-color: #292929;" >
                <fx:include source="houseLayoutView.fxml"></fx:include>
             </Pane>
->>>>>>> 75efca8... Add implemenation of house layout in dashboard
          </children>
          <opaqueInsets>
             <Insets left="10.0" />
