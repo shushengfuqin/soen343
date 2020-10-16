@@ -43,8 +43,6 @@ public class App extends Application {
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
-        stage.setScene(scene);
-        stage.show();
     }
 
     public static void main(String[] args) throws IOException {
