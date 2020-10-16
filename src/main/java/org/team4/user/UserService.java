@@ -1,5 +1,6 @@
 package org.team4.user;
 
+import org.team4.common.Helper;
 import org.team4.common.Settings;
 
 import java.io.IOException;
@@ -8,17 +9,6 @@ import java.util.ArrayList;
 public class UserService {
 
     public UserService() {
-    }
-
-    public boolean isAlphanumeric(String name) {
-        char[] chars = name.toCharArray();
-
-        for (char c : chars) {
-            if(!Character.isLetter(c)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public ArrayList<User> getAllUsersList() {
@@ -33,7 +23,7 @@ public class UserService {
 
     public String validateName(String name, boolean checkExist) {
         String failReason = null;
-        if( !this.isAlphanumeric(name) || name.isEmpty() )
+        if( !Helper.isAlphanumeric(name) || name.isEmpty() )
             failReason = "Letters only";
         else if( checkExist ) {
             try {
