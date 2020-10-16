@@ -1,4 +1,4 @@
-package org.team4.view;
+package org.team4.house;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -9,9 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import org.team4.House;
-import org.team4.People;
-import org.team4.Room;
+import org.team4.house.components.House;
+import org.team4.house.components.People;
+import org.team4.house.components.Room;
 
 public class HouseView {
 
