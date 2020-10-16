@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="houseLayout" prefHeight="640.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.house.HouseController">
-    <children>
-    </children>
+   <children>
+      <ImageView fitHeight="640.0" fitWidth="690.0">
+         <image>
+            <Image url="@../img/grass.jpg" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>
