@@ -33,22 +33,6 @@ public class ServiceTest {
     }
 
     @Test
-    public void isAlphanumericTest_ShouldReturnTrue() {
-        String value = "hello";
-        UserService testService = new UserService();
-        Boolean result = testService.isAlphanumeric(value);
-        Assert.assertTrue(result);
-    }
-
-    @Test
-    public void isAlphanumericTest_ShouldReturnFalse() {
-        String value = "hell $o";
-        UserService testService = new UserService();
-        Boolean result = testService.isAlphanumeric(value);
-        Assert.assertFalse(result);
-    }
-
-    @Test
     public void getAllUsersTest_ReturnArrayList() throws IOException {
         ArrayList<User> mockReturn = new ArrayList<User>();
         mockReturn.add(mockUser);
