@@ -1,4 +1,4 @@
-package org.team4;
+package org.team4.helpers;
 
 public class SVGParser {
 

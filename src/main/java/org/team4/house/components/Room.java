@@ -1,4 +1,4 @@
-package org.team4;
+package org.team4.house.components;
 
 import javafx.scene.shape.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;

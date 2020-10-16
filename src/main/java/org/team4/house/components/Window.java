@@ -1,4 +1,4 @@
-package org.team4;
+package org.team4.house.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.scene.shape.Line;
