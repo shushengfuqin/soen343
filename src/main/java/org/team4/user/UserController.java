@@ -93,7 +93,7 @@ public class UserController {
     }
 
     public void displayAllUsers() {
-        ArrayList<User> allUsers = userService.getAllUsers();
+        ArrayList<User> allUsers = userService.getAllUsersList();
         userTable.getItems().clear();
         usersEditField.getItems().clear();
         selectUserField.getItems().clear();

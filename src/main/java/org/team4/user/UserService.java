@@ -21,7 +21,7 @@ public class UserService {
         return true;
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAllUsersList() {
         try {
             return User.getAllUsers();
         } catch (IOException e) {
