@@ -1,6 +1,8 @@
 package org.team4;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,11 +13,44 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class PrimaryController {
 
     @FXML
     private Label label;
     public Button closeButton;
+
+    //set the time and date
+    public void clock(ActionEvent event){
+
+        Thread clock= new Thread()
+        {
+            public void run()
+            {
+                try {
+                    for(;;) {
+                        Calendar cal = new GregorianCalendar();
+                        int day = cal.get(Calendar.DAY_OF_MONTH);
+                        int month = cal.get(Calendar.MONTH);
+                        int year = cal.get(Calendar.YEAR);
+
+                        int second = cal.get(Calendar.SECOND);
+                        int minute = cal.get(Calendar.MINUTE);
+                        int hour = cal.get(Calendar.HOUR);
+
+                        label.setText("Time  " + hour + " : " + minute + " : " + second + "  Date  " + year + "/" + month + "/" + day);
+                        sleep(1000);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        clock.start();
+
+    }
+
     public void showTime(ActionEvent event){
         Date date=java.util.Calendar.getInstance().getTime();
         label.setText(date.toString());

@@ -26,5 +26,6 @@ public class display {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.show();
+
     }
 }
