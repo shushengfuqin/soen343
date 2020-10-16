@@ -1,157 +1,196 @@
 package org.team4.user;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import org.team4.settings.SettingsService;
+import org.team4.App;
+import org.team4.DashboardController;
+import org.team4.common.Coordinate;
+import org.team4.common.Settings;
+
+import java.util.ArrayList;
 
 public class UserController {
 
-    public UserService userService;
-    public UserController() throws IOException {
+    private UserService userService;
+
+    @FXML
+    //Table variables
+    public TableColumn<User, String>  nameColumn;
+    public TableColumn<User, String> statusColumn;
+    public TableColumn<User, Integer> ageColumn;
+    public TableColumn<Coordinate, Integer> xColumn;
+    public TableColumn<Coordinate, Integer> yColumn;
+    public TableView userTable;
+
+    //Add user variables
+    public TextField nameAddField;
+    public ChoiceBox<String> statusAddField;
+    public TextField ageAddField;
+    public Button addButton;
+    public Text nameAddText;
+    public Text ageAddText;
+    public Text addErrorText;
+
+    //Edit user variables
+    public ChoiceBox<String> usersEditField;
+    public ChoiceBox<String> statusEditField;
+    public TextField ageEditField;
+    public Text editErrorText;
+    public Text ageEditText;
+    public Button editButton;
+    public Button deleteButton;
+
+    //Select current user variables
+    public ChoiceBox<String> selectUserField;
+    public Button selectButton;
+
+    public UserController() {
         userService = new UserService();
     }
 
-    @FXML
-    public Button doneButton;
-    public Button createButton;
-    public Button selectButton;
-    public Button editButton;
-    public Button deleteButton;
-    public Button searchButton;
-    public ChoiceBox<String> statusChoiceBox;
-    public ChoiceBox<String> userChoiceBox;
-    public ChoiceBox<String> editUserChoiceBox;
-    public TextField nameField;
-    public TextField ageField;
-    public TextField nameField1;
-    public TextField ageField1;
-    public ChoiceBox<String> statusChoiceBox1;
-    public Text invalidText;
-    public Text selectMessage;
-    public Text editMessage;
-
-    @FXML
-    public void initialize() throws IOException {
-        nameField1.setEditable(false);
-        statusChoiceBoxInit();
-        currentChoiceBoxInit();
-        initEditSection();
-    }
-
-    public void resetText() {
-        selectMessage.setText("");
-        editMessage.setText("");
-        invalidText.setText("");
-    }
-
-    public void initEditSection() {
+    public void initialize() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+        xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+        yColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
         editButton.setDisable(true);
         deleteButton.setDisable(true);
-        editUserChoiceBox.setValue(null);
-        nameField1.setText("");
-        ageField1.setText("");
-        statusChoiceBox1.setValue(null);
+        selectButton.setDisable(true);
+        clearInputField();
+        displayAllUsers();
+        setStatusValues();
+        resetErrorMessages();
+
+        DashboardController dashboardController = App.fxmlLoader.getController();
+        dashboardController.setCurrentUserDashboard();
     }
 
-    public void statusChoiceBoxInit() {
-        ObservableList<String> choices = FXCollections.observableArrayList("family", "guest", "stranger");
-        statusChoiceBox1.setItems(choices);
-        statusChoiceBox.setItems(choices);
-        statusChoiceBox.getSelectionModel().select(0);
+    public void clearInputField() {
+        nameAddField.setText("");
+        ageAddField.setText("");
+        ageEditField.setText("");
     }
 
-    public void currentChoiceBoxInit() throws IOException {
-        ArrayList<String> allUser = userService.getAllUsersName();
-
-        if(allUser.isEmpty()) return;
-
-        userChoiceBox.setItems(FXCollections.observableArrayList(allUser));
-        editUserChoiceBox.setItems(FXCollections.observableArrayList(allUser));
-        userChoiceBox.getSelectionModel().select(0);
+    public void resetErrorMessages() {
+        nameAddText.setText("");
+        ageAddText.setText("");
+        addErrorText.setText("");
+        editErrorText.setText("");
+        ageEditText.setText("");
     }
 
-    public void closeUserOptions() {
-        Stage stage = (Stage) doneButton.getScene().getWindow();
-        stage.close();
+    public void setStatusValues() {
+        statusEditField.getItems().clear();
+        statusAddField.getItems().clear();
+        statusAddField.getItems().addAll("family", "guest", "stranger");
+        statusEditField.getItems().addAll("family", "guest", "stranger");
+        statusAddField.setValue("family");
+        statusEditField.setValue(null);
     }
 
-    public void displayMessage(String msg, boolean good) {
-        invalidText.setFill(good ? Color.GREEN : Color.RED);
-        invalidText.setText(msg);
+    public void displayAllUsers() {
+        ArrayList<User> allUsers = userService.getAllUsers();
+        userTable.getItems().clear();
+        usersEditField.getItems().clear();
+        selectUserField.getItems().clear();
+        for(User u : allUsers) {
+            userTable.getItems().add(u);
+            usersEditField.getItems().add(u.name);
+            selectUserField.getItems().add(u.name);
+        }
+        selectUserField.setValue(Settings.currentUser);
     }
 
-    public void selectUserAction(ActionEvent event) throws IOException {
-        resetText();
-        if(userChoiceBox.getValue() == null) return;
-        SettingsService.setCurrentUser(userService.getUser(userChoiceBox.getValue()));
-        selectMessage.setFill(Color.GREEN);
-        selectMessage.setText("User successfully selected");
+    public void handleDisplayUserEdit() {
+        String name = usersEditField.getValue();
+        User user = userService.getSingleUser(name);
+        if(user != null) {
+            statusEditField.setValue(user.status);
+            ageEditField.setText(Integer.toString(user.age));
+            editButton.setDisable(false);
+            deleteButton.setDisable(false);
+        }
     }
 
-    public void searchUserAction(ActionEvent event) throws IOException {
-        resetText();
-        if(editUserChoiceBox.getValue() == null) return;
-        User chosenUser = userService.getUser(editUserChoiceBox.getValue());
-        nameField1.setText(chosenUser.getName());
-        String status = chosenUser.getStatus();
-        statusChoiceBox1.setValue(status);
-        ageField1.setText(Integer.toString(chosenUser.getAge()));
-        deleteButton.setDisable(false);
-        editButton.setDisable(false);
-    }
+    public void handleEditUser() {
+        String name = usersEditField.getValue();
+        String status = statusEditField.getValue();
+        String age = ageEditField.getText();
 
-    public void displayEditMessage(String msg, boolean good) {
-        editMessage.setFill(good ? Color.GREEN : Color.RED);
-        editMessage.setText(msg);
-    }
-
-    public void editUserAction(ActionEvent event) throws  IOException {
-        resetText();
-        String name = nameField1.getText();
-        String age = ageField1.getText();
-        String status = statusChoiceBox1.getValue();
-        String msg = userService.editUser(name, status, age);
-        initialize();
-        if(msg != null) displayEditMessage(msg, false);
-        else displayEditMessage("Successfully edited user", true);
-    }
-
-    public void deleteUserAction(ActionEvent event) throws  IOException {
-        resetText();
-        String name = nameField1.getText();
-        String msg = userService.deleteUser(name);
-        initialize();
-        if(msg != null) displayEditMessage(msg, false);
-        else displayEditMessage("Successfully deleted user", true);
-    }
-
-    public void createNewUserAction(ActionEvent event) throws IOException {
-        resetText();
-        String name = nameField.getText();
-        String age = ageField.getText();
-        String status = statusChoiceBox.getValue();
-
-        String message = userService.createNewUser(name, status, age);
-        if (message == null) {
-            displayMessage("Successfully added user", true);
-            nameField.setText("");
-            ageField.setText("");
-            statusChoiceBox.getSelectionModel().select(0);
-            initialize();
-        } else {
-            displayMessage(message, false);
+        String ageValid = userService.validateAge(age);
+        if(ageValid != null) {
+            ageEditText.setText(ageValid);
+            ageEditText.setFill(Color.RED);
+            return;
         }
 
+        int intAge = Integer.parseInt(age);
+        boolean success = userService.addUser(name, status, intAge);
+        if(!success) {
+            editErrorText.setText("Failed");
+            editErrorText.setFill(Color.RED);
+            return;
+        }
+        initialize();
+    }
+
+    public void handleDeleteUser() {
+        resetErrorMessages();
+        String name = usersEditField.getValue();
+        boolean success = userService.deleteSingleUser(name);
+        if(!success) {
+            editErrorText.setText("Failed");
+            editErrorText.setFill(Color.RED);
+        }
+        initialize();
+    }
+
+    public void handleAddNewUser() {
+        resetErrorMessages();
+        String name = nameAddField.getText();
+        String status = statusAddField.getValue();
+        String age = ageAddField.getText();
+
+        String nameValid = userService.validateName(name, true);
+        if(nameValid != null) {
+            nameAddText.setText(nameValid);
+            nameAddText.setFill(Color.RED);
+        }
+
+        String ageValid = userService.validateAge(age);
+        if(ageValid != null) {
+            ageAddText.setText(ageValid);
+            ageAddText.setFill(Color.RED);
+        }
+
+        if(ageValid != null || nameValid != null) return;
+
+        int intAge = Integer.parseInt(age);
+        boolean success = userService.addUser(name, status, intAge);
+
+        if(!success) {
+            addErrorText.setText("Failed");
+            addErrorText.setFill(Color.RED);
+            return;
+        }
+
+        initialize();
+    }
+
+    public void handleCurrentButton() {
+        String username = selectUserField.getValue();
+        if(username == null || username.equals(Settings.currentUser))
+            return;
+        selectButton.setDisable(false);
+    }
+
+    public void handleSelectCurrentUser() {
+        String username = selectUserField.getValue();
+        Settings.currentUser = username;
+        initialize();
     }
 }

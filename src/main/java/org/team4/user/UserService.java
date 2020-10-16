@@ -1,48 +1,13 @@
 package org.team4.user;
 
-import org.team4.settings.SettingsService;
+import org.team4.common.Settings;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserService {
 
-    public UserService() throws IOException {
-        if(!SettingsService.isCurrentUserSet()) {
-            ArrayList<User> allUsers = User.getAllUsers();
-            if(!allUsers.isEmpty()) SettingsService.setCurrentUser(allUsers.get(0));
-        }
-    }
-
-    public String validateUserInput(String name, String age) throws IOException {
-        String failReason = "";
-        if( !this.isAlphanumeric(name) || name.isEmpty())
-            failReason += "Name should only contain letters\n";
-        int intAge = 0;
-
-        try {
-            intAge = Integer.parseInt(age);
-            if(intAge < 0) failReason += "Age should be a positive integer\n";
-        }
-        catch (NumberFormatException  e) {
-            failReason += "Age should be an integer\n";
-        }
-        return failReason;
-    }
-
-    public String createNewUser(String name, String status, String age) throws IOException {
-        String failReason = validateUserInput(name, age);
-        if(User.userExist(name)) failReason += "User already exist\n";
-        if( !failReason.equals("") ) return failReason;
-
-        int intAge = Integer.parseInt(age);
-
-        User newUser = new User(name, status, intAge);
-        User.addNewUsers(newUser);
-
-        if( !SettingsService.isCurrentUserSet() ) SettingsService.setCurrentUser(newUser);
-
-        return null;
+    public UserService() {
     }
 
     public boolean isAlphanumeric(String name) {
@@ -53,63 +18,81 @@ public class UserService {
                 return false;
             }
         }
-
         return true;
     }
 
-    public ArrayList<String> getAllUsersName() throws IOException {
-        ArrayList<User> allUsers = User.getAllUsers();
-        ArrayList<String> allUserName = new ArrayList<>();
-        User currentUser = SettingsService.getCurrentUser();
-
-        for(User u : allUsers) {
-            allUserName.add(u.getName());
+    public ArrayList<User> getAllUsers() {
+        try {
+            return User.getAllUsers();
+        } catch (IOException e) {
+            System.out.println("Failure while retrieving all users");
+            e.printStackTrace();
         }
-
-        if(!allUserName.isEmpty() && currentUser != null) {
-            String curName = currentUser.getName();
-            int curIndex = allUserName.indexOf(curName);
-            String temp = allUserName.get(0);
-            allUserName.set(0, curName);
-            allUserName.set(curIndex, temp);
-        }
-        return allUserName;
+        return null;
     }
 
-    public User getUser(String name) throws IOException {
-        return User.getUser(name);
+    public String validateName(String name, boolean checkExist) {
+        String failReason = null;
+        if( !this.isAlphanumeric(name) || name.isEmpty() )
+            failReason = "Letters only";
+        else if( checkExist ) {
+            try {
+                if(User.userExist(name))
+                    failReason = "Already exists";
+            } catch (IOException e) {
+                System.out.println("Failed while checking if user exists");
+                e.printStackTrace();
+            }
+        }
+        return failReason;
     }
 
-    public String editUser(String name, String status, String age) throws IOException {
-        String failReason = validateUserInput(name, age);
-        if(!failReason.equals("")) return failReason;
-
-        if(!User.userExist(name)) {
-            return "User does not exist";
+    public String validateAge(String age) {
+        String failReason = null;
+        try {
+            int intAge = Integer.parseInt(age);
+            if(intAge < 0) failReason = "Positive only\n";
         }
-
-        int intAge = Integer.parseInt(age);
-        User user = User.getUser(name);
-        User.modifyUser(name, status, intAge, user.getCoord().x, user.getCoord().y);
-        if(user.getName().equals(SettingsService.getCurrentUser().getName())) {
-            user = User.getUser(name);
-            SettingsService.setCurrentUser(user);
+        catch (NumberFormatException  e) {
+            failReason = "Integer only\n";
         }
+        return failReason;
+    }
 
+    public boolean addUser(String name, String status, int age) {
+        User newUser = new User(name, status, age);
+        try {
+            User.addNewUsers(newUser);
+            return true;
+        } catch (IOException e) {
+            System.out.println("Failed while adding user");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User getSingleUser(String name) {
+        try {
+            return User.getUser(name);
+        } catch (IOException e) {
+            System.out.println("Failed while fetching user");
+            e.printStackTrace();
+        }
         return null;
     }
 
-    public String deleteUser(String name) throws  IOException {
-        ArrayList<User> allUsers = User.getAllUsers();
-        if(allUsers.size() <= 1){
-            return "Unable to delete the last user";
+    public boolean deleteSingleUser(String name) {
+        try {
+            User.deleteUser(name);
+            if(Settings.currentUser.equals(name)) {
+                Settings.currentUser = null;
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("Failed while deleting user");
+            e.printStackTrace();
         }
-        User.deleteUser(name);
-        if(!SettingsService.isCurrentUserSet() || SettingsService.getCurrentUser().getName().equals(name)) {
-            allUsers = User.getAllUsers();
-            SettingsService.setCurrentUser(allUsers.get(0));
-        }
-        return null;
+        return false;
     }
 
 }

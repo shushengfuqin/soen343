@@ -13,10 +13,11 @@ import java.util.Scanner;
 public class User {
     public static int adultThreshold = 18;
     public static String userFileName = "users.json";
-    private Coordinate coord;
-    private int age;
-    private String status;
-    private String name;
+
+    public Coordinate coord;
+    public int age;
+    public String status;
+    public String name;
 
     public User(String name, String status, int age) {
         this.status = status;
@@ -42,24 +43,28 @@ public class User {
         this.coord = new Coordinate(x,y);
     }
 
-    public boolean isAdult() {
-        return this.age >= User.adultThreshold;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Coordinate getCoord() {
-        return this.coord;
+    public int getAge() {
+        return age;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public int getAge() {
-        return age;
+    public String getName() {
+        return name;
+    }
+
+    public int getX() {
+        return coord.x;
+    }
+
+    public int getY() {
+        return coord.y;
+    }
+
+    public boolean isAdult() {
+        return this.age >= User.adultThreshold;
     }
 
     private JSONObject toJson() {
@@ -76,22 +81,54 @@ public class User {
         return "Name: " + this.name + "\nStatus: " + this.status + "\nAge: " + this.age + "\nCoordinate: " + this.coord;
     }
 
+
+    public static User getUser(String name) throws IOException {
+        ArrayList<User> userList = User.getAllUsers();
+        for(User user: userList) {
+            if(user.name.equals(name)) return user;
+        }
+        return null;
+    }
+
+    public static ArrayList<User> getAllUsers() throws IOException {
+        ArrayList<User> allUsers = new ArrayList<User>();
+        String userJson = User.readFromUserFile();
+        if(userJson == null || userJson.equals("[]")) {
+            return allUsers;
+        }
+
+        JSONArray ja = new JSONArray(userJson);
+
+        for(int i = 0; i < ja.length(); i++) {
+            JSONObject userJO = ja.getJSONObject(i);
+            User tempUser = new User(userJO);
+            allUsers.add(tempUser);
+        }
+
+        return allUsers;
+    }
+
     public static boolean userExist(String name) throws IOException {
         ArrayList<User> userList = User.getAllUsers();
         for(User user: userList) {
-            if(user.getName().equalsIgnoreCase(name)) return true;
+            if(user.name.equalsIgnoreCase(name)) return true;
         }
         return false;
     }
 
     public static boolean addNewUsers(User u) throws IOException {
-        String userName = u.getName();
-        if(User.userExist(userName)) {
-            System.out.println("User add failed - Reason: Already exist");
-            return false;
-        }
+        String userName = u.name;
+        boolean exist = User.userExist(userName);
 
         ArrayList<User> userList = User.getAllUsers();
+        if(exist) {
+            for(User user: userList) {
+                if(user.name.equals(userName)) {
+                    userList.remove(user);
+                    break;
+                }
+            }
+        }
         userList.add(u);
 
         JSONArray ja = new JSONArray();
@@ -120,7 +157,7 @@ public class User {
         JSONArray ja = new JSONArray();
 
         for(User user : userList ) {
-            if(user.getName().equals(name)) continue;
+            if(user.name.equals(name)) continue;
             JSONObject jo = user.toJson();
             ja.put(jo);
         }
@@ -134,68 +171,6 @@ public class User {
         System.out.println("User delete failed - Reason: Failed to write to file");
         return false;
 
-    }
-
-    public static boolean modifyUser(String name, String status, int age, int x, int y) throws IOException {
-        if(!User.userExist(name)) {
-            System.out.println("User modification failed - Reason: User does not exist");
-            return false;
-        }
-
-        ArrayList<User> userList = User.getAllUsers();
-        JSONArray ja = new JSONArray();
-
-        User tempUser = new User(name, status, age, x, y);
-
-        for(User user : userList ) {
-            JSONObject jo = user.toJson();
-            if(user.getName().equals(name)) {
-                jo = tempUser.toJson();
-            }
-            ja.put(jo);
-        }
-
-        String userStr = ja.toString();
-        if(User.writeToUserFile(userStr)) {
-            System.out.println("User modification success");
-            return true;
-        }
-
-        System.out.println("User modification failed - Reason: Failed to write to file");
-        return false;
-
-    }
-
-    public static User getUser(String name) throws IOException {
-        ArrayList<User> userList = User.getAllUsers();
-        for(User user: userList) {
-            if(user.getName().equals(name)) return user;
-        }
-        return null;
-    }
-
-    public static boolean updateUserCoordinate(String name, int x, int y) throws IOException {
-        User user = User.getUser(name);
-        return User.modifyUser(name, user.getStatus(), user.getAge(), x,y);
-    }
-
-    public static ArrayList<User> getAllUsers() throws IOException {
-        ArrayList<User> allUsers = new ArrayList<User>();
-        String userJson = User.readFromUserFile();
-        if(userJson == null || userJson.equals("[]")) {
-            System.out.println("User list is empty");
-            return allUsers;
-        }
-
-        JSONArray ja = new JSONArray(userJson);
-
-        for(int i = 0; i < ja.length(); i++) {
-            JSONObject userJO = ja.getJSONObject(i);
-            User tempUser = new User(userJO);
-            allUsers.add(tempUser);
-        }
-
-        return allUsers;
     }
 
     public static String readFromUserFile() throws IOException {

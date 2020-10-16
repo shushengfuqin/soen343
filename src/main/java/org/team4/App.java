@@ -18,13 +18,14 @@ public class App extends Application {
     private static Scene scene;
     private double xOffset = 0;
     private double yOffset = 0;
+    public static FXMLLoader fxmlLoader;
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("settingsSetup.fxml"));
+        fxmlLoader = new FXMLLoader(App.class.getResource("dashboard.fxml"));
         scene = new Scene(fxmlLoader.load());
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("settingSetup");
+        stage.setTitle("Dashboard");
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
