@@ -1,15 +1,21 @@
 package org.team4;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.team4.view.HouseView;
+
+import java.io.IOException;
 
 public class LayoutController extends Application {
 
@@ -21,7 +27,6 @@ public class LayoutController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
 
         House house = House.getDefaultHouse();
         HouseView houseView = new HouseView(house);

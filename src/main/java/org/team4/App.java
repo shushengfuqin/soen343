@@ -43,9 +43,8 @@ public class App extends Application {
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
-        stage.setScene(scene);
-        stage.show();
 
+        Scene layout = new Scene(loadFXML("secondary"));
         House house = House.getDefaultHouse();
         HouseView houseView = new HouseView(house);
 
@@ -65,7 +64,9 @@ public class App extends Application {
         layoutStage.setTitle("House Simulator");
         layoutStage.setScene(new Scene(housePane));
         layoutStage.show();
-
+        
+        stage.setScene(scene);
+        stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
