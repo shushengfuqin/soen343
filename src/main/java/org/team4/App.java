@@ -44,14 +44,16 @@ public class App extends Application {
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
-        stage.setScene(scene);
-        stage.show();
 
+        Scene layout = new Scene(loadFXML("secondary"));
         House house = House.getDefaultHouse();
         HouseController houseController = new HouseController(house);
 
         Stage layoutStage = houseController.getStage();
         layoutStage.show();
+        
+        stage.setScene(scene);
+        stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
