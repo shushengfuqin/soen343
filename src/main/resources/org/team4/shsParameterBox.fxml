@@ -38,7 +38,7 @@
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tempText" onKeyReleased="#handleTempTextUpade" prefHeight="25.0" prefWidth="103.0" promptText="Degree" GridPane.columnIndex="2" />
+                  <TextField fx:id="tempText" onKeyReleased="#handleTempTextUpdate" prefHeight="25.0" prefWidth="103.0" promptText="Degree" GridPane.columnIndex="2" />
                   <Button fx:id="setTempButton" mnemonicParsing="false" onAction="#handleUpdateOutsideTemp" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" />
                   <Label text=" C" textFill="WHITE" GridPane.columnIndex="3">
                      <font>

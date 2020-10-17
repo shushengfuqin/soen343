@@ -8,10 +8,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.team4.common.Settings;
-import org.team4.shsParameters.SimulationTime;
 
 import java.io.IOException;
-import java.time.Clock;
 
 /**
  * JavaFX App

@@ -55,10 +55,17 @@ public class ShsParameterController {
         String time = timeField.getText();
         LocalDate localDate = dateField.getValue();
         boolean success = shsParameterService.setDateTime(localDate, time);
-        dateError.setText(success ? "" : "X");
+        if(success) {
+            dateError.setText("");
+            dateField.setValue(null);
+            timeField.setText("");
+        }
+        else {
+            dateError.setText("X");
+        }
     }
 
-    public void handleTempTextUpade() {
+    public void handleTempTextUpdate() {
         String temp = tempText.getText();
         try {
             int num = Integer.parseInt(temp);
