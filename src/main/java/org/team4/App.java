@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.team4.common.Settings;
+
 import java.io.IOException;
 
 /**
@@ -43,7 +45,8 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        Settings.simulationTime.start();
         launch();
     }
 }

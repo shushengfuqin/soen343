@@ -10,6 +10,9 @@ import org.team4.common.Settings;
 import org.team4.user.User;
 import org.team4.user.UserService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DashboardController {
 
@@ -17,6 +20,8 @@ public class DashboardController {
 
     @FXML
     public Button closeButton;
+    public Button startButton;
+
 
     //Info box variables
     @FXML
@@ -38,15 +43,30 @@ public class DashboardController {
     @FXML
     public void initialize() {
         updateInfo();
+        if(Settings.simulationStarted) startButton.setText("Stop");
     }
 
-    public void closeButtonAction(ActionEvent event){
+    public void startButtonAction(ActionEvent event) {
+        startButton.setText(startButton.getText().equals("Start") ? "Stop" : "Start");
+    }
+
+    public void closeButtonAction(ActionEvent event) {
+        Settings.simulationTime.stop = true;
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
 
     public void updateInfo() {
         outsideTemp.setText(Integer.toString(Settings.outsideTemperature));
+    }
+
+    public void updateTime(Date date) {
+        String timePatter = "HH:mm:ss";
+        String datePattern = "MM/dd/yyyy";
+        DateFormat tf = new SimpleDateFormat(timePatter);
+        DateFormat df = new SimpleDateFormat(datePattern);
+        currentTime.setText(tf.format(date));
+        currentDate.setText(df.format(date));
     }
 
     public void setCurrentUserDashboard() {

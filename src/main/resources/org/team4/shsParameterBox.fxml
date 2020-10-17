@@ -38,8 +38,8 @@
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tempText" onKeyReleased="#handleTempTextUpade" prefHeight="25.0" prefWidth="103.0" promptText="Degree" GridPane.columnIndex="2" />
-                  <Button fx:id="setTempButton" onAction="#handleUpdateOutsideTemp" mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" />
+                  <TextField fx:id="tempText" onKeyReleased="#handleTempTextUpdate" prefHeight="25.0" prefWidth="103.0" promptText="Degree" GridPane.columnIndex="2" />
+                  <Button fx:id="setTempButton" mnemonicParsing="false" onAction="#handleUpdateOutsideTemp" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" />
                   <Label text=" C" textFill="WHITE" GridPane.columnIndex="3">
                      <font>
                         <Font name="Arial" size="14.0" />
@@ -50,9 +50,9 @@
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
-                  <DatePicker promptText="Date" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField promptText="Time" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dateField" promptText="Date" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="timeField" promptText="HH:mm:ss" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Button fx:id="setDateButton" mnemonicParsing="false" onAction="#handleSetDateAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="1" />
                   <Label text="Windows:" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font name="Arial" size="20.0" />
@@ -61,6 +61,15 @@
                   <ChoiceBox prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="2" />
                   <Text fx:id="tempError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="4" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <children>
+                        <Text fx:id="dateError" fill="RED" layoutX="4.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
                </children>
             </GridPane>
          </children>
