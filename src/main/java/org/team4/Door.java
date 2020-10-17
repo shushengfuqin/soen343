@@ -1,10 +1,11 @@
 package org.team4;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-public class Door {
+public class Door implements Drawable {
 
     String name;
     Boolean open;
@@ -12,37 +13,23 @@ public class Door {
     @JsonIgnore
     Shape doorShape;
 
-    public Shape getDoorShape() {
+    public Door(String name, double startX, double startY, double endX, double endY ) {
+        this.name = name;
+        doorShape = new Line(startX, startY, endX, endY);
+        open = false;
+    }
+
+    @Override
+    public Shape getShape() {
         return doorShape;
     }
 
-    public void setDoorShape(Shape doorShape) {
-        this.doorShape = doorShape;
-    }
-
-    public Boolean getOpen() {
-        return open;
-    }
-
-    public void setOpen(Boolean open) {
-        this.open = open;
+    @Override
+    public Color getColor() {
+        return Color.YELLOW;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Door(String name, double startX, double startY, double endX, double endY ) {
-        setName(name);
-        setDoorShape(new Line(startX,startY,endX,endY));
-        setOpen(true);
-    }
-
-    public Door(String name) {
-        setName(name);
     }
 }

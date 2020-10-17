@@ -3,59 +3,54 @@ package org.team4;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class People {
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class People implements Draggable {
     String name;
     Paint peopleColor;
-    int x_coordinate;
-    int y_coordinate;
+    Coordinate coordinate;
     Circle peopleShape;
-    String location;
+    PropertyChangeSupport support;
+    final static double PEOPLE_SIZE = 5;
+
+    public People(String name, Paint peopleColor, double x_coordinate, double y_coordinate) {
+
+        this.name = name;
+        this.peopleColor = peopleColor;
+        x_coordinate = Math.max(x_coordinate, PEOPLE_SIZE);
+        y_coordinate = Math.max(y_coordinate, PEOPLE_SIZE);
+        this.coordinate = new Coordinate((x_coordinate + PEOPLE_SIZE)/2 , (y_coordinate + PEOPLE_SIZE)/2);
+        System.out.println(this.coordinate);
+        this.peopleShape = new Circle(coordinate.getX(), coordinate.getY(), PEOPLE_SIZE, peopleColor);
+        support = new PropertyChangeSupport(this);
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Paint getPeopleColor() {
-        return peopleColor;
-    }
-
-    public void setPeopleColor(Paint peopleColor) {
-        this.peopleColor = peopleColor;
-    }
-
-    public int getX_coordinate() {
-        return x_coordinate;
-    }
-
-    public void setX_coordinate(int x_coordinate) {
-        this.x_coordinate = x_coordinate;
-    }
-
-    public int getY_coordinate() {
-        return y_coordinate;
-    }
-
-    public void setY_coordinate(int y_coordinate) {
-        this.y_coordinate = y_coordinate;
-    }
-
-    public Circle getPeopleShape() {
+    public Circle getShape() {
         return peopleShape;
     }
-
-    public void setPeopleShape(Circle peopleShape) {
-        this.peopleShape = peopleShape;
+    
+    public void setCoordinate(double x, double y) {
+        Coordinate oldCoordinate = new Coordinate(coordinate.getX(), coordinate.getY());
+        Coordinate newCoordinate = new Coordinate(x,y);
+        coordinate.setX(x);
+        coordinate.setY(y);
+        support.firePropertyChange("movement", oldCoordinate, newCoordinate);
     }
 
-    public People(String name, Paint peopleColor, int x_coordinate, int y_coordinate) {
-        setName(name);
-        setPeopleColor(peopleColor);
-        setX_coordinate(Math.max(x_coordinate, 15));
-        setY_coordinate(Math.max(y_coordinate, 15));
-        setPeopleShape(new Circle(getX_coordinate(), getY_coordinate(), 15));
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
     }
 }

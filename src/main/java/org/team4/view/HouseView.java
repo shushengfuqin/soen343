@@ -1,144 +1,125 @@
 package org.team4.view;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
+//import javafx.scene.text.Font;
+//import javafx.scene.text.Text;
 import javafx.scene.text.Text;
-import org.team4.House;
-import org.team4.People;
-import org.team4.Room;
+import javafx.stage.Stage;
+import org.team4.*;
+
+
+import java.util.Collection;
 
 public class HouseView {
 
-    private static House house;
-    private static Group occupants;
-    private static Pane housePane;
-    private static int nextInfo_Y = 0;
+    private House house;
+    private Group occupants;
+    private Pane pane;
+    private Scene scene;
+    private Stage stage;
+    private HouseController houseController;
+    private DoorController doorController;
+    private WindowController windowController;
+    private static final double LINE_WIDTH = 5;
 
-    public HouseView(House house) {
-        setHouse(house);
-        housePane = new Pane();
-        housePane.setPrefSize(500,500);
-    }
 
-    public static House getHouse() {
-        return house;
-    }
+    public HouseView(House house, HouseController houseController) {
+        this.houseController = houseController;
+        this.house = house;
 
-    public static void setHouse(House house) {
-        HouseView.house = house;
-    }
+        stage = new Stage();
+        stage.setTitle("House Layout");
 
-    public static Group getOccupants() {
-        return occupants;
-    }
+        pane = new Pane();
+        pane.setPrefSize(500,500);
 
-    public static void setOccupants(Group occupants) {
-        HouseView.occupants = occupants;
-    }
 
-    public static void addOccupant(People people) {
+        /*For testing and demo purposes only */
+        Button btn = new Button("Add more people");
+        btn.relocate(350, 0);
+        btn.setOnMouseClicked((mouseEvent -> {
+            houseController.addRandomOccupant();
+        }));
+        addToPane(btn);
 
-        Shape person = people.getPeopleShape();
+        Text coordinates = new Text("test");
+        coordinates.relocate(250,400);
+        pane.setOnMouseMoved((mouseEvent -> {
+            coordinates.setText("x:" + mouseEvent.getX() + " y:" + mouseEvent.getY());
+        }));
 
-        Text status = new Text(300, 10+nextInfo_Y , "status");
-        nextInfo_Y += 30;
+        addToPane(coordinates);
+//
+//        Button btn1 = new Button("open door1");
+//        btn1.relocate(350, 25);
+//        btn1.setOnMouseClicked((mouseEvent -> {
+//            houseController.openDoor(house.getRooms().get(0).getDoors().get(0));
+//        }));
+//        addToPane(btn1);
+//
+//        Button btn2 = new Button("close door1");
+//        btn2.relocate(350, 50);
+//        btn2.setOnMouseClicked((mouseEvent -> {
+//            houseController.closeDoor(house.getRooms().get(0).getDoors().get(0));
+//        }));
+//        addToPane(btn2);
+//
+//        Button btn3 = new Button("open door2");
+//        btn3.relocate(350, 75);
+//        btn3.setOnMouseClicked((mouseEvent -> {
+//            houseController.openDoor(house.getRooms().get(1).getDoors().get(0));
+//        }));
+//        addToPane(btn3);
+//
+//        Button btn4 = new Button("close door2");
+//        btn4.relocate(350, 100);
+//        btn4.setOnMouseClicked((mouseEvent -> {
+//            houseController.closeDoor(house.getRooms().get(1).getDoors().get(0));
+//        }));
+//        addToPane(btn4);
 
-        final Delta dragDelta = new Delta();
-        person.setOnMousePressed(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent mouseEvent) {
-                // record a delta distance for the drag and drop operation.
-                dragDelta.x = person.getLayoutX() - mouseEvent.getSceneX();
-                dragDelta.y = person.getLayoutY() - mouseEvent.getSceneY();
-            }
-        });
-
-        person.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent mouseEvent) {
-
-                //Sets the drag boundaries limit
-                double newX = mouseEvent.getSceneX() + dragDelta.x;
-                double newY = mouseEvent.getSceneY() + dragDelta.y;
-                if (outsideParentBounds(person.getLayoutBounds(), newX, newY))
-                    return;
-
-                person.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
-                person.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
-            }
-        });
-
-        person.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println("onMouseReleased");
-                if (house.getFloorplan().contains(person.getBoundsInParent().getCenterX(), person.getBoundsInParent().getCenterY()))
-                    status.setText("inside!!");
-                else
-                    status.setText("outside!!");
-                mouseEvent.consume();
-            }
-        });
-
-        HouseView.housePane.getChildren().addAll(person, status);
-
-    }
-
-    private static boolean outsideParentBounds(Bounds childBounds, double newX, double newY) {
-        Bounds parentBounds = housePane.getBoundsInLocal();
-
-        //check if too left
-        if (parentBounds.getMaxX() <= (newX + childBounds.getMaxX())) {
-            return true;
-        }
-
-        //check if too right
-        if (parentBounds.getMinX() >= (newX + childBounds.getMinX())) {
-            return true;
-        }
-
-        //check if too down
-        if (parentBounds.getMaxY() <= (newY + childBounds.getMaxY())) {
-            return true;
-        }
-
-        //check if too up
-        return parentBounds.getMinY() >= (newY + childBounds.getMinY());
-    }
-
-    // records relative x and y co-ordinates.
-    static class Delta {
-        double x, y;
-    }
-
-    public Pane getHousePane() {
-
-        Text roomInfo = new Text();
-        roomInfo.setFont(new Font(18));
-        roomInfo.relocate(100, 100);
-        roomInfo.setText("test");
-        Group houseRooms = new Group();
         for (Room room : house.getRooms()) {
-            Shape formattedRoomShape = room.getRoomShape();
-            formattedRoomShape.setStroke(Color.RED);
-            formattedRoomShape.setStrokeWidth(10);
-            formattedRoomShape.setFill(Color.WHITE);
-            formattedRoomShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    roomInfo.setText(room.getName());
-                }
-            });
-            houseRooms.getChildren().add(formattedRoomShape);
+            Shape roomShape = drawItem(room);
+            addToPane(roomShape);
+            for (Window window : room.getWindows()) {
+                System.out.println("\t \t window name : " + window.getName() );
+                Shape windowShape = drawItem(window);
+                addToPane(windowShape);
+            }
+            for (Door door : room.getDoors()){
+                System.out.println("\t \t door name : " + door.getName() );
+                Shape doorShape = drawItem(door);
+                addToPane(doorShape);
+            }
         }
-        housePane.getChildren().addAll(houseRooms);
-        housePane.getChildren().add(roomInfo);
-
-        return housePane;
+        scene = new Scene(pane);
+        stage.setScene(scene);
     }
 
+    public Shape drawItem(Drawable item) {
+        Shape shape = item.getShape();
+        shape.setStroke(item.getColor());
+        shape.setStrokeWidth(LINE_WIDTH);
+        shape.setFill(Color.TRANSPARENT);
+        return shape;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void addToPane(Node node) {
+        pane.getChildren().add(node);
+    }
+
+    public void addAllToPane(Collection<Node> nodes) {
+        pane.getChildren().addAll(nodes);
+    }
 
 }

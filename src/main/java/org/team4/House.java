@@ -1,17 +1,12 @@
 package org.team4;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+//import com.fasterxml.jackson.core.JsonProcessingException;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+
 
 import java.util.ArrayList;
 
@@ -22,21 +17,17 @@ public class House {
     ArrayList<People> occupants;
 
     public House(ArrayList<Room> rooms, ArrayList<People> occupants) {
-        setRooms(rooms);
-        setOccupants(occupants);
-        setFloorplan(makeFloorPlan(rooms));
+        this.rooms = rooms;
+        this.occupants = occupants;
+        this.floorplan = makeFloorPlan(rooms);
     }
 
     private Shape makeFloorPlan(ArrayList<Room> rooms) {
-
         ArrayList<Shape> shapeList = new ArrayList<Shape>();
-
         for (Room room : rooms) {
             shapeList.add(room.getRoomShape());
         }
-
         Shape finalShape = shapeList.get(0);
-
         for(int i=0; i < shapeList.size(); i++) {
             if (i+1 < shapeList.size()) {
                 finalShape = Shape.union(finalShape,shapeList.get(i+1));
@@ -45,28 +36,8 @@ public class House {
         return finalShape;
     }
 
-    public Shape getFloorplan() {
-        return floorplan;
-    }
-
-    public void setFloorplan(Shape floorplan) {
-        this.floorplan = floorplan;
-    }
-
     public ArrayList<Room> getRooms() {
         return rooms;
-    }
-
-    public void setRooms(ArrayList<Room> rooms) {
-        this.rooms = rooms;
-    }
-
-    public ArrayList<People> getOccupants() {
-        return occupants;
-    }
-
-    public void setOccupants(ArrayList<People> occupants) {
-        this.occupants = occupants;
     }
 
     public static House getDefaultHouse() {
@@ -82,20 +53,20 @@ public class House {
         Shape room2Shape = new Rectangle(104, 146,127, 124);
 
         ArrayList<Window> room2_windows = new ArrayList<Window>();
-        room2_windows.add(new Window("room2_window1", 231, 75, 231, 105));
-        room1_windows.add(new Window("room2_window2", 143, 270, 180, 270));
+        room2_windows.add(new Window("room2_window1", 231, 190, 231, 235));
+        room2_windows.add(new Window("room2_window2", 143, 270, 180, 270));
 
         ArrayList<Door> room2_doors = new ArrayList<Door>();
-        room1_doors.add(new Door("room2_door1", 130, 146, 180, 146));
+        room2_doors.add(new Door("room2_door1", 130, 146, 180, 146));
 
 
         Shape room3Shape = new Rectangle(23, 114,81, 156);
 
         ArrayList<Window> room3_windows = new ArrayList<Window>();
-        room1_windows.add(new Window("room3_window1", 23, 130, 23, 180));
+        room3_windows.add(new Window("room3_window1", 23, 130, 23, 180));
 
         ArrayList<Door> room3_doors = new ArrayList<Door>();
-        room3_doors.add(new Door("room3_door1", 104, 130, 104, 180));
+        room3_doors.add(new Door("room3_door1", 104, 185, 104, 240));
 
 
         Room room1 = new Room("room1", room1Shape, room1_doors, room1_windows);
@@ -113,9 +84,9 @@ public class House {
         return new House(rooms,occupants);
     }
 
-    public void saveHouseConfig() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(this);
-        System.out.println(jsonString);
-    }
+//    public void saveHouseConfig() throws JsonProcessingException {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String jsonString = objectMapper.writeValueAsString(this);
+//        System.out.println(jsonString);
+//    }
 }

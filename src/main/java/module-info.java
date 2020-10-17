@@ -4,6 +4,7 @@ module org.example {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
+    requires java.desktop;
 
     opens org.team4 to javafx.fxml;
     exports org.team4;

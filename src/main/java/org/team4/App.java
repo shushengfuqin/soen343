@@ -24,11 +24,12 @@ public class App extends Application {
     private static Stage window;
     private double xOffset = 0;
     private double yOffset = 0;
+    static int i = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"));
-        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.initStyle(StageStyle.UNDECORATED);
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -47,25 +48,10 @@ public class App extends Application {
         stage.show();
 
         House house = House.getDefaultHouse();
-        HouseView houseView = new HouseView(house);
+        HouseController houseController = new HouseController(house);
 
-        Stage layoutStage = new Stage();
-        Pane housePane = new Pane();
-        Button btn = new Button("Add more people");
-        btn.relocate(350, 10);
-        btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                HouseView.addOccupant(new People("some random name", Color.BROWN,20, 20));
-            }
-        });
-
-        housePane.getChildren().addAll(houseView.getHousePane(), btn);
-        housePane.setPrefSize(500, 500);
-        layoutStage.setTitle("House Simulator");
-        layoutStage.setScene(new Scene(housePane));
+        Stage layoutStage = houseController.getStage();
         layoutStage.show();
-
     }
 
     static void setRoot(String fxml) throws IOException {
