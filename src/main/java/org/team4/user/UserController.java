@@ -8,9 +8,7 @@ import javafx.scene.text.Text;
 import org.team4.App;
 import org.team4.DashboardController;
 import org.team4.common.Coordinate;
-import org.team4.common.Helper;
 import org.team4.common.Settings;
-import org.team4.house.House;
 import org.team4.shsParameters.ShsParameterController;
 
 import java.util.ArrayList;

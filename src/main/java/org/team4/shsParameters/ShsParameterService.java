@@ -2,7 +2,6 @@ package org.team4.shsParameters;
 
 import org.team4.common.Settings;
 
-import javax.net.ssl.SSLContext;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
