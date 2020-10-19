@@ -8,8 +8,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.team4.common.Settings;
-import org.team4.house.House;
-
 import java.io.IOException;
 
 /**
@@ -50,12 +48,5 @@ public class App extends Application {
     public static void main(String[] args) {
         Settings.simulationTime.start();
         launch();
-
-//        House house = new House();
-//        house.generateHouse();
-//        house.saveHouseLayout();
-//        house.getHouseLayout();
-//        house.printHouse();
-//        System.exit(0);
     }
 }

@@ -176,7 +176,6 @@ public class UserController {
             return;
         }
         initialize();
-//        updateHouseLayout();
     }
 
     public void handleDeleteUser() {
@@ -188,7 +187,6 @@ public class UserController {
             editErrorText.setFill(Color.RED);
         }
         initialize();
-//        updateHouseLayout();
     }
 
     public void handleAddNewUser() {
@@ -221,7 +219,6 @@ public class UserController {
         }
 
         initialize();
-//        updateHouseLayout();
     }
 
     public void handleCurrentButton() {
