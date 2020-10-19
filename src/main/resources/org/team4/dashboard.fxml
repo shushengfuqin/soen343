@@ -18,9 +18,9 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.DashboardController">
    <children>
-      <AnchorPane prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: white;">
+      <AnchorPane prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: white;">
          <children>
-            <VBox prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #292929;">
+            <VBox prefHeight="900.0" prefWidth="200.0" style="-fx-background-color: #292929;">
                <children>
                   <Pane prefHeight="90.0" prefWidth="200.0" style="-fx-background-color: #292929;">
                      <children>
@@ -40,9 +40,9 @@
                         </Text>
                      </children>
                   </Pane>
-                  <Pane prefHeight="680.0">
+                  <Pane prefHeight="670.0">
                      <children>
-                        <VBox prefHeight="570.0" prefWidth="200.0">
+                        <VBox prefHeight="670.0" prefWidth="200.0">
                            <children>
                               <Pane prefHeight="250.0" prefWidth="200.0">
                                  <children>
@@ -191,19 +191,19 @@
                               </Pane>
                            </children>
                         </VBox>
-                        <Pane layoutY="597.0" prefHeight="70.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="startButton" layoutX="50.0" layoutY="20.0" mnemonicParsing="false" onAction="#startButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ffa31a;" text="Start" textFill="#1b1b1b">
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </Pane>
                      </children></Pane>
+                  <Pane prefHeight="70.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="startButton" layoutX="50.0" layoutY="20.0" mnemonicParsing="false" onAction="#startButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ffa31a;" text="Start" textFill="#1b1b1b">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
                   <Pane prefHeight="70.0" prefWidth="200.0">
                      <children>
                         <Button fx:id="closeButton" layoutX="50.0" layoutY="13.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #CD5C5C;" text="Exit" textFill="WHITE">
@@ -218,10 +218,10 @@
                   </Pane>
                </children>
             </VBox>
-            <TabPane layoutX="220.0" layoutY="20.0" prefHeight="640.0" prefWidth="550.0" style="-fx-background-color: #292929;" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="220.0" layoutY="20.0" prefHeight="740.0" prefWidth="550.0" style="-fx-background-color: #292929;" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="SHS">
-                     <fx:include source="shsView.fxml" />
+                     <fx:include fx:id="user" source="shsView.fxml" />
                   </Tab>
                  <Tab text="SHC" />
                  <Tab text="SHP" />
@@ -230,12 +230,16 @@
             </TabPane>
             <Pane layoutX="200.0" prefHeight="20.0" prefWidth="1300.0" style="-fx-background-color: #1b1b1b;" AnchorPane.topAnchor="0.0" />
             <Pane layoutX="200.0" layoutY="782.0" prefHeight="20.0" prefWidth="1300.0" style="-fx-background-color: #1b1b1b;" AnchorPane.bottomAnchor="0.0" />
-            <Pane layoutX="200.0" layoutY="20.0" prefHeight="760.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" />
-            <Pane layoutX="1476.0" layoutY="20.0" prefHeight="760.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" AnchorPane.rightAnchor="0.0" />
-            <Pane layoutX="200.0" layoutY="660.0" prefHeight="20.0" prefWidth="1300.0" style="-fx-background-color: #1b1b1b;" />
-            <Pane layoutX="220.0" layoutY="680.0" prefHeight="100.0" prefWidth="1260.0" style="-fx-background-color: #292929;" />
-            <Pane layoutX="770.0" layoutY="20.0" prefHeight="640.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" />
-            <Pane layoutX="790.0" layoutY="20.0" prefHeight="640.0" prefWidth="690.0" style="-fx-background-color: #292929;" />
+            <Pane layoutX="200.0" layoutY="20.0" prefHeight="860.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" />
+            <Pane layoutX="1476.0" layoutY="20.0" prefHeight="860.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" AnchorPane.rightAnchor="0.0" />
+            <Pane layoutX="200.0" layoutY="760.0" prefHeight="20.0" prefWidth="1300.0" style="-fx-background-color: #1b1b1b;" />
+            <Pane layoutX="220.0" layoutY="780.0" prefHeight="100.0" prefWidth="1260.0" style="-fx-background-color: #292929;" />
+            <Pane layoutX="770.0" layoutY="20.0" prefHeight="740.0" prefWidth="20.0" style="-fx-background-color: #1b1b1b;" />
+            <Pane layoutX="790.0" layoutY="20.0" prefHeight="740.0" prefWidth="690.0" style="-fx-background-color: #292929;">
+               <children>
+                  <fx:include fx:id="house" source="houseLayoutView.fxml" />
+               </children>
+            </Pane>
          </children>
          <opaqueInsets>
             <Insets left="10.0" />

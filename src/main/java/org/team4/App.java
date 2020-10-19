@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.team4.common.Settings;
-
 import java.io.IOException;
 
 /**
@@ -41,12 +40,6 @@ public class App extends Application {
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
-
-        House house = House.getDefaultHouse();
-        HouseController houseController = new HouseController(house);
-
-        Stage layoutStage = houseController.getStage();
-        layoutStage.show();
         
         stage.setScene(scene);
         stage.show();

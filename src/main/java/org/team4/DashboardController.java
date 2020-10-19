@@ -7,7 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.team4.common.Settings;
+import org.team4.house.House;
+import org.team4.house.HouseController;
 import org.team4.user.User;
+import org.team4.user.UserController;
 import org.team4.user.UserService;
 
 import java.text.DateFormat;
@@ -17,6 +20,12 @@ import java.util.Date;
 public class DashboardController {
 
     private UserService userService;
+
+    @FXML
+    public HouseController houseController;
+
+    @FXML
+    public UserController userController;
 
     @FXML
     public Button closeButton;
@@ -46,8 +55,28 @@ public class DashboardController {
         if(Settings.simulationStarted) startButton.setText("Stop");
     }
 
+    public void drawHouseLayout() {
+        if(Settings.simulationStarted) houseController.drawHouseLayout();
+    }
+
     public void startButtonAction(ActionEvent event) {
-        startButton.setText(startButton.getText().equals("Start") ? "Stop" : "Start");
+        if(startButton.getText().equals("Start")) {
+            Settings.simulationStarted = true;
+            House.generateHouse();
+            House.saveHouseLayout();
+            House.getHouseLayout();
+            House.indexHouseWindowAndDoor();
+            userController.initializeShsParametersSimStart();
+            drawHouseLayout();
+            startButton.setText("Stop");
+        }
+        else {
+            Settings.simulationStarted = false;
+            houseController.eraseHouseLayout();
+            House.resetParams();
+            userController.initializeShsParametersSimStart();
+            startButton.setText("Start");
+        }
     }
 
     public void closeButtonAction(ActionEvent event) {
