@@ -8,13 +8,19 @@ import javafx.scene.text.Text;
 import org.team4.App;
 import org.team4.DashboardController;
 import org.team4.common.Coordinate;
+import org.team4.common.Helper;
 import org.team4.common.Settings;
+import org.team4.house.House;
+import org.team4.shsParameters.ShsParameterController;
 
 import java.util.ArrayList;
 
 public class UserController {
 
     private UserService userService;
+
+    @FXML
+    public ShsParameterController shsParameterController;
 
     @FXML
     //Table variables
@@ -47,6 +53,12 @@ public class UserController {
     public ChoiceBox<String> selectUserField;
     public Button selectButton;
 
+    //Move user variables
+    public Text invalidX;
+    public Text invalidY;
+    public TextField xCoordinate;
+    public TextField yCoordinate;
+
     public UserController() {
         userService = new UserService();
     }
@@ -67,12 +79,15 @@ public class UserController {
 
         DashboardController dashboardController = App.fxmlLoader.getController();
         dashboardController.setCurrentUserDashboard();
+        dashboardController.drawHouseLayout();
     }
 
     public void clearInputField() {
         nameAddField.setText("");
         ageAddField.setText("");
         ageEditField.setText("");
+        invalidX.setText("");
+        invalidY.setText("");
     }
 
     public void resetErrorMessages() {
@@ -81,6 +96,8 @@ public class UserController {
         addErrorText.setText("");
         editErrorText.setText("");
         ageEditText.setText("");
+        invalidX.setText("");
+        invalidY.setText("");
     }
 
     public void setStatusValues() {
@@ -111,31 +128,55 @@ public class UserController {
         if(user != null) {
             statusEditField.setValue(user.status);
             ageEditField.setText(Integer.toString(user.age));
+            xCoordinate.setText(Integer.toString(user.getX()));
+            yCoordinate.setText(Integer.toString(user.getY()));
             editButton.setDisable(false);
             deleteButton.setDisable(false);
         }
     }
 
     public void handleEditUser() {
+        resetErrorMessages();
         String name = usersEditField.getValue();
         String status = statusEditField.getValue();
         String age = ageEditField.getText();
-
+        String xCoord = xCoordinate.getText();
+        String yCoord = yCoordinate.getText();
+        String[] coordValid = userService.validateCoordinate(xCoord, yCoord);
         String ageValid = userService.validateAge(age);
+
+        System.out.println(coordValid[0]);
+        System.out.println(coordValid[1]);
+
+        boolean valid = true;
         if(ageValid != null) {
             ageEditText.setText(ageValid);
             ageEditText.setFill(Color.RED);
-            return;
+            valid = false;
         }
+        if(coordValid[0] != null) {
+            invalidX.setText(coordValid[0]);
+            invalidX.setFill(Color.RED);
+            valid = false;
+        }
+        if(coordValid[1] != null) {
+            invalidY.setText(coordValid[1]);
+            invalidY.setFill(Color.RED);
+            valid = false;
+        }
+        if(!valid) return;
 
         int intAge = Integer.parseInt(age);
-        boolean success = userService.addUser(name, status, intAge);
+        int intX = Integer.parseInt(xCoord);
+        int intY = Integer.parseInt(yCoord);
+        boolean success = userService.editUser(name, status, intAge, intX, intY);
         if(!success) {
             editErrorText.setText("Failed");
             editErrorText.setFill(Color.RED);
             return;
         }
         initialize();
+//        updateHouseLayout();
     }
 
     public void handleDeleteUser() {
@@ -147,6 +188,7 @@ public class UserController {
             editErrorText.setFill(Color.RED);
         }
         initialize();
+//        updateHouseLayout();
     }
 
     public void handleAddNewUser() {
@@ -179,6 +221,7 @@ public class UserController {
         }
 
         initialize();
+//        updateHouseLayout();
     }
 
     public void handleCurrentButton() {
@@ -192,5 +235,10 @@ public class UserController {
         String username = selectUserField.getValue();
         Settings.currentUser = username;
         initialize();
+    }
+
+    public void initializeShsParametersSimStart() {
+        shsParameterController.initialize();
+        shsParameterController.windowAndDoorChoiceBoxInit();
     }
 }
