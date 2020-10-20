@@ -31,4 +31,4 @@ The dependencies are handled by Maven
 | Ruochen Jia   | [shushengfuqin](https://github.com/shushengfuqin) | ruocjia@gmail.com      |
 | Yuxin Wang    | [shirlywy](https://github.com/shirlywy)           | shirly970711@gmail.com |
 | Killian Kelly | [immaroot](https://github.com/immaroot)           |                        |
-| Saebom Shin   | [successsb89](https://github.com/successsb89)     |                        |
+| Saebom Shin   | [successsb89](https://github.com/successsb89)     | saebom8465@gmail.com                       |
