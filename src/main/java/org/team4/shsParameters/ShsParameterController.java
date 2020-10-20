@@ -53,6 +53,10 @@ public class ShsParameterController {
         windowsAndDoorInit();
     }
 
+    /**
+     * Generate every windows and door option if the simulation is running
+     * if it's not running remove all options
+     */
     public void windowsAndDoorInit() {
         windowSetButton.setDisable(!Settings.simulationStarted);
         doorSetButton.setDisable(!Settings.simulationStarted);
@@ -61,12 +65,18 @@ public class ShsParameterController {
         windowAndDoorChoiceBoxInit();
     }
 
+    /**
+     * Prepare the text field to get the house layout location
+     */
     public void houseLocationInit() {
         houseLocationText.setText(House.houseLayoutFileName);
         locationError.setText("");
         setHouseLocationButton.setDisable(Settings.simulationStarted);
     }
 
+    /**
+     * Display all the windows and doors options
+     */
     public void windowAndDoorChoiceBoxInit() {
         if(!Settings.simulationStarted) return;
         String[] windowList = House.getAllWindowsOption();
@@ -84,6 +94,9 @@ public class ShsParameterController {
         if(doorList.length > 0) doorsChoiceBox.setValue(doorList[0]);
     }
 
+    /**
+     * Open/close a window
+     */
     public void toggleWindowAction() {
         if(windowChoiceBox.getValue() != null) {
             House.toggleWindow(windowChoiceBox.getValue());
@@ -93,6 +106,9 @@ public class ShsParameterController {
         }
     }
 
+    /**
+     * Get whether a window is closed or not
+     */
     public void getWindowStatus() {
         if(windowChoiceBox.getValue() != null) {
             boolean isOpen = House.getWindowStatus(windowChoiceBox.getValue());
@@ -100,6 +116,9 @@ public class ShsParameterController {
         }
     }
 
+    /**
+     * Open/Close a door
+     */
     public void toggleDoorAction() {
         if(doorsChoiceBox.getValue() != null) {
             House.toggleDoor(doorsChoiceBox.getValue());
@@ -109,6 +128,9 @@ public class ShsParameterController {
         }
     }
 
+    /**
+     * Get whether a door is closed or not
+     */
     public void getDoorStatus() {
         if(doorsChoiceBox.getValue() != null) {
             boolean isOpen = House.getDoorStatus(doorsChoiceBox.getValue());
@@ -128,6 +150,9 @@ public class ShsParameterController {
         dashboardController.updateInfo();
     }
 
+    /**
+     * Set the date and time
+     */
     public void handleSetDateAction() {
         String time = timeField.getText();
         LocalDate localDate = dateField.getValue();
@@ -142,6 +167,9 @@ public class ShsParameterController {
         }
     }
 
+    /**
+     * Check whether the new temperature is valid
+     */
     public void handleTempTextUpdate() {
         String temp = tempText.getText();
         try {
@@ -155,6 +183,9 @@ public class ShsParameterController {
         }
     }
 
+    /**
+     * Set the new temperature
+     */
     public void handleUpdateOutsideTemp() {
         String temp = tempText.getText();
         try {
@@ -170,8 +201,10 @@ public class ShsParameterController {
         setTempButton.setDisable(true);
     }
 
+    /**
+     * Set a house location
+     */
     public void setHouseLocationAction() {
-        System.out.println("ere");
         String houseLocation = houseLocationText.getText();
         if(houseLocation == null || houseLocation.length() <= 0 || !Helper.isAlphanumeric(houseLocation)) {
             locationError.setText("Letters only");

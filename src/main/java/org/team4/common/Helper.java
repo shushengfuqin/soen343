@@ -1,6 +1,12 @@
 package org.team4.common;
 
 public class Helper {
+
+    /**
+     * Check whether a string is alphanumeric or not
+     * @param name
+     * @return true if the string is alphanumeric else false
+     */
     public static boolean isAlphanumeric(String name) {
         char[] chars = name.toCharArray();
 

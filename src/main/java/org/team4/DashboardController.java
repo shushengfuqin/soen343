@@ -59,6 +59,10 @@ public class DashboardController {
         if(Settings.simulationStarted) houseController.drawHouseLayout();
     }
 
+    /**
+     * Generate the house layout on start and erase it on stop
+     * @param event
+     */
     public void startButtonAction(ActionEvent event) {
         if(startButton.getText().equals("Start")) {
             Settings.simulationStarted = true;
@@ -79,16 +83,27 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Closes the app
+     * @param event
+     */
     public void closeButtonAction(ActionEvent event) {
         Settings.simulationTime.stop = true;
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Update the current shs params in the dashboard
+     */
     public void updateInfo() {
         outsideTemp.setText(Integer.toString(Settings.outsideTemperature));
     }
 
+    /**
+     * Update the current date/time in the dashboard
+     * @param date
+     */
     public void updateTime(Date date) {
         String timePatter = "HH:mm:ss";
         String datePattern = "MM/dd/yyyy";
@@ -98,6 +113,9 @@ public class DashboardController {
         currentDate.setText(df.format(date));
     }
 
+    /**
+     * Display the current user in the dashboard
+     */
     public void setCurrentUserDashboard() {
         String name = "No current user";
         String status = "None";

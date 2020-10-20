@@ -12,6 +12,10 @@ public class UserService {
     public UserService() {
     }
 
+    /**
+     * Get the arraylist containing all users
+     * @return an arraylist of all users
+     */
     public ArrayList<User> getAllUsersList() {
         try {
             return User.getAllUsers();
@@ -22,6 +26,12 @@ public class UserService {
         return null;
     }
 
+    /**
+     * Check whether a name is valid
+     * @param name name to check
+     * @param checkExist check if the user already exist
+     * @return the reason why it is not valid
+     */
     public String validateName(String name, boolean checkExist) {
         String failReason = null;
         if( !Helper.isAlphanumeric(name) || name.isEmpty() )
@@ -38,6 +48,11 @@ public class UserService {
         return failReason;
     }
 
+    /**
+     * Check if an string is a valid integer
+     * @param integer
+     * @return the reason why it's not valid
+     */
     public String validatePositiveInt(String integer) {
         String failReason = null;
         try {
@@ -50,6 +65,12 @@ public class UserService {
         return failReason;
     }
 
+    /**
+     * Check if x and y coordinates are valid
+     * @param x
+     * @param y
+     * @return the reason why a coordinate is not valid
+     */
     public String[] validateCoordinate(String x, String y) {
         String[] failReasons = new String[2];
         failReasons[0] = validatePositiveInt(x);
@@ -66,12 +87,25 @@ public class UserService {
         return failReasons;
     }
 
+    /**
+     * Check if the age is valid or not
+     * @param age
+     * @return the reason why the age is not valid
+     */
     public String validateAge(String age) {
         String failReason = null;
         failReason = validatePositiveInt(age);
         return failReason;
     }
 
+
+    /**
+     * Add a new user to the user lists
+     * @param name
+     * @param status
+     * @param age
+     * @return a boolean whether the operation was successful or not
+     */
     public boolean addUser(String name, String status, int age) {
         User newUser = new User(name, status, age);
         try {
@@ -84,6 +118,15 @@ public class UserService {
         return false;
     }
 
+    /**
+     * Modify a user
+     * @param name
+     * @param status
+     * @param age
+     * @param x
+     * @param y
+     * @return a boolean representing if the operation failed or not
+     */
     public boolean editUser(String name, String status, int age, int x, int y) {
         User newUser = new User(name, status, age, x, y);
         try {
@@ -97,6 +140,11 @@ public class UserService {
 
     }
 
+    /**
+     * Get a user from a user list
+     * @param name of the user
+     * @return the user
+     */
     public User getSingleUser(String name) {
         try {
             return User.getUser(name);
@@ -107,6 +155,11 @@ public class UserService {
         return null;
     }
 
+    /**
+     * Delete a user of the user list
+     * @param name of the user
+     * @return a boolean whether the operation was successful or not
+     */
     public boolean deleteSingleUser(String name) {
         try {
             User.deleteUser(name);
@@ -121,6 +174,12 @@ public class UserService {
         return false;
     }
 
+    /**
+     * Find whether or not a user is in the location x,y
+     * @param x
+     * @param y
+     * @return an array containing all users in that location
+     */
     public ArrayList<String> userInLocation(int x, int y) {
         ArrayList<String> allUserInLocation = new ArrayList<>();
         ArrayList<User> allUsers = getAllUsersList();

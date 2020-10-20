@@ -24,6 +24,11 @@ public class HouseView {
         userService = new UserService();
     }
 
+    /**
+     * Apply a background to a room depending on it's type
+     * @param pane
+     * @param isOutside
+     */
     public void updateBackgroundImage(Pane pane, boolean isOutside) {
         URL url = App.class.getResource("/org/img/wood.png");
         if(isOutside)
@@ -40,6 +45,13 @@ public class HouseView {
         }
     }
 
+    /**
+     * Generate a pane from a room
+     * @param room
+     * @param x
+     * @param y
+     * @return a pane that is the room
+     */
     public Pane getRoomPane(Room room, int x, int y) {
         Pane roomPane = new Pane();
         roomPane.setPrefWidth(roomWidth);

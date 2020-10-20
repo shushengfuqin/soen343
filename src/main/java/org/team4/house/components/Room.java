@@ -35,6 +35,11 @@ public class Room {
         walls[3] = new Wall(botWallType);
     }
 
+    /**
+     * Maps an index to a wall side
+     * @param index
+     * @return a string indicating the side of the wall
+     */
     public static String wallSideMapper(int index) {
         switch (index) {
             case 0:
@@ -49,6 +54,11 @@ public class Room {
         return null;
     }
 
+    /**
+     * Maps a string side to an index
+     * @param side
+     * @return an index indicating the side of the wall
+     */
     public static int wallSideMapper(String side) {
         switch (side) {
             case "left":
@@ -67,6 +77,10 @@ public class Room {
         return "Name: " + name;
     }
 
+    /**
+     * Create a json object from the room object
+     * @return a json object representing the room
+     */
     public JSONObject toJson() {
         JSONObject jo = new JSONObject();
         jo.put("name", this.name);
