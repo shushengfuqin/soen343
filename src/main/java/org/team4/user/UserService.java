@@ -163,7 +163,7 @@ public class UserService {
     public boolean deleteSingleUser(String name) {
         try {
             User.deleteUser(name);
-            if(Settings.currentUser.equals(name)) {
+            if(Settings.currentUser != null && Settings.currentUser.equals(name)) {
                 Settings.currentUser = null;
             }
             return true;

@@ -86,6 +86,8 @@ public class UserController {
         ageEditField.setText("");
         invalidX.setText("");
         invalidY.setText("");
+        xCoordinate.setText("");
+        yCoordinate.setText("");
     }
 
     public void resetErrorMessages() {
