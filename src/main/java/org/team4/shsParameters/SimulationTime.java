@@ -28,6 +28,11 @@ public class SimulationTime extends Thread{
             dashboardController.updateTime(getTime());
         }
     }
+
+    /**
+     *
+     * @return the current date/time
+     */
     public synchronized Date getTime(){
         while(setting){
             try {
@@ -37,6 +42,11 @@ public class SimulationTime extends Thread{
 
         return this.date;
     }
+
+    /**
+     * Set the new date/time
+     * @param dt
+     */
     public synchronized void setDateTime(Date dt){
         setting = true;
         this.date = dt;

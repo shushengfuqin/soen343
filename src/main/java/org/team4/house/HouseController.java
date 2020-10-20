@@ -23,6 +23,9 @@ public class HouseController {
         houseView = new HouseView();
     }
 
+    /**
+     * Initialize the background of the house layout
+     */
     public void backgroundImageInit() {
         URL url = App.class.getResource("/org/img/grass.png");
         BackgroundImage myBI= new BackgroundImage(new Image(url.toString() ,690,740,false,true),
@@ -36,6 +39,9 @@ public class HouseController {
         }
     }
 
+    /**
+     * Draw the house layout
+     */
     public void drawHouseLayout() {
         backgroundImageInit();
         eraseHouseLayout();
@@ -50,6 +56,9 @@ public class HouseController {
         }
     }
 
+    /**
+     * Erase the house layout
+     */
     public void eraseHouseLayout() {
         backgroundImageInit();
         housePane.getChildren().clear();

@@ -9,6 +9,14 @@ import java.util.Date;
 
 public class ShsParameterService {
 
+    /**
+     * Set the new date of the simulation
+     * @param date
+     * @param hours
+     * @param minutes
+     * @param seconds
+     * @return
+     */
     public boolean setDate(Date date, int hours, int minutes, int seconds) {
         date.setHours(hours);
         date.setMinutes(minutes);
@@ -17,6 +25,12 @@ public class ShsParameterService {
         return true;
     }
 
+    /**
+     * Set the new time of the simulation
+     * @param localDate
+     * @param time
+     * @return
+     */
     public boolean setDateTime(LocalDate localDate, String time) {
         if(time == null || localDate == null) {
             return false;

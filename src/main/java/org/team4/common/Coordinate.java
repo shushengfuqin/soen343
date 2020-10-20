@@ -11,6 +11,10 @@ public class Coordinate {
         this.y = y;
     }
 
+    /**
+     *
+     * @return A json object of the coordinates
+     */
     public JSONObject toJson() {
         JSONObject jo = new JSONObject();
         jo.put("x", this.x);

@@ -21,34 +21,60 @@ public class House {
     public static int roomRow = 5;
     public static Room[][] rooms  = new Room[roomRow][roomColumn];;
 
+    /**
+     * Get the status of a window
+     * @param s
+     * @return a boolean representing if a window is open or not
+     */
     public static boolean getWindowStatus(String s) {
         int[] windowLocation = getRoomLocation(s);
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
     }
 
+    /**
+     * Open or close a window
+     * @param s the location of a window
+     */
     public static void toggleWindow(String s) {
         int[] windowLocation = getRoomLocation(s);
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
         rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open = !windowStatus;
     }
 
+    /**
+     * Get the status of a door
+     * @param s
+     * @return a boolean representing if a door is closed or not
+     */
     public static boolean getDoorStatus(String s) {
         int[] windowLocation = getRoomLocation(s);
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
     }
 
+    /**
+     * Open or close a door
+     * @param s the location of the door
+     */
     public static void toggleDoor(String s) {
         int[] windowLocation = getRoomLocation(s);
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
         rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open = !windowStatus;
     }
 
+    /**
+     * Reset the house Layout
+     */
     public static void resetParams() {
         windows = new ArrayList<int[]>();
         doors = new ArrayList<int[]>();
         rooms  = new Room[roomRow][roomColumn];;
     }
 
+    /**
+     * Get the room location from a string
+     * @param s the location of a room
+     * @return an array representing the row column and side
+     */
     public static int[] getRoomLocation(String s) {
         s = s.replace(" ", "");
         int indexSideChar = s.indexOf("-");
@@ -63,6 +89,9 @@ public class House {
         return windowLocation;
     }
 
+    /**
+     * Get the location of every door and window in the house layout
+     */
     public static void indexHouseWindowAndDoor() {
         for(int i = 0; i < roomRow; i++) {
             for(int j = 0; j < roomColumn; j++) {
@@ -82,6 +111,10 @@ public class House {
         }
     }
 
+    /**
+     *
+     * @return an array containing the list of all the windows
+     */
     public static String[] getAllWindowsOption() {
         String[] windowOption = new String[windows.size()];
         for(int i = 0; i < windows.size(); i++) {
@@ -91,6 +124,10 @@ public class House {
         return windowOption;
     }
 
+    /**
+     *
+     * @return an array containing the list of all the windows
+     */
     public static String[] getAllDoorsOption() {
         String[] doorOption = new String[doors.size()];
         for(int i = 0; i < doors.size(); i++) {
@@ -100,6 +137,9 @@ public class House {
         return doorOption;
     }
 
+    /**
+     * Randomly generate a house layout
+     */
     public static void generateHouse() {
         String[] wallChoices = {"emptySpace", "wall", "window", "door"};
         String[] roomChoices = {"bedroom", "kitchen", "outside", "hallway", "living-room"};
@@ -124,8 +164,11 @@ public class House {
         }
     }
 
+    /**
+     * Get the house layout from the layout file
+     */
     public static void getHouseLayout() {
-        String houseLayout = readFromUserFile();
+        String houseLayout = readFromHouseFile();
         JSONObject house = new JSONObject(houseLayout);
         JSONArray rows = house.getJSONArray("layout");
 
@@ -138,6 +181,9 @@ public class House {
         }
     }
 
+    /**
+     * Save the house layout to a file
+     */
     public static void saveHouseLayout() {
         JSONObject houseLayout = new JSONObject();
 
@@ -153,15 +199,19 @@ public class House {
 
         houseLayout.put("layout", rows);
 
-        writeToUserFile(houseLayout.toString());
+        writeToHouseFile(houseLayout.toString());
     }
 
-    public static String readFromUserFile() {
-        File userFile = new File(houseLayoutFileName+".json");
-        if (userFile.exists()) {
+    /**
+     * Get the string from the house file
+     * @return
+     */
+    public static String readFromHouseFile() {
+        File houseFile = new File(houseLayoutFileName+".json");
+        if (houseFile.exists()) {
             Scanner fileReader = null;
             try {
-                fileReader = new Scanner(userFile);
+                fileReader = new Scanner(houseFile);
             } catch (FileNotFoundException e) {
                 System.out.println("Error occured while reading from org.team4.house file");
                 e.printStackTrace();
@@ -172,7 +222,12 @@ public class House {
         return null;
     }
 
-    public static boolean writeToUserFile(String s) {
+    /**
+     * Write to the house layout file
+     * @param s
+     * @return
+     */
+    public static boolean writeToHouseFile(String s) {
         try {
             FileWriter myWriter = new FileWriter(houseLayoutFileName+".json");
             myWriter.write(s);

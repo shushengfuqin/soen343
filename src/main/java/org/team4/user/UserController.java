@@ -107,6 +107,9 @@ public class UserController {
         statusEditField.setValue(null);
     }
 
+    /**
+     * Displays all the users in the table and the choicebox
+     */
     public void displayAllUsers() {
         ArrayList<User> allUsers = userService.getAllUsersList();
         userTable.getItems().clear();
@@ -120,6 +123,9 @@ public class UserController {
         selectUserField.setValue(Settings.currentUser);
     }
 
+    /**
+     * Display the user info when selected for edit
+     */
     public void handleDisplayUserEdit() {
         String name = usersEditField.getValue();
         User user = userService.getSingleUser(name);
@@ -133,6 +139,9 @@ public class UserController {
         }
     }
 
+    /**
+     * Submit the user for editing
+     */
     public void handleEditUser() {
         resetErrorMessages();
         String name = usersEditField.getValue();
@@ -176,6 +185,9 @@ public class UserController {
         initialize();
     }
 
+    /**
+     * Submit a user for deleting
+     */
     public void handleDeleteUser() {
         resetErrorMessages();
         String name = usersEditField.getValue();
@@ -187,6 +199,9 @@ public class UserController {
         initialize();
     }
 
+    /**
+     * Submit a user for adding
+     */
     public void handleAddNewUser() {
         resetErrorMessages();
         String name = nameAddField.getText();
@@ -219,6 +234,9 @@ public class UserController {
         initialize();
     }
 
+    /**
+     * Disable current user button current user already set
+     */
     public void handleCurrentButton() {
         String username = selectUserField.getValue();
         if(username == null || username.equals(Settings.currentUser))
@@ -226,12 +244,18 @@ public class UserController {
         selectButton.setDisable(false);
     }
 
+    /**
+     * Submit a user for the current user
+     */
     public void handleSelectCurrentUser() {
         String username = selectUserField.getValue();
         Settings.currentUser = username;
         initialize();
     }
 
+    /**
+     * Init the shsparameters
+     */
     public void initializeShsParametersSimStart() {
         shsParameterController.initialize();
         shsParameterController.windowAndDoorChoiceBoxInit();

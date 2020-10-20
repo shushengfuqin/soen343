@@ -67,6 +67,10 @@ public class User {
         return this.age >= User.adultThreshold;
     }
 
+    /**
+     * Convert the user into a json object
+     * @return
+     */
     private JSONObject toJson() {
         JSONObject jo = new JSONObject();
         jo.put("age", this.age);
@@ -82,6 +86,12 @@ public class User {
     }
 
 
+    /**
+     * Get a user from all the users
+     * @param name of the user
+     * @return the User object
+     * @throws IOException
+     */
     public static User getUser(String name) throws IOException {
         ArrayList<User> userList = User.getAllUsers();
         for(User user: userList) {
@@ -90,6 +100,11 @@ public class User {
         return null;
     }
 
+    /**
+     * Get all users from the user file
+     * @return an array of users
+     * @throws IOException
+     */
     public static ArrayList<User> getAllUsers() throws IOException {
         ArrayList<User> allUsers = new ArrayList<User>();
         String userJson = User.readFromUserFile();
@@ -108,6 +123,12 @@ public class User {
         return allUsers;
     }
 
+    /**
+     * Check if a user exist or not
+     * @param name of the user
+     * @return true if the user exists
+     * @throws IOException
+     */
     public static boolean userExist(String name) throws IOException {
         ArrayList<User> userList = User.getAllUsers();
         for(User user: userList) {
@@ -116,6 +137,12 @@ public class User {
         return false;
     }
 
+    /**
+     * Add a new user to the users list
+     * @param u a user
+     * @return a boolean if the operation succeeded or not
+     * @throws IOException
+     */
     public static boolean addNewUsers(User u) throws IOException {
         String userName = u.name;
         boolean exist = User.userExist(userName);
@@ -148,6 +175,12 @@ public class User {
         return false;
     }
 
+    /**
+     * Deletes a user from a user list
+     * @param name the name of the user
+     * @return a boolean whether the operation succeeded or not
+     * @throws IOException
+     */
     public static boolean deleteUser(String name) throws IOException {
         if(!User.userExist(name)) {
             System.out.println("User delete failed - Reason: User does not exist");
@@ -173,6 +206,11 @@ public class User {
 
     }
 
+    /**
+     * Read the data from a user file
+     * @return a string containing the list of users
+     * @throws IOException
+     */
     public static String readFromUserFile() throws IOException {
         File userFile = new File(userFileName);
         if (userFile.exists()) {
@@ -183,6 +221,12 @@ public class User {
         return null;
     }
 
+    /**
+     * Writes a string to the user file
+     * @param s
+     * @return
+     * @throws IOException
+     */
     public static boolean writeToUserFile(String s) throws IOException {
         try {
             FileWriter myWriter = new FileWriter(userFileName);
