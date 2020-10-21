@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-public class timeTest {
-//
+public class ControllerTest {
+
     @Test
     public void testSetDateTime_fails() {
         ShsParameterService mockService = mock(ShsParameterService.class);

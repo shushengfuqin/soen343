@@ -141,7 +141,7 @@
                      </children>
                   </Pane>
                   <Pane prefHeight="220.0" prefWidth="510.0">
-                     <fx:include fx:id="shsParameter" source="shsParameterBox.fxml" />
+                     <fx:include fx:id="shsParameter" source="shsParamView.fxml" />
                   </Pane>
                </children>
             </VBox>

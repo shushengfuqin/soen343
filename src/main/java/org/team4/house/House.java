@@ -19,7 +19,7 @@ public class House {
     public static ArrayList<int[]> doors = new ArrayList<int[]>();
     public static int roomColumn = 5;
     public static int roomRow = 5;
-    public static Room[][] rooms  = new Room[roomRow][roomColumn];;
+    public static Room[][] rooms  = new Room[roomRow][roomColumn];
 
     /**
      * Get the status of a window
