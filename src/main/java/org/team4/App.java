@@ -22,7 +22,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        fxmlLoader = new FXMLLoader(App.class.getResource("dashboard.fxml"));
+        fxmlLoader = new FXMLLoader(App.class.getResource("dashboardView.fxml"));
         scene = new Scene(fxmlLoader.load());
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Dashboard");

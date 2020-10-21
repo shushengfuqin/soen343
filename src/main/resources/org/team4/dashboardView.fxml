@@ -221,7 +221,7 @@
             <TabPane layoutX="220.0" layoutY="20.0" prefHeight="740.0" prefWidth="550.0" style="-fx-background-color: #292929;" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="SHS">
-                     <fx:include fx:id="user" source="shsView.fxml" />
+                     <fx:include fx:id="user" source="userView.fxml" />
                   </Tab>
                  <Tab text="SHC" />
                  <Tab text="SHP" />
