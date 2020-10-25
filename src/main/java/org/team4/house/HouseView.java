@@ -20,8 +20,8 @@ public class HouseView {
 
     private UserService userService;
 
-    public static int roomWidth = 600/House.roomRow;
-    public static int roomHeight = 600/House.roomColumn;
+    public static int roomWidth = 600/House.roomColumn;
+    public static int roomHeight = 600/House.roomRow;
 
     public HouseView() {
         userService = new UserService();
@@ -30,7 +30,7 @@ public class HouseView {
     public void drawIndex(AnchorPane row, AnchorPane col) {
         //Draw row
         double pos = 0;
-        for(int i = 0; i < House.roomRow; i++) {
+        for(int i = 0; i < House.roomColumn; i++) {
             Text tempText = new Text();
             StackPane textBox = new StackPane();
             StackPane textPane = new StackPane();
@@ -59,7 +59,7 @@ public class HouseView {
         }
 
         pos = 0;
-        for(int i = 0; i < House.roomColumn; i++) {
+        for(int i = 0; i < House.roomRow; i++) {
             Text tempText = new Text();
             StackPane textBox = new StackPane();
             StackPane textPane = new StackPane();
@@ -99,6 +99,8 @@ public class HouseView {
             url = App.class.getResource("/org/img/grass.png");
         if(name.equals("garage"))
             url = App.class.getResource("/org/img/stone.png");
+        if(name.equals("entrance"))
+            url = App.class.getResource("/org/img/wool.png");
 
         BackgroundImage myBI= new BackgroundImage(new Image(url.toString() ,roomWidth,roomHeight,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,

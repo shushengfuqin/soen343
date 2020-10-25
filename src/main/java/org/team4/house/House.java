@@ -133,8 +133,8 @@ public class House {
      * Get the location of every door and window in the house layout
      */
     public static void indexHouseWindowAndDoor() {
-        for(int i = 0; i < roomRow; i++) {
-            for(int j = 0; j < roomColumn; j++) {
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
                 Room tempRoom = rooms[i][j];
                 Wall[] tempWall = tempRoom.walls;
                 for(int k = 0; k < tempWall.length; k++) {
@@ -182,11 +182,11 @@ public class House {
      */
     public static void generateHouse() {
         String[] wallChoices = {"empty", "wall", "window", "door"};
-        String[] roomChoices = {"bedroom", "kitchen", "outside", "hallway", "living-room"};
+        String[] roomChoices = {"bedroom", "kitchen", "outside", "hallway", "living-room", "garage", "entrance", "backyard"};
         Random rand = new Random();
-        for(int i = 0; i < roomRow; i++) {
-            for(int j = 0; j < roomColumn; j++) {
-                String roomName = roomChoices[rand.nextInt(5)];
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
+                String roomName = roomChoices[rand.nextInt(8)];
                 String lw = "empty";
                 String tw = "empty";
                 String rw = "empty";
@@ -210,8 +210,8 @@ public class House {
         Random rand = new Random();
         String[] wallChoices = {"wall", "window", "door"};
 
-        for(int i = 0; i < roomRow; i++) {
-            for(int j =0; j < roomColumn; j++) {
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j =0; j < roomRow; j++) {
                 Room curr = rooms[i][j];
                 String lw;
                 String tw;
@@ -261,7 +261,7 @@ public class House {
                     }
                 }
 
-                if( i+1 >= roomRow) {
+                if( i+1 >= roomColumn) {
                     rw = wallChoices[rand.nextInt(3)];
                 }
                 else {
@@ -282,7 +282,7 @@ public class House {
                     }
                 }
 
-                if( j+1 >= roomColumn) {
+                if( j+1 >= roomRow) {
                     bw = wallChoices[rand.nextInt(3)];
                 }
                 else {
@@ -318,9 +318,9 @@ public class House {
             JSONObject house = new JSONObject(houseLayout);
             JSONArray rows = house.getJSONArray("layout");
 
-            for (int i = 0; i < roomRow; i++) {
+            for (int i = 0; i < roomColumn; i++) {
                 JSONArray columns = rows.getJSONArray(i);
-                for (int j = 0; j < roomColumn; j++) {
+                for (int j = 0; j < roomRow; j++) {
                     JSONObject temp = columns.getJSONObject(j);
                     rooms[i][j] = new Room(temp);
                 }
@@ -339,9 +339,9 @@ public class House {
 
         JSONArray rows = new JSONArray();
 
-        for(int i = 0; i < roomRow; i++) {
+        for(int i = 0; i < roomColumn; i++) {
             JSONArray column = new JSONArray();
-            for(int j = 0; j < roomColumn; j++) {
+            for(int j = 0; j < roomRow; j++) {
                 column.put(rooms[i][j].toJson());
             }
             rows.put(column);
