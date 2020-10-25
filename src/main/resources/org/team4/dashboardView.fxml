@@ -223,7 +223,9 @@
                   <Tab text="SHS">
                      <fx:include fx:id="user" source="userView.fxml" />
                   </Tab>
-                 <Tab text="SHC" />
+                 <Tab text="SHC">
+                     <fx:include fx:id="shcParameter" source="shcParamView.fxml"></fx:include>
+                 </Tab>
                  <Tab text="SHP" />
                  <Tab text="SHH" />
               </tabs>

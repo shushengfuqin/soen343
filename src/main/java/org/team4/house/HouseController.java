@@ -16,6 +16,8 @@ public class HouseController {
 
     @FXML
     public Pane housePane;
+    public AnchorPane rowIndex;
+    public AnchorPane columnIndex;
 
     public Pane backgroundPane;
 
@@ -28,8 +30,8 @@ public class HouseController {
      */
     public void backgroundImageInit() {
         URL url = App.class.getResource("/org/img/grass.png");
-        BackgroundImage myBI= new BackgroundImage(new Image(url.toString() ,690,740,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+        BackgroundImage myBI= new BackgroundImage(new Image(url.toString() ,HouseView.roomWidth, HouseView.roomHeight,false,true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         if(Settings.simulationStarted) {
             backgroundPane.setBackground(new Background(myBI));
@@ -45,10 +47,11 @@ public class HouseController {
     public void drawHouseLayout() {
         backgroundImageInit();
         eraseHouseLayout();
+        houseView.drawIndex(rowIndex, columnIndex);
         Room[][] roomArr = House.rooms;
         for(int i = 0; i < roomArr.length; i++) {
             for(int j = 0; j < roomArr[i].length; j++) {
-                Pane roomPane = houseView.getRoomPane(roomArr[i][j], i, j);
+                AnchorPane roomPane = houseView.getRoomPane(roomArr[i][j], i, j);
                 roomPane.setLayoutY(j*houseView.roomHeight);
                 roomPane.setLayoutX(i*houseView.roomWidth);
                 housePane.getChildren().add(roomPane);
@@ -62,5 +65,7 @@ public class HouseController {
     public void eraseHouseLayout() {
         backgroundImageInit();
         housePane.getChildren().clear();
+        rowIndex.getChildren().clear();
+        columnIndex.getChildren().clear();
     }
 }

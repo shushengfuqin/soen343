@@ -29,18 +29,15 @@ public class ShsParameterController {
     public Button setDateButton;
     public Text dateError;
 
-    //Windows control
-    public ChoiceBox<String> windowChoiceBox;
-    public Button windowSetButton;
-
-    //Door control
-    public ChoiceBox<String> doorsChoiceBox;
-    public Button doorSetButton;
-
     //House Location controls
     public TextField houseLocationText;
     public Text locationError;
     public Button setHouseLocationButton;
+
+    //Window block
+    public ChoiceBox<String> windowChoices;
+    public Button blockWindowButton;
+
 
     public ShsParameterController() {
         shsParameterService = new ShsParameterService();
@@ -50,19 +47,37 @@ public class ShsParameterController {
         temperatureInit();
         dateTimeInit();
         houseLocationInit();
-        windowsAndDoorInit();
+        initWindowChoices();
     }
 
-    /**
-     * Generate every windows and door option if the simulation is running
-     * if it's not running remove all options
-     */
-    public void windowsAndDoorInit() {
-        windowSetButton.setDisable(!Settings.simulationStarted);
-        doorSetButton.setDisable(!Settings.simulationStarted);
-        windowChoiceBox.getItems().clear();
-        doorsChoiceBox.getItems().clear();
-        windowAndDoorChoiceBoxInit();
+    public void initWindowChoices() {
+        windowChoices.getItems().clear();
+        if(!Settings.simulationStarted) {
+           blockWindowButton.setDisable(true);
+           return;
+        }
+        blockWindowButton.setDisable(false);
+        String[] windowList = House.getAllWindowsOption();
+        for(int i = 0; i < windowList.length; i++) {
+            windowChoices.getItems().add(windowList[i]);
+        }
+        if(windowList.length > 0) windowChoices.setValue(windowList[0]);
+    }
+
+    public void getWindowStatus() {
+        if(windowChoices.getValue() != null) {
+            boolean isBlocked = House.getWindowStatusBlock(windowChoices.getValue());
+            blockWindowButton.setText(isBlocked ? "Open" : "Block");
+        }
+    }
+
+    public void toggleWindowBlock() {
+        if(windowChoices.getValue() != null) {
+            House.toggleWindowBlock(windowChoices.getValue());
+            initWindowChoices();
+            DashboardController dashboardController = App.fxmlLoader.getController();
+            dashboardController.drawHouseLayout();
+        }
     }
 
     /**
@@ -72,70 +87,6 @@ public class ShsParameterController {
         houseLocationText.setText(House.houseLayoutFileName);
         locationError.setText("");
         setHouseLocationButton.setDisable(Settings.simulationStarted);
-    }
-
-    /**
-     * Display all the windows and doors options
-     */
-    public void windowAndDoorChoiceBoxInit() {
-        if(!Settings.simulationStarted) return;
-        String[] windowList = House.getAllWindowsOption();
-        windowChoiceBox.getItems().clear();
-        for(int i = 0; i < windowList.length; i++) {
-            windowChoiceBox.getItems().add(windowList[i]);
-        }
-
-        String[] doorList = House.getAllDoorsOption();
-        doorsChoiceBox.getItems().clear();
-        for(int i = 0; i < doorList.length; i++) {
-            doorsChoiceBox.getItems().add(doorList[i]);
-        }
-        if(windowList.length > 0) windowChoiceBox.setValue(windowList[0]);
-        if(doorList.length > 0) doorsChoiceBox.setValue(doorList[0]);
-    }
-
-    /**
-     * Open/close a window
-     */
-    public void toggleWindowAction() {
-        if(windowChoiceBox.getValue() != null) {
-            House.toggleWindow(windowChoiceBox.getValue());
-            windowAndDoorChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
-        }
-    }
-
-    /**
-     * Get whether a window is closed or not
-     */
-    public void getWindowStatus() {
-        if(windowChoiceBox.getValue() != null) {
-            boolean isOpen = House.getWindowStatus(windowChoiceBox.getValue());
-            windowSetButton.setText(isOpen ? "Close" : "Open");
-        }
-    }
-
-    /**
-     * Open/Close a door
-     */
-    public void toggleDoorAction() {
-        if(doorsChoiceBox.getValue() != null) {
-            House.toggleDoor(doorsChoiceBox.getValue());
-            windowAndDoorChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
-        }
-    }
-
-    /**
-     * Get whether a door is closed or not
-     */
-    public void getDoorStatus() {
-        if(doorsChoiceBox.getValue() != null) {
-            boolean isOpen = House.getDoorStatus(doorsChoiceBox.getValue());
-            doorSetButton.setText(isOpen ? "Close" : "Open");
-        }
     }
 
     public void dateTimeInit() {
