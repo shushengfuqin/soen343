@@ -55,13 +55,6 @@
                   <DatePicker fx:id="dateField" promptText="Date" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="timeField" promptText="HH:mm:ss" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                   <Button fx:id="setDateButton" mnemonicParsing="false" onAction="#handleSetDateAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                  <Label text="Windows:" textFill="WHITE" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Arial" size="20.0" />
-                     </font>
-                  </Label>
-                  <ChoiceBox fx:id="windowChoiceBox" onAction="#getWindowStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Button fx:id="windowSetButton" mnemonicParsing="false" onAction="#toggleWindowAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="2" />
                   <Text fx:id="tempError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="4" />
                   <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                      <children>
@@ -72,21 +65,21 @@
                         </Text>
                      </children>
                   </Pane>
-                  <Label text="Doors:" textFill="WHITE" GridPane.rowIndex="3">
+                  <Label text="House Loc:" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="doorsChoiceBox" onAction="#getDoorStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Button fx:id="doorSetButton" mnemonicParsing="false" onAction="#toggleDoorAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                  <Label text="House Loc:" textFill="WHITE" GridPane.rowIndex="4">
+                  <TextField fx:id="houseLocationText" onKeyReleased="#handleTempTextUpdate" prefHeight="25.0" prefWidth="103.0" promptText="House Location" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="setHouseLocationButton" mnemonicParsing="false" onAction="#setHouseLocationAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                  <Text fx:id="locationError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Label text="Block Window:" textFill="WHITE" GridPane.rowIndex="3">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="houseLocationText" onKeyReleased="#handleTempTextUpdate" prefHeight="25.0" prefWidth="103.0" promptText="House Location" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="setHouseLocationButton" mnemonicParsing="false" onAction="#setHouseLocationAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                  <Text fx:id="locationError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <ChoiceBox fx:id="windowChoices" onAction="#getWindowStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Button fx:id="blockWindowButton" onAction="#toggleWindowBlock" mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Block" GridPane.columnIndex="6" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>

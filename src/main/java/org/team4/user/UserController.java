@@ -260,6 +260,5 @@ public class UserController {
      */
     public void initializeShsParametersSimStart() {
         shsParameterController.initialize();
-        shsParameterController.windowAndDoorChoiceBoxInit();
     }
 }

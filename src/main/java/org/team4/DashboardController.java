@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.team4.common.Settings;
 import org.team4.house.House;
 import org.team4.house.HouseController;
+import org.team4.shcParameters.ShcParameterController;
 import org.team4.user.User;
 import org.team4.user.UserController;
 import org.team4.user.UserService;
@@ -26,6 +27,9 @@ public class DashboardController {
 
     @FXML
     public UserController userController;
+
+    @FXML
+    public ShcParameterController shcParameterController;
 
     @FXML
     public Button closeButton;
@@ -66,19 +70,20 @@ public class DashboardController {
     public void startButtonAction(ActionEvent event) {
         if(startButton.getText().equals("Start")) {
             Settings.simulationStarted = true;
-            House.generateHouse();
-            House.saveHouseLayout();
             House.getHouseLayout();
             House.indexHouseWindowAndDoor();
             userController.initializeShsParametersSimStart();
+            shcParameterController.windowAndDoorChoiceBoxInit();
             drawHouseLayout();
             startButton.setText("Stop");
         }
         else {
             Settings.simulationStarted = false;
             houseController.eraseHouseLayout();
+            House.saveHouseLayout();
             House.resetParams();
             userController.initializeShsParametersSimStart();
+            shcParameterController.windowAndDoorChoiceBoxInit();
             startButton.setText("Start");
         }
     }
@@ -88,6 +93,14 @@ public class DashboardController {
      * @param event
      */
     public void closeButtonAction(ActionEvent event) {
+        if(Settings.simulationStarted) {
+            Settings.simulationStarted = false;
+            houseController.eraseHouseLayout();
+            House.saveHouseLayout();
+            House.resetParams();
+            userController.initializeShsParametersSimStart();
+            startButton.setText("Start");
+        }
         Settings.simulationTime.stop = true;
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();

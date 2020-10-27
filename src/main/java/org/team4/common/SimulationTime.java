@@ -1,4 +1,4 @@
-package org.team4.shsParameters;
+package org.team4.common;
 
 import org.team4.App;
 import org.team4.DashboardController;
@@ -7,15 +7,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SimulationTime extends Thread{
-    private Date date = new Date(120, 10, 16, 20, 22, 35);
+    private Date date = new Date();
     private boolean setting = false;
     public boolean stop = false;
+    public int multiplier = 1;
 
     public void run(){
         Date dt;
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while(!stop){
             try {
-                sleep(1000);
+                sleep(1000 / multiplier);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -19,26 +19,41 @@ public class House {
     public static ArrayList<int[]> doors = new ArrayList<int[]>();
     public static int roomColumn = 5;
     public static int roomRow = 5;
-    public static Room[][] rooms  = new Room[roomRow][roomColumn];
+    public static Room[][] rooms  = new Room[roomColumn][roomRow];
 
     /**
      * Get the status of a window
      * @param s
      * @return a boolean representing if a window is open or not
      */
-    public static boolean getWindowStatus(String s) {
+    public static boolean getWindowStatusOpen(String s) {
         int[] windowLocation = getRoomLocation(s);
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
+    }
+
+    public static boolean getWindowStatusBlock(String s) {
+        int[] windowLocation = getRoomLocation(s);
+        return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
     }
 
     /**
      * Open or close a window
      * @param s the location of a window
      */
-    public static void toggleWindow(String s) {
+    public static void toggleWindowOpen(String s) {
         int[] windowLocation = getRoomLocation(s);
+        if(rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked) {
+            System.out.println("Window is blocked");
+            return;
+        }
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
         rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open = !windowStatus;
+    }
+
+    public static void toggleWindowBlock(String s) {
+        int[] windowLocation = getRoomLocation(s);
+        boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
+        rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked = !windowStatus;
     }
 
     /**
@@ -47,8 +62,8 @@ public class House {
      * @return a boolean representing if a door is closed or not
      */
     public static boolean getDoorStatus(String s) {
-        int[] windowLocation = getRoomLocation(s);
-        return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
+        int[] doorLocation = getRoomLocation(s);
+        return rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open;
     }
 
     /**
@@ -56,9 +71,34 @@ public class House {
      * @param s the location of the door
      */
     public static void toggleDoor(String s) {
-        int[] windowLocation = getRoomLocation(s);
-        boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
-        rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open = !windowStatus;
+        int[] doorLocation = getRoomLocation(s);
+        boolean doorStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open;
+        rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open = !doorStatus;
+
+        switch (doorLocation[2]) {
+            case 0:
+                if(doorLocation[0] - 1 < 0) return;
+                if(rooms[doorLocation[0]-1][doorLocation[1]].walls[2].type.equals("door"))
+                    rooms[doorLocation[0]-1][doorLocation[1]].walls[2].open = !doorStatus;
+                break;
+            case 1:
+                if(doorLocation[1] - 1 < 0) return;
+                if(rooms[doorLocation[0]][doorLocation[1]-1].walls[3].type.equals("door")) {
+                    rooms[doorLocation[0]][doorLocation[1] - 1].walls[3].open = !doorStatus;
+                }
+                break;
+            case 2:
+                if(doorLocation[0] + 1 >= roomColumn) return;
+                if(rooms[doorLocation[0]+1][doorLocation[1]].walls[0].type.equals("door")) {
+                    rooms[doorLocation[0] + 1][doorLocation[1]].walls[0].open = !doorStatus;
+                }
+                break;
+            case 3:
+                if(doorLocation[1] + 1 >= roomRow) return;
+                if(rooms[doorLocation[0]][doorLocation[1]+1].walls[1].type.equals("door"))
+                    rooms[doorLocation[0]][doorLocation[1]+1].walls[1].open = !doorStatus;
+                break;
+        }
     }
 
     /**
@@ -67,7 +107,7 @@ public class House {
     public static void resetParams() {
         windows = new ArrayList<int[]>();
         doors = new ArrayList<int[]>();
-        rooms  = new Room[roomRow][roomColumn];;
+        rooms  = new Room[roomColumn][roomRow];;
     }
 
     /**
@@ -93,8 +133,8 @@ public class House {
      * Get the location of every door and window in the house layout
      */
     public static void indexHouseWindowAndDoor() {
-        for(int i = 0; i < roomRow; i++) {
-            for(int j = 0; j < roomColumn; j++) {
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
                 Room tempRoom = rooms[i][j];
                 Wall[] tempWall = tempRoom.walls;
                 for(int k = 0; k < tempWall.length; k++) {
@@ -141,16 +181,16 @@ public class House {
      * Randomly generate a house layout
      */
     public static void generateHouse() {
-        String[] wallChoices = {"emptySpace", "wall", "window", "door"};
-        String[] roomChoices = {"bedroom", "kitchen", "outside", "hallway", "living-room"};
+        String[] wallChoices = {"empty", "wall", "window", "door"};
+        String[] roomChoices = {"bedroom", "kitchen", "outside", "hallway", "living-room", "garage", "entrance", "backyard"};
         Random rand = new Random();
-        for(int i = 0; i < roomRow; i++) {
-            for(int j = 0; j < roomColumn; j++) {
-                String roomName = roomChoices[rand.nextInt(5)];
-                String lw = wallChoices[rand.nextInt(4)];
-                String tw = wallChoices[rand.nextInt(4)];
-                String rw = wallChoices[rand.nextInt(4)];
-                String bw = wallChoices[rand.nextInt(4)];
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
+                String roomName = roomChoices[rand.nextInt(8)];
+                String lw = "empty";
+                String tw = "empty";
+                String rw = "empty";
+                String bw = "empty";
 
                 if(roomName.equals("outside")) {
                     lw = wallChoices[0];
@@ -162,22 +202,132 @@ public class House {
                 rooms[i][j] = new Room(roomName, lw, tw, rw, bw);
             }
         }
+        cleanUpHouseLayout();
+    }
+
+    public static void cleanUpHouseLayout() {
+        if(rooms[0][0] == null) return;
+        Random rand = new Random();
+        String[] wallChoices = {"wall", "window", "door"};
+
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j =0; j < roomRow; j++) {
+                Room curr = rooms[i][j];
+                String lw;
+                String tw;
+                String rw;
+                String bw;
+                if(curr.name.equals("outside")) continue;
+
+                if( i-1 < 0) {
+                    lw = wallChoices[rand.nextInt(3)];
+                }
+                else {
+                    if(curr.name.equals(rooms[i-1][j].name)) {
+                        lw = "empty";
+                    }
+                    else if(rooms[i-1][j].walls[3].type.equals("door")) {
+                        lw = "door";
+                    }
+                    else if(rooms[i-1][j].name.equals("outside")) {
+                        lw = wallChoices[rand.nextInt(3)];
+                    }
+                    else if(!rooms[i-1][j].name.equals(curr.name)) {
+                        lw = "door";
+                    }
+                    else {
+                        lw = "wall";
+                    }
+                }
+
+                if( j-1 < 0) {
+                    tw = wallChoices[rand.nextInt(3)];
+                }
+                else {
+                    if(curr.name.equals(rooms[i][j-1].name)) {
+                        tw = "empty";
+                    }
+                    else if(rooms[i][j-1].walls[3].type.equals("door")) {
+                        tw = "door";
+                    }
+                    else if(rooms[i][j-1].name.equals("outside")) {
+                        tw = wallChoices[rand.nextInt(3)];
+                    }
+                    else if(!rooms[i][j-1].name.equals(curr.name)) {
+                        tw = "door";
+                    }
+                    else {
+                        tw = "wall";
+                    }
+                }
+
+                if( i+1 >= roomColumn) {
+                    rw = wallChoices[rand.nextInt(3)];
+                }
+                else {
+                    if(curr.name.equals(rooms[i+1][j].name)) {
+                        rw = "empty";
+                    }
+                    else if(rooms[i+1][j].walls[3].type.equals("door")) {
+                        rw = "door";
+                    }
+                    else if(rooms[i+1][j].name.equals("outside")) {
+                        rw = wallChoices[rand.nextInt(3)];
+                    }
+                    else if(!rooms[i+1][j].name.equals(curr.name)) {
+                        rw = "door";
+                    }
+                    else {
+                        rw = "wall";
+                    }
+                }
+
+                if( j+1 >= roomRow) {
+                    bw = wallChoices[rand.nextInt(3)];
+                }
+                else {
+                    if(curr.name.equals(rooms[i][j+1].name)) {
+                        bw = "empty";
+                    }
+                    else if(rooms[i][j+1].walls[3].type.equals("door")) {
+                        bw = "door";
+                    }
+                    else if(rooms[i][j+1].name.equals("outside")) {
+                        bw = wallChoices[rand.nextInt(3)];
+                    }
+                    else if(!rooms[i][j+1].name.equals(curr.name)) {
+                        bw = "door";
+                    }
+                    else {
+                        bw = "wall";
+                    }
+                }
+                Room newRoom = new Room(curr.name, lw, tw, rw, bw);
+                rooms[i][j] = newRoom;
+
+            }
+        }
     }
 
     /**
      * Get the house layout from the layout file
      */
     public static void getHouseLayout() {
-        String houseLayout = readFromHouseFile();
-        JSONObject house = new JSONObject(houseLayout);
-        JSONArray rows = house.getJSONArray("layout");
+        if(fileExist()) {
+            String houseLayout = readFromHouseFile();
+            JSONObject house = new JSONObject(houseLayout);
+            JSONArray rows = house.getJSONArray("layout");
 
-        for(int i = 0; i < roomRow; i++) {
-            JSONArray columns = rows.getJSONArray(i);
-            for(int j = 0; j < roomColumn; j++) {
-                JSONObject temp = columns.getJSONObject(j);
-                rooms[i][j] = new Room(temp);
+            for (int i = 0; i < roomColumn; i++) {
+                JSONArray columns = rows.getJSONArray(i);
+                for (int j = 0; j < roomRow; j++) {
+                    JSONObject temp = columns.getJSONObject(j);
+                    rooms[i][j] = new Room(temp);
+                }
             }
+        }
+        else {
+            generateHouse();
         }
     }
 
@@ -189,9 +339,9 @@ public class House {
 
         JSONArray rows = new JSONArray();
 
-        for(int i = 0; i < roomRow; i++) {
+        for(int i = 0; i < roomColumn; i++) {
             JSONArray column = new JSONArray();
-            for(int j = 0; j < roomColumn; j++) {
+            for(int j = 0; j < roomRow; j++) {
                 column.put(rooms[i][j].toJson());
             }
             rows.put(column);
@@ -239,5 +389,10 @@ public class House {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean fileExist() {
+        File houseLayout = new File(houseLayoutFileName+".json");
+        return houseLayout.exists();
     }
 }

@@ -1,7 +1,5 @@
 package org.team4.common;
 
-import org.team4.shsParameters.SimulationTime;
-
 public class Settings {
     public static String currentUser;
     public static int outsideTemperature = 20;
