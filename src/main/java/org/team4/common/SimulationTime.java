@@ -1,62 +1,68 @@
 package org.team4.common;
 
-import org.team4.App;
-import org.team4.DashboardController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class SimulationTime extends Thread{
-    private Date date = new Date();
-    private boolean setting = false;
-    public boolean stop = false;
-    public int multiplier = 1;
+public class SimulationTime {
+    private final Calendar date;
+    private double multiplier;
+    private Timeline clock;
 
-    public void run(){
-        Date dt;
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        while(!stop){
-            try {
-                sleep(1000 / multiplier);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Calendar c = Calendar.getInstance();
-            c.setTime(this.date);
-            c.add(Calendar.SECOND, 1);
-            dt = c.getTime();
-            setDateTime(dt);
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.updateTime(getTime());
-        }
+    public SimulationTime() {
+        date = Calendar.getInstance();
+        multiplier = 1;
+        setClockSpeed(multiplier);
     }
 
-    /**
-     *
-     * @return the current date/time
-     */
-    public synchronized Date getTime(){
-        while(setting){
-            try {
-                wait();
-            } catch (InterruptedException e) {  }
-        }
-
-        return this.date;
+    public void startTime() {
+        clock.play();
     }
 
-    /**
-     * Set the new date/time
-     * @param dt
-     */
-    public synchronized void setDateTime(Date dt){
-        setting = true;
-        this.date = dt;
-        setting = false;
-        notifyAll();
+    public void stopTime() {
+        clock.pause();
+    }
+
+    public void setDateTime(Date date) {
+        this.date.set(Calendar.DAY_OF_MONTH, date.getDate());
+        this.date.set(Calendar.MONTH, date.getMonth());
+        this.date.set(Calendar.YEAR, date.getYear());
+        this.date.set(Calendar.HOUR, date.getHours());
+        this.date.set(Calendar.MINUTE, date.getMinutes());
+        this.date.set(Calendar.SECOND, date.getSeconds());
+    }
+
+    public Calendar getDate() {
+        return date;
+    }
+
+    public void setMultiplier(double multiplier) {
+        this.multiplier = multiplier;
+        changeClockSpeed(multiplier);
+    }
+
+    public double getMultiplier() {
+        return multiplier;
+    }
+
+    private void setClockSpeed(double multiplier) {
+        if (clock != null) {
+            clock.stop();
+        }
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            date.add(Calendar.SECOND, 1);
+        }),
+                new KeyFrame(Duration.seconds(1/multiplier))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+    }
+
+    private void changeClockSpeed(double multiplier) {
+        setClockSpeed(multiplier);
+        startTime();
     }
 }
