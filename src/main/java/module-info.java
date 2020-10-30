@@ -8,6 +8,7 @@ module org.team4 {
     opens org.team4.shsParameters to javafx.fxml, javafx.base;
     opens org.team4.house to javafx.fxml, javafx.base;
     opens org.team4.shcParameters to javafx.fxml, javafx.base;
+    opens org.team4.dashboard to javafx.fxml, javafx.base;
 
     exports org.team4;
 }

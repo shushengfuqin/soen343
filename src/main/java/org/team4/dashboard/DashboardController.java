@@ -1,14 +1,17 @@
-package org.team4;
+package org.team4.dashboard;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.team4.common.Settings;
+import org.team4.common.logger.Log;
 import org.team4.house.House;
 import org.team4.house.HouseController;
 import org.team4.shcParameters.ShcParameterController;
@@ -19,14 +22,12 @@ import org.team4.user.UserService;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class DashboardController {
 
     private UserService userService;
+    private DashboardView dashboardView;
 
     @FXML
     public HouseController houseController;
@@ -59,12 +60,18 @@ public class DashboardController {
 
     private Timer clockTimer;
 
+    //Output console
+    @FXML
+    public ListView<Pane> outputList;
+
     public DashboardController() {
         userService = new UserService();
+        dashboardView = new DashboardView();
     }
 
     @FXML
     public void initialize() {
+        outputList.setStyle("-fx-control-inner-background: #292929;");
         updateInfo();
         addListenerToMultiplierSlider();
         if(Settings.simulationStarted) startButton.setText("Stop");
@@ -190,5 +197,15 @@ public class DashboardController {
         currentUserStatus.setText(status);
         currentUserAge.setText(age);
         currentUserLocation.setText(location);
+    }
+
+    /**
+     * Displays a log to the dashboard
+     * @param log
+     */
+    public void displayLog(Log log) {
+        Pane logPane = dashboardView.generateLogPane(log);
+        outputList.getItems().add(logPane);
+        outputList.scrollTo(outputList.getItems().size());
     }
 }

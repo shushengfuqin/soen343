@@ -2,6 +2,7 @@ package org.team4.house;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.team4.common.logger.Logger;
 import org.team4.house.components.Room;
 import org.team4.house.components.Wall;
 
@@ -43,17 +44,23 @@ public class House {
     public static void toggleWindowOpen(String s) {
         int[] windowLocation = getRoomLocation(s);
         if(rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked) {
-            System.out.println("Window is blocked");
+            Logger.warning("Can't open window. Blocked");
             return;
         }
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
         rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open = !windowStatus;
+        String location = "(" + windowLocation[0] + ", " + windowLocation[1] + ") " + Room.wallSideMapper(windowLocation[2]);
+        String action = windowStatus ? "closed" : "opened";
+        Logger.info("Window " + action + " at location " + location);
     }
 
     public static void toggleWindowBlock(String s) {
         int[] windowLocation = getRoomLocation(s);
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
         rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked = !windowStatus;
+        String location = "(" + windowLocation[0] + ", " + windowLocation[1] + ") " + Room.wallSideMapper(windowLocation[2]);
+        String action = windowStatus ? "unblocked" : "blocked";
+        Logger.info("Window " + action + " at location " + location);
     }
 
     /**
@@ -99,6 +106,10 @@ public class House {
                     rooms[doorLocation[0]][doorLocation[1]+1].walls[1].open = !doorStatus;
                 break;
         }
+
+        String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
+        String action = doorStatus ? "closed" : "opened";
+        Logger.info("Door " + action + " at location " + location);
     }
 
     /**
