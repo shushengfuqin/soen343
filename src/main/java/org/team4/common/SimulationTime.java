@@ -6,17 +6,16 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class SimulationTime {
-    private final Calendar date;
+    private Calendar date;
     private double multiplier;
     private Timeline clock;
 
     public SimulationTime() {
         date = Calendar.getInstance();
         multiplier = 1;
-        setClockSpeed(multiplier);
+        initializeClock();
     }
 
     public void startTime() {
@@ -27,13 +26,8 @@ public class SimulationTime {
         clock.pause();
     }
 
-    public void setDateTime(Date date) {
-        this.date.set(Calendar.DAY_OF_MONTH, date.getDate());
-        this.date.set(Calendar.MONTH, date.getMonth());
-        this.date.set(Calendar.YEAR, date.getYear());
-        this.date.set(Calendar.HOUR, date.getHours());
-        this.date.set(Calendar.MINUTE, date.getMinutes());
-        this.date.set(Calendar.SECOND, date.getSeconds());
+    public void setDateTime(Calendar calendar) {
+        this.date = calendar;
     }
 
     public Calendar getDate() {
@@ -42,27 +36,21 @@ public class SimulationTime {
 
     public void setMultiplier(double multiplier) {
         this.multiplier = multiplier;
-        changeClockSpeed(multiplier);
+        changeClockSpeed();
     }
 
     public double getMultiplier() {
         return multiplier;
     }
 
-    private void setClockSpeed(double multiplier) {
-        if (clock != null) {
-            clock.stop();
-        }
-        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            date.add(Calendar.SECOND, 1);
-        }),
-                new KeyFrame(Duration.seconds(1/multiplier))
+    private void initializeClock() {
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> date.add(Calendar.SECOND, 1)),
+                new KeyFrame(Duration.seconds(1))
         );
         clock.setCycleCount(Animation.INDEFINITE);
     }
 
-    private void changeClockSpeed(double multiplier) {
-        setClockSpeed(multiplier);
-        startTime();
+    private void changeClockSpeed() {
+        clock.setRate(multiplier);
     }
 }
