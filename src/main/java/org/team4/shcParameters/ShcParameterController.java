@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import org.team4.App;
-import org.team4.DashboardController;
+import org.team4.dashboard.DashboardController;
 import org.team4.common.Settings;
 import org.team4.house.House;
 

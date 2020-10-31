@@ -7,7 +7,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import org.team4.App;
-import org.team4.DashboardController;
+import org.team4.dashboard.DashboardController;
 import org.team4.common.Helper;
 import org.team4.common.Settings;
 import org.team4.house.House;
