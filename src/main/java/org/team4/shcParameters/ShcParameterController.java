@@ -1,12 +1,18 @@
 package org.team4.shcParameters;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.stage.Stage;
 import org.team4.App;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Settings;
 import org.team4.house.House;
+
+import java.io.IOException;
 
 public class ShcParameterController {
     @FXML
@@ -52,6 +58,7 @@ public class ShcParameterController {
      * Open/close a window
      */
     public void toggleWindowAction() {
+
         if(windowChoiceBox.getValue() != null) {
             House.toggleWindowOpen(windowChoiceBox.getValue());
             windowAndDoorChoiceBoxInit();
@@ -90,5 +97,14 @@ public class ShcParameterController {
             boolean isOpen = House.getDoorStatus(doorsChoiceBox.getValue());
             doorSetButton.setText(isOpen ? "Close" : "Open");
         }
+    }
+
+    public void openPermissionPage() throws IOException
+    {
+        Parent part = FXMLLoader.load(getClass().getResource("permissionCheck.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.setScene(scene);
+        stage.show();
     }
 }

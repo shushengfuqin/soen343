@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="689.0" style="-fx-background-color: #555555;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.simulationParameters.permissionCheckController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="67.0" prefHeight="51.0" prefWidth="100.0" text="Adults" textFill="WHITE">
+         <font>
+
+            <Font name="Arial Rounded MT Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="270.0" prefHeight="51.0" prefWidth="100.0" text="Guest" textFill="#fffdfd">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="167.0" prefHeight="51.0" prefWidth="100.0" text="Children" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="383.0" prefHeight="51.0" prefWidth="100.0" text="Stranger" textFill="#fffbfb">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="23.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="lightA" layoutX="171.0" layoutY="75.0" mnemonicParsing="false" text="Light">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#afb3ff" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="lightG" layoutX="171.0" layoutY="280.0" mnemonicParsing="false" text="Light">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#afb3ff" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="lightC" layoutX="171.0" layoutY="175.0" mnemonicParsing="false" text="Light">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#afb3ff" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="lightS" layoutX="171.0" layoutY="393.0" mnemonicParsing="false" text="Light">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#afb3ff" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="windowA" layoutX="308.0" layoutY="75.0" mnemonicParsing="false" text="Window">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffddb0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="windowC" layoutX="308.0" layoutY="175.0" mnemonicParsing="false" text="Window">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffddb0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="windowG" layoutX="308.0" layoutY="280.0" mnemonicParsing="false" text="Window">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffddb0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="windowS" layoutX="308.0" layoutY="393.0" mnemonicParsing="false" text="Window">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffddb0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="doorA" layoutX="465.0" layoutY="75.0" mnemonicParsing="false" text="Door">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffb8b0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="doorG" layoutX="465.0" layoutY="280.0" mnemonicParsing="false" text="Door">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffb8b0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="doorC" layoutX="465.0" layoutY="177.0" mnemonicParsing="false" text="Door">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffb8b0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="doorS" layoutX="465.0" layoutY="393.0" mnemonicParsing="false" text="Door">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffb8b0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <Label fx:id="showText" alignment="CENTER" layoutX="158.0" layoutY="538.0" prefHeight="42.0" prefWidth="353.0" textFill="#fff51c" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="497.0" prefHeight="51.0" prefWidth="100.0" text="Location" textFill="#fffbfb">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="23.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="lightL" layoutX="171.0" layoutY="507.0" mnemonicParsing="false" text="Light">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#afb3ff" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="windowL" layoutX="299.0" layoutY="507.0" mnemonicParsing="false" text="Window">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffddb0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+      <CheckBox fx:id="doorL" layoutX="465.0" layoutY="507.0" mnemonicParsing="false" text="Door">
+         <font>
+            <Font name="Bauhaus 93" size="23.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="#ffb8b0" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </CheckBox>
+   </children>
+</AnchorPane>

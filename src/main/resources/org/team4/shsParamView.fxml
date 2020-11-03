@@ -79,7 +79,8 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="windowChoices" onAction="#getWindowStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Button fx:id="blockWindowButton" onAction="#toggleWindowBlock" mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Block" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                  <Button fx:id="blockWindowButton" mnemonicParsing="false" onAction="#toggleWindowBlock" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Block" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                  <Button fx:id="openPermissionView" mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Permission" GridPane.rowIndex="4" />
                </children>
             </GridPane>
          </children>
