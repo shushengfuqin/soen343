@@ -32,7 +32,7 @@ public class ShcParameterController {
         if(!Settings.simulationStarted) {
             windowSetButton.setDisable(true);
             doorSetButton.setDisable(true);
-            lockDoorChoiceBox.setDisable(true);
+            lockDoorSetButton.setDisable(true);
             return;
         }
 
@@ -120,7 +120,7 @@ public class ShcParameterController {
      */
     public void getDoorLockStatus(){
         if(lockDoorChoiceBox.getValue() != null){
-            boolean isOpen = House.getDoorStatus(lockDoorChoiceBox.getValue());
+            boolean isOpen = House.getLockDoorStatus(lockDoorChoiceBox.getValue());
             lockDoorSetButton.setText(isOpen ? "Lock" : "Unlock");
         }
     }

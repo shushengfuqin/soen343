@@ -101,6 +101,13 @@ public class House {
     }
 
     /**
+     * Get the status of the door is lock or not
+     */
+    public static boolean getLockDoorStatus(String s){
+        int[] lockDoorLocation = getRoomLocation(s);
+        return rooms[lockDoorLocation[0]][lockDoorLocation[1]].walls[lockDoorLocation[2]].blocked;
+    }
+    /**
      * Open or close a door
      * @param s the location of the door
      */
@@ -207,31 +214,39 @@ public class House {
                     int leftRoomIndex = i - 1;
                     if(rooms[leftRoomIndex][j].name.equals("outside")){
                         lockDoor.add(tempLockDoor);
+                    } else if (i == 0){
+                        lockDoor.add(tempLockDoor);
                     }
                 }
                 break;
             case "right":
-                if(i<5){
+                if(i<roomColumn){
                     int rightRoomIndex = i + 1;
                     if(rooms[rightRoomIndex][j].name.equals("outside")){
+                        lockDoor.add(tempLockDoor);
+                    }else if (i == roomColumn){
                         lockDoor.add(tempLockDoor);
                     }
                 }
                 break;
             case "top":
-                if(i>0){
+                if(j>0){
                     int topRoomIndex = j - 1;
-                    if(rooms[topRoomIndex][j].name.equals("outside")){
+                    if(rooms[i][topRoomIndex].name.equals("outside")){
+                        lockDoor.add(tempLockDoor);
+                    }else if (j == 0){
                         lockDoor.add(tempLockDoor);
                     }
                 }
                 break;
-            case "bottom":
-                if(i<5){
-                    int bottomRoomIndex = j + 1;
-                    if(rooms[bottomRoomIndex][j].name.equals("outside")){
+            case "bot":
+                if(j<roomRow){
+                    int botRoomIndex = j + 1;
+                    if(rooms[i][botRoomIndex].name.equals("outside")){
                         lockDoor.add(tempLockDoor);
                     }
+                } else if (j == roomRow){
+                    lockDoor.add(tempLockDoor);
                 }
                 break;
         }
