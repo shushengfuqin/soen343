@@ -174,7 +174,7 @@ public class ShsParameterController {
 
     public void openPermissionPage() throws IOException
     {
-        Parent part = FXMLLoader.load(getClass().getResource("permissionCheck.fxml"));
+        Parent part = FXMLLoader.load(App.class.getResource("permissionCheck.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(part);
         stage.setScene(scene);

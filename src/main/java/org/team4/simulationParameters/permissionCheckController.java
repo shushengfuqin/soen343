@@ -19,77 +19,77 @@ import org.team4.user.UserService;
 
 
 
-public class permissionCheckController implements Initializable
+public class permissionCheckController
 {
-    @FXML
-    private CheckBox lightA;
 
     @FXML
-    private CheckBox lightG;
+   public CheckBox lightA;
 
     @FXML
-    private CheckBox lightC;
+    public CheckBox lightG;
 
     @FXML
-    private CheckBox lightS;
+    public CheckBox lightC;
 
     @FXML
-    private CheckBox windowA;
+    public CheckBox lightS;
 
     @FXML
-    private CheckBox windowC;
+    public CheckBox windowA;
 
     @FXML
-    private CheckBox windowG;
+    public CheckBox windowC;
 
     @FXML
-    private CheckBox windowS;
+    public CheckBox windowG;
 
     @FXML
-    private CheckBox doorA;
+    public CheckBox windowS;
 
     @FXML
-    private CheckBox doorG;
+    public CheckBox doorA;
 
     @FXML
-    private CheckBox doorC;
+    public CheckBox doorG;
 
     @FXML
-    private CheckBox doorS;
+    public CheckBox doorC;
 
     @FXML
-    private CheckBox lightL;
+    public CheckBox doorS;
 
     @FXML
-    private CheckBox windowL;
+    public CheckBox lightL;
 
     @FXML
-    private CheckBox doorL;
+    public CheckBox windowL;
+
+    @FXML
+    public CheckBox doorL;
 
 
-    private boolean la = lightA.isSelected();
-    private boolean lc = lightC.isSelected();
-    private boolean lg = lightG.isSelected();
-    private boolean ls = lightS.isSelected();
-    private boolean wa = windowA.isSelected();
-    private boolean wc = windowC.isSelected();
-    private boolean wg = windowG.isSelected();
-    private boolean ws = windowS.isSelected();
-    private boolean da = doorA.isSelected();
-    private boolean dc = doorC.isSelected();
-    private boolean dg = doorG.isSelected();
-    private boolean ds = doorS.isSelected();
-    private boolean ll = lightL.isSelected();
-    private boolean wl = windowL.isSelected();
-    private boolean dl = doorL.isSelected();
+    public boolean la = lightA.isSelected();
+    public boolean lc = lightC.isSelected();
+    public boolean lg = lightG.isSelected();
+    public boolean ls = lightS.isSelected();
+    public boolean wa = windowA.isSelected();
+    public boolean wc = windowC.isSelected();
+    public boolean wg = windowG.isSelected();
+    public boolean ws = windowS.isSelected();
+    public boolean da = doorA.isSelected();
+    public boolean dc = doorC.isSelected();
+    public boolean dg = doorG.isSelected();
+    public boolean ds = doorS.isSelected();
+    public boolean ll = lightL.isSelected();
+    public boolean wl = windowL.isSelected();
+    public boolean dl = doorL.isSelected();
 
     //permission for Adults,Children,Guests,Stranger,Location
-    private boolean windowPermission []  = {wa,wc,wg,ws,wl} ;
-    private boolean lightPermission[] = {la,lc,lg,ls,ll};
-    private boolean doorPermission [] = {da,dc,dg,ds,dl};
+    public boolean windowPermission []  = {wa,wc,wg,ws,wl} ;
+    public boolean lightPermission[] = {la,lc,lg,ls,ll};
+    public boolean doorPermission [] = {da,dc,dg,ds,dl};
 
     UserService userService = new UserService();
-
 
     // check the permission of control window
     public boolean checkWindowPermission(int x, int y){
@@ -225,10 +225,14 @@ public class permissionCheckController implements Initializable
 
 
 
+    int x;
+    int y;
 
-
-
-
+   public void initialize(){
+    this.checkWindowPermission(x,y);
+    this.checkLightPermission(x,y);
+    this.checkDoorPermission(x,y);
+}
 
     private JSONObject toJson() {
         JSONObject jo = new JSONObject();
@@ -280,14 +284,6 @@ public class permissionCheckController implements Initializable
             return false;
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-
-
 
 
 
