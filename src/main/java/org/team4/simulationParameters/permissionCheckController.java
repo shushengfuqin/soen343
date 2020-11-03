@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import org.json.JSONObject;
 import org.team4.common.Settings;
 import org.team4.user.User;
 import org.team4.user.UserService;
@@ -223,15 +224,38 @@ public class permissionCheckController implements Initializable
     }
 
 
+
+
+
+
+
+
+    private JSONObject toJson() {
+        JSONObject jo = new JSONObject();
+        jo.put("windowPermission", this.windowPermission);
+        jo.put("lightPermission", this.lightPermission);
+        jo.put("doorPermission", this.doorPermission);
+
+        return jo;
+    }
+
+    public String toString() {
+        return "windowPermission " + this.windowPermission + "\nlightPermission: " + this.lightPermission + "\ndoorPermission: " + this.doorPermission ;
+    }
+
+
+
+
+
     /**
      * Read the data from a user file
      * @return a string of an array results shows the permission of user
      * @throws IOException
      */
     public static String readFromPermissionFile() throws IOException {
-        File userFile = new File(permissionFileName);
-        if (permissionFile.exists()) {
-            Scanner fileReader = new Scanner(permissionFile);
+        File userFile = new File("permissionFileName");
+        if (userFile.exists()) {
+            Scanner fileReader = new Scanner(userFile);
             String data = fileReader.nextLine();
             return data;
         }
@@ -239,13 +263,13 @@ public class permissionCheckController implements Initializable
     }
     /**
      * Writes a string to the permission file
-     * @param s
+     * @param
      * @return
      * @throws IOException
      */
     public static boolean writeToPermissionFile(String s) throws IOException {
         try {
-            FileWriter myWriter = new FileWriter(permissionFileName);
+            FileWriter myWriter = new FileWriter("permissionFileName.json");
             myWriter.write(s);
             myWriter.close();
             return true;

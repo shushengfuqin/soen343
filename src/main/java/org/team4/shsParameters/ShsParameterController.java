@@ -1,16 +1,22 @@
 package org.team4.shsParameters;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.team4.App;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Helper;
 import org.team4.common.Settings;
 import org.team4.house.House;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.spi.CalendarDataProvider;
 
@@ -166,4 +172,14 @@ public class ShsParameterController {
         initialize();
     }
 
+    public void openPermissionPage() throws IOException
+    {
+        Parent part = FXMLLoader.load(getClass().getResource("permissionCheck.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.setScene(scene);
+        stage.show();
+    }
 }
+
+
