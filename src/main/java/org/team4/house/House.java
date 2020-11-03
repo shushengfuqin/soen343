@@ -2,6 +2,7 @@ package org.team4.house;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.team4.common.Coordinate;
 import org.team4.common.logger.Logger;
 import org.team4.house.components.Room;
 import org.team4.house.components.Wall;
@@ -18,6 +19,7 @@ public class House {
     public static String houseLayoutFileName = "houseLayout";
     public static ArrayList<int[]> windows = new ArrayList<int[]>();
     public static ArrayList<int[]> doors = new ArrayList<int[]>();
+    public static ArrayList<Coordinate> lights = new ArrayList<>();
     public static int roomColumn = 5;
     public static int roomRow = 5;
     public static Room[][] rooms  = new Room[roomColumn][roomRow];
@@ -160,6 +162,24 @@ public class House {
                 }
             }
         }
+    }
+
+    public static void indexAllLights() {
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
+                Room tempRoom = rooms[i][j];
+                String roomName = tempRoom.name;
+                if(roomName.equals("outside")) continue;
+                Coordinate coord = new Coordinate(i, j);
+                lights.add(coord);
+                System.out.println(coord);
+            }
+        }
+    }
+
+    public static void toggleLights(Coordinate coord) {
+        boolean lightsOn = rooms[coord.x][coord.y].lightOn;
+        rooms[coord.x][coord.y].lightOn = !lightsOn;
     }
 
     /**

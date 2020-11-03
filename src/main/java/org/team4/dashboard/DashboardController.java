@@ -110,6 +110,7 @@ public class DashboardController {
         startAnimatedTime();
         House.getHouseLayout();
         House.indexHouseWindowAndDoor();
+        House.indexAllLights();
         userController.initializeShsParametersSimStart();
         shcParameterController.windowAndDoorChoiceBoxInit();
         drawHouseLayout();
