@@ -18,21 +18,27 @@ public class ShcParameterController {
     public ChoiceBox<String> doorsChoiceBox;
     public Button doorSetButton;
 
+    //Lock Door control
+    public ChoiceBox<String> lockDoorChoiceBox;
+    public Button lockDoorSetButton;
     /**
      * Display all the windows and doors options
      */
     public void windowAndDoorChoiceBoxInit() {
         windowChoiceBox.getItems().clear();
         doorsChoiceBox.getItems().clear();
+        lockDoorChoiceBox.getItems().clear();
 
         if(!Settings.simulationStarted) {
             windowSetButton.setDisable(true);
             doorSetButton.setDisable(true);
+            lockDoorChoiceBox.setDisable(true);
             return;
         }
 
         windowSetButton.setDisable(false);
         doorSetButton.setDisable(false);
+        lockDoorChoiceBox.setDisable(false);
 
         String[] windowList = House.getAllWindowsOption();
         for(int i = 0; i < windowList.length; i++) {
@@ -43,8 +49,14 @@ public class ShcParameterController {
         for(int i = 0; i < doorList.length; i++) {
             doorsChoiceBox.getItems().add(doorList[i]);
         }
+
+        String[] lockDoorList = House.getAllLockDoor();
+        for(int i = 0; i < lockDoorList.length; i++){
+            lockDoorChoiceBox.getItems().add(lockDoorList[i]);
+        }
         if(windowList.length > 0) windowChoiceBox.setValue(windowList[0]);
         if(doorList.length > 0) doorsChoiceBox.setValue(doorList[0]);
+        if(lockDoorList.length > 0) lockDoorChoiceBox.setValue(lockDoorList[0]);
     }
 
 
@@ -89,6 +101,27 @@ public class ShcParameterController {
         if(doorsChoiceBox.getValue() != null) {
             boolean isOpen = House.getDoorStatus(doorsChoiceBox.getValue());
             doorSetButton.setText(isOpen ? "Close" : "Open");
+        }
+    }
+
+    /**
+     *
+     */
+    public void toggleLockDoorAction(){
+        if(lockDoorChoiceBox.getValue() != null){
+            House.toggleDoorLock(lockDoorChoiceBox.getValue());
+            windowAndDoorChoiceBoxInit();
+            DashboardController dashboardController = App.fxmlLoader.getController();
+            dashboardController.drawHouseLayout();
+        }
+    }
+    /**
+     * get whether a door is locked or not
+     */
+    public void getDoorLockStatus(){
+        if(lockDoorChoiceBox.getValue() != null){
+            boolean isOpen = House.getDoorStatus(lockDoorChoiceBox.getValue());
+            lockDoorSetButton.setText(isOpen ? "Lock" : "Unlock");
         }
     }
 }

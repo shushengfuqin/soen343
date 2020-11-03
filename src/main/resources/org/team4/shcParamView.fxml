@@ -51,6 +51,13 @@
                   </Label>
                   <ChoiceBox fx:id="doorsChoiceBox" onAction="#getDoorStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Button fx:id="doorSetButton" mnemonicParsing="false" onAction="#toggleDoorAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                  <Label text="Lock Door" textFill="WHITE" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="lockDoorChoiceBox" onAction="#getDoorLockStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="lockDoorSetButton" mnemonicParsing="false" onAction="#toggleLockDoorAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
