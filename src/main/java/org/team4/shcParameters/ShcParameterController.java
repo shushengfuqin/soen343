@@ -38,7 +38,7 @@ public class ShcParameterController {
 
         windowSetButton.setDisable(false);
         doorSetButton.setDisable(false);
-        lockDoorChoiceBox.setDisable(false);
+        lockDoorSetButton.setDisable(false);
 
         String[] windowList = House.getAllWindowsOption();
         for(int i = 0; i < windowList.length; i++) {
@@ -120,8 +120,8 @@ public class ShcParameterController {
      */
     public void getDoorLockStatus(){
         if(lockDoorChoiceBox.getValue() != null){
-            boolean isOpen = House.getLockDoorStatus(lockDoorChoiceBox.getValue());
-            lockDoorSetButton.setText(isOpen ? "Lock" : "Unlock");
+            boolean isLocked = House.getLockDoorStatus(lockDoorChoiceBox.getValue());
+            lockDoorSetButton.setText(isLocked ? "Unlock" : "Lock");
         }
     }
 }

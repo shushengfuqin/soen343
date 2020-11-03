@@ -67,14 +67,14 @@ public class House {
 
     public static void toggleDoorLock(String s){
         int[] doorLocation = getRoomLocation(s);
-        boolean windowStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
-        if(rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open && !windowStatus){
+        boolean doorLockStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
+        if(rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open && !doorLockStatus){
             rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open = false;
         }
-        rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked = !windowStatus;
+        rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked = !doorLockStatus;
         String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
-        String action = windowStatus ? "unblocked" : "blocked";
-        Logger.info("Window " + action + " at location " + location);
+        String action = doorLockStatus ? "unlocked" : "locked";
+        Logger.info("Door " + action + " at location " + location);
     }
 
     /**
@@ -87,6 +87,8 @@ public class House {
                 rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open = false;
             }
             rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked = true;
+            String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
+            Logger.info("Door locked at location " + location);
         }
     }
 
@@ -113,6 +115,14 @@ public class House {
      */
     public static void toggleDoor(String s) {
         int[] doorLocation = getRoomLocation(s);
+        String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
+
+        boolean doorLocked = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
+        if(doorLocked) {
+            Logger.info("Unable to open door at location " + location + ". Door is locked");
+            return;
+        }
+
         boolean doorStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open;
         rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open = !doorStatus;
 
@@ -140,8 +150,6 @@ public class House {
                     rooms[doorLocation[0]][doorLocation[1]+1].walls[1].open = !doorStatus;
                 break;
         }
-
-        String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
         String action = doorStatus ? "closed" : "opened";
         Logger.info("Door " + action + " at location " + location);
     }
@@ -210,11 +218,12 @@ public class House {
         int[] tempLockDoor = {i,j,k};
         switch (side){
             case "left":
-                if(i>0){
+                if(i>=0){
                     int leftRoomIndex = i - 1;
-                    if(rooms[leftRoomIndex][j].name.equals("outside")){
+                    if (i == 0){
                         lockDoor.add(tempLockDoor);
-                    } else if (i == 0){
+                    }
+                    else if(rooms[leftRoomIndex][j].name.equals("outside")){
                         lockDoor.add(tempLockDoor);
                     }
                 }
@@ -222,19 +231,21 @@ public class House {
             case "right":
                 if(i<roomColumn){
                     int rightRoomIndex = i + 1;
-                    if(rooms[rightRoomIndex][j].name.equals("outside")){
+                    if (i == roomColumn - 1){
                         lockDoor.add(tempLockDoor);
-                    }else if (i == roomColumn){
+                    }
+                    else if(rooms[rightRoomIndex][j].name.equals("outside")){
                         lockDoor.add(tempLockDoor);
                     }
                 }
                 break;
             case "top":
-                if(j>0){
+                if(j>=0){
                     int topRoomIndex = j - 1;
-                    if(rooms[i][topRoomIndex].name.equals("outside")){
+                    if (j == 0){
                         lockDoor.add(tempLockDoor);
-                    }else if (j == 0){
+                    }
+                    else if(rooms[i][topRoomIndex].name.equals("outside")){
                         lockDoor.add(tempLockDoor);
                     }
                 }
@@ -242,11 +253,12 @@ public class House {
             case "bot":
                 if(j<roomRow){
                     int botRoomIndex = j + 1;
-                    if(rooms[i][botRoomIndex].name.equals("outside")){
+                    if (j == roomRow-1){
                         lockDoor.add(tempLockDoor);
                     }
-                } else if (j == roomRow){
-                    lockDoor.add(tempLockDoor);
+                    else if(rooms[i][botRoomIndex].name.equals("outside")){
+                        lockDoor.add(tempLockDoor);
+                    }
                 }
                 break;
         }
