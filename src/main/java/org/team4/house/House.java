@@ -245,6 +245,7 @@ public class House {
             }
         }
     }
+
     /**
      * Get the location of all lights in the house layout
      */
@@ -260,12 +261,19 @@ public class House {
         }
     }
 
+    /**
+     * turn on all lights in the house
+     */
     public static void turnOnAllLights() {
         for(Coordinate coord : lights) {
             rooms[coord.x][coord.y].lightOn = true;
         }
     }
 
+    /**
+     * Turn all lights in rooms containing users
+     * turn off the other ones
+     */
     public static void turnOnAllLightsWithUsers() {
         for(Coordinate coord : lights) {
             ArrayList<String> allUsersInRoom = userService.userInLocation(coord.x, coord.y);
@@ -277,6 +285,9 @@ public class House {
         }
     }
 
+    /**
+     * Enable or disable light automatic mode
+     */
     public static void toggleLightAuto() {
         boolean lightAuto = Settings.lightAutoMode;
         if(lightAuto) {
@@ -407,7 +418,10 @@ public class House {
         }
     }
 
-    //get Array of lockDoor String for UI
+    /**
+     * Get all locked doors
+     * @return string array with lock door locations
+     */
     public static String[] getAllLockDoor(){
         String[] lockDoorOption = new String[lockDoor.size()];
         for(int i = 0; i < lockDoor.size(); i++){

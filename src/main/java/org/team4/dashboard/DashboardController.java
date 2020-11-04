@@ -111,6 +111,7 @@ public class DashboardController {
         House.getHouseLayout();
         House.indexHouseWindowAndDoor();
         House.indexAllLights();
+        House.lockAllDoor();
         userController.initializeShsParametersSimStart();
         shcParameterController.initialize();
         drawHouseLayout();
