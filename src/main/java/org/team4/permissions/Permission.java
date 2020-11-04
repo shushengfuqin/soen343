@@ -37,7 +37,7 @@ public class Permission {
      */
     public static boolean checkUserWindowPermission(int x, int y) {
         String currUser = Settings.currentUser;
-        if(currUser == null) return true;
+        if(currUser == null) return false;
 
         User user = userService.getSingleUser(currUser);
 
@@ -64,7 +64,7 @@ public class Permission {
      */
     public static boolean checkUserDoorPermission(int x, int y) {
         String currUser = Settings.currentUser;
-        if(currUser == null) return true;
+        if(currUser == null) return false;
 
         User user = userService.getSingleUser(currUser);
 
@@ -91,7 +91,7 @@ public class Permission {
      */
     public static boolean checkUserLightPermission(int x, int y) {
         String currUser = Settings.currentUser;
-        if(currUser == null) return true;
+        if(currUser == null) return false;
 
         User user = userService.getSingleUser(currUser);
 
