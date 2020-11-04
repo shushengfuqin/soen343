@@ -18,7 +18,7 @@
       <Pane layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane layoutX="20.0" layoutY="20.0" prefHeight="680.0" prefWidth="510.0" style="-fx-background-color: #808080;">
          <children>
-            <GridPane layoutX="15.0" layoutY="10.0" prefHeight="200.0" prefWidth="480.0">
+            <GridPane layoutX="15.0" layoutY="10.0" prefHeight="240.0" prefWidth="480.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="140.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="20.0" />
@@ -29,6 +29,7 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
                </columnConstraints>
                <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -56,7 +57,7 @@
                   </Label>
                   <ChoiceBox fx:id="doorsChoiceBox" onAction="#getDoorStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Button fx:id="doorSetButton" mnemonicParsing="false" onAction="#toggleDoorAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                  <Label text="Lights away:" textFill="WHITE" GridPane.rowIndex="4">
+                  <Label text="Lights Away:" textFill="WHITE" GridPane.rowIndex="4">
                       <font>
                           <Font name="Arial" size="20.0" />
                       </font>
@@ -72,6 +73,12 @@
                   <Button fx:id="lightawaySetButton" mnemonicParsing="false" onAction="#toggleLightsAwayAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="4" />
                   <ChoiceBox fx:id="lockDoorChoiceBox" onAction="#getDoorLockStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Button fx:id="lockDoorSetButton" mnemonicParsing="false" onAction="#toggleLockDoorAction" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Set" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                  <Label text="Lights Auto:" textFill="WHITE" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="setLightAutoButton" mnemonicParsing="false" onAction="#toggleLightAutomaticMode" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #ffa31a;" text="Enabled" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                </children>
             </GridPane>
          </children>

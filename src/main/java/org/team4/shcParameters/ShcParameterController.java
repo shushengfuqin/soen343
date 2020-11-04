@@ -1,19 +1,12 @@
 package org.team4.shcParameters;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.stage.Stage;
 import org.team4.App;
-import org.team4.common.Coordinate;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Settings;
 import org.team4.house.House;
-
-import java.io.IOException;
 
 public class ShcParameterController {
     @FXML
@@ -27,19 +20,23 @@ public class ShcParameterController {
 
     //Lights control
     @FXML
-    private ChoiceBox<String> lightsChoiceBox;
+    public ChoiceBox<String> lightsChoiceBox;
     @FXML
-    private Button lightSetButton;
+    public Button lightSetButton;
 
     //Light away mode control
     @FXML
-    private ChoiceBox<String> lightsawayChoiceBox;
+    public ChoiceBox<String> lightsawayChoiceBox;
     @FXML
-    private Button lightawaySetButton;
+    public Button lightawaySetButton;
+
+    //Light auto mode control
+    public Button setLightAutoButton;
 
     //Lock Door control
     public ChoiceBox<String> lockDoorChoiceBox;
     public Button lockDoorSetButton;
+
     /**
      * Display all the windows and doors options
      */
@@ -76,6 +73,27 @@ public class ShcParameterController {
         if(windowList.length > 0) windowChoiceBox.setValue(windowList[0]);
         if(doorList.length > 0) doorsChoiceBox.setValue(doorList[0]);
         if(lockDoorList.length > 0) lockDoorChoiceBox.setValue(lockDoorList[0]);
+    }
+
+    /**
+     * Init all the light fields
+     */
+    public void lightInit() {
+        lightsAndLightAwayChoiceBoxInit();
+        lightAutomaticModeInit();
+    }
+
+    /**
+     * Enables the light auto mode button
+     */
+    public void lightAutomaticModeInit() {
+        boolean auto = Settings.lightAutoMode;
+        if (!Settings.simulationStarted) {
+            setLightAutoButton.setDisable(true);
+            return;
+        }
+        setLightAutoButton.setDisable(false);
+        setLightAutoButton.setText(auto ? "Disable" : "Enable");
     }
 
     /**
@@ -214,5 +232,15 @@ public class ShcParameterController {
             boolean isLocked = House.getLockDoorStatus(lockDoorChoiceBox.getValue());
             lockDoorSetButton.setText(isLocked ? "Unlock" : "Lock");
         }
+    }
+
+    /**
+     * Enable or disable light auto mode
+     */
+    public void toggleLightAutomaticMode() {
+        House.toggleLightAuto();
+        lightAutomaticModeInit();
+        DashboardController dashboardController = App.fxmlLoader.getController();
+        dashboardController.drawHouseLayout();
     }
 }

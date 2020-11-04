@@ -3,9 +3,11 @@ package org.team4.house;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.team4.common.Coordinate;
+import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
 import org.team4.house.components.Room;
 import org.team4.house.components.Wall;
+import org.team4.user.UserService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +27,7 @@ public class House {
     public static int roomColumn = 5;
     public static int roomRow = 5;
     public static Room[][] rooms  = new Room[roomColumn][roomRow];
+    public static UserService userService = new UserService();
 
     /**
      * Get the status of a window
@@ -194,6 +197,9 @@ public class House {
         doors = new ArrayList<int[]>();
         rooms  = new Room[roomColumn][roomRow];;
         lockDoor = new ArrayList<int[]>();
+        lightsAway = new ArrayList<Coordinate>();
+        lights = new ArrayList<Coordinate>();
+        Settings.lightAutoMode = false;
     }
 
     /**
@@ -253,6 +259,37 @@ public class House {
             }
         }
     }
+
+    public static void turnOnAllLights() {
+        for(Coordinate coord : lights) {
+            rooms[coord.x][coord.y].lightOn = true;
+        }
+    }
+
+    public static void turnOnAllLightsWithUsers() {
+        for(Coordinate coord : lights) {
+            ArrayList<String> allUsersInRoom = userService.userInLocation(coord.x, coord.y);
+            if(allUsersInRoom.isEmpty())
+                rooms[coord.x][coord.y].lightOn = false;
+            else
+                rooms[coord.x][coord.y].lightOn = true;
+
+        }
+    }
+
+    public static void toggleLightAuto() {
+        boolean lightAuto = Settings.lightAutoMode;
+        if(lightAuto) {
+            turnOnAllLights();
+            Settings.lightAutoMode = false;
+            Logger.info("Light automatic mode has been disabled");
+            return;
+        }
+        turnOnAllLightsWithUsers();
+        Settings.lightAutoMode = true;
+        Logger.info("Light automatic mode has been enabled");
+    }
+
     /**
      * Turn on and off the light
      * @param c the location of a light
