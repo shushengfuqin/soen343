@@ -8,6 +8,8 @@ public class Room {
     //Left wall = 0 ; Top wall = 1 ; Right wall = 2 ; Bottom wall = 3;
     public Wall[] walls;
 
+    public boolean lightOn;
+    // #1. constructor
     public Room(String name, String lw, String tw, String rw, String bw)
     {
         walls = new Wall[4];
@@ -16,8 +18,10 @@ public class Room {
         walls[1] = new Wall(tw);
         walls[2] = new Wall(rw);
         walls[3] = new Wall(bw);
+        this.lightOn = true;
     }
 
+    // #2. constructor which accepts the room from the house layout.
     public Room(JSONObject jo) {
         walls = new Wall[4];
         this.name = jo.getString("name");
@@ -33,6 +37,7 @@ public class Room {
 
         String botWallType = jo.getString("botWall");
         walls[3] = new Wall(botWallType);
+        this.lightOn = true;
     }
 
     /**

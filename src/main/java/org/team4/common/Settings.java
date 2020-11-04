@@ -5,4 +5,5 @@ public class Settings {
     public static int outsideTemperature = 20;
     public static SimulationTime simulationTime = new SimulationTime();
     public static boolean simulationStarted = false;
+    public static boolean lightAutoMode = false;
 }

@@ -2,10 +2,12 @@ package org.team4.house;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONPointer;
+import org.team4.common.Coordinate;
+import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
 import org.team4.house.components.Room;
 import org.team4.house.components.Wall;
+import org.team4.user.UserService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,10 +21,13 @@ public class House {
     public static String houseLayoutFileName = "houseLayout";
     public static ArrayList<int[]> windows = new ArrayList<int[]>();
     public static ArrayList<int[]> doors = new ArrayList<int[]>();
+    public static ArrayList<Coordinate> lights = new ArrayList<>();
+    public static ArrayList<Coordinate> lightsAway = new ArrayList<>();
     public static ArrayList<int[]> lockDoor = new ArrayList<int[]>();
     public static int roomColumn = 5;
     public static int roomRow = 5;
     public static Room[][] rooms  = new Room[roomColumn][roomRow];
+    public static UserService userService = new UserService();
 
     /**
      * Get the status of a window
@@ -34,6 +39,11 @@ public class House {
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
     }
 
+    /**
+     * get the status of if a window is closed or not
+     * @param s position of window
+     * @return boolean
+     */
     public static boolean getWindowStatusBlock(String s) {
         int[] windowLocation = getRoomLocation(s);
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
@@ -56,6 +66,10 @@ public class House {
         Logger.info("Window " + action + " at location " + location);
     }
 
+    /**
+     * Open or close a window
+     * @param s window position
+     */
     public static void toggleWindowBlock(String s) {
         int[] windowLocation = getRoomLocation(s);
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
@@ -90,6 +104,27 @@ public class House {
             String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
             Logger.info("Door locked at location " + location);
         }
+    }
+
+    /**
+     * Check if a light is on or off
+     * @param s location of light
+     * @return a boolean
+     */
+    public static boolean getLightStatus(String s) {
+        Coordinate lightLocation = new Coordinate(s);
+        return rooms[lightLocation.x][lightLocation.y].lightOn;
+    }
+
+    /**
+     * Check if the light is in away list
+     * @param s location of light
+     * @return boolean
+     */
+    public static boolean getLightAwayStatus(String s) {
+        Coordinate lightLocation = new Coordinate(s);
+        boolean InArray = coordInArrayList(lightsAway, lightLocation);
+        return InArray;
     }
 
     /**
@@ -162,6 +197,9 @@ public class House {
         doors = new ArrayList<int[]>();
         rooms  = new Room[roomColumn][roomRow];;
         lockDoor = new ArrayList<int[]>();
+        lightsAway = new ArrayList<Coordinate>();
+        lights = new ArrayList<Coordinate>();
+        Settings.lightAutoMode = false;
     }
 
     /**
@@ -206,6 +244,131 @@ public class House {
                 }
             }
         }
+    }
+
+    /**
+     * Get the location of all lights in the house layout
+     */
+    public static void indexAllLights() {
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
+                Room tempRoom = rooms[i][j];
+                String roomName = tempRoom.name;
+                if(roomName.equals("outside")) continue;
+                Coordinate coord = new Coordinate(i, j);
+                lights.add(coord);
+            }
+        }
+    }
+
+    /**
+     * turn on all lights in the house
+     */
+    public static void turnOnAllLights() {
+        for(Coordinate coord : lights) {
+            rooms[coord.x][coord.y].lightOn = true;
+        }
+    }
+
+    /**
+     * turn off all lights in the house
+     */
+    public static void turnOffAllLights() {
+        for(Coordinate coord : lights) {
+            rooms[coord.x][coord.y].lightOn = false;
+        }
+    }
+
+    /**
+     * Turn all lights in rooms containing users
+     * turn off the other ones
+     */
+    public static void turnOnAllLightsWithUsers() {
+        for(Coordinate coord : lights) {
+            ArrayList<String> allUsersInRoom = userService.userInLocation(coord.x, coord.y);
+            if(allUsersInRoom.isEmpty())
+                rooms[coord.x][coord.y].lightOn = false;
+            else
+                rooms[coord.x][coord.y].lightOn = true;
+
+        }
+    }
+
+    /**
+     * Enable or disable light automatic mode
+     */
+    public static void toggleLightAuto() {
+        boolean lightAuto = Settings.lightAutoMode;
+        if(lightAuto) {
+            turnOnAllLights();
+            Settings.lightAutoMode = false;
+            Logger.info("Light automatic mode has been disabled");
+            return;
+        }
+        turnOnAllLightsWithUsers();
+        Settings.lightAutoMode = true;
+        Logger.info("Light automatic mode has been enabled");
+    }
+
+    /**
+     * Turn on and off the light
+     * @param c the location of a light
+     */
+    public static void toggleLights(String c) {
+        Coordinate coord = new Coordinate(c);
+        boolean lightsOn = rooms[coord.x][coord.y].lightOn;
+        rooms[coord.x][coord.y].lightOn = !lightsOn;
+        String action = lightsOn ? "turned off" : "turned on";
+        Logger.info("Light " + action + " in location: " + coord.toString());
+    }
+
+    /**
+     * Remove or add a light from away mode lights
+     * @param c coordinate of a light
+     */
+    public static void toggleLightsAway(String c) {
+        Coordinate coord = new Coordinate(c);
+        boolean InArray = coordInArrayList(lightsAway, coord);
+        if(InArray){
+            for(Coordinate coordinate: lightsAway) {
+                if(coordinate.x == coord.x && coordinate.y == coord.y)
+                    coord = coordinate;
+            }
+            lightsAway.remove(coord);
+            Logger.info("Light removed from lightsAway" + coord.toString());
+        }
+        else {
+            lightsAway.add(coord);
+            Logger.info("Light added from lightsAway" + coord.toString());
+        }
+    }
+
+    /**
+     * Check if the coordinates are in the arraylist
+     * @param c coordinates array
+     * @param z coordinate
+     * @return a boolean
+     */
+    public static boolean coordInArrayList(ArrayList<Coordinate> c, Coordinate z){
+        for(Coordinate coords: c){
+            if(coords.x == z.x && coords.y == z.y){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get all the lights in the house
+     * @return
+     */
+    public static String[] getAllLightsOption(){
+        String[] lightOption = new String[lights.size()];
+        for(int i = 0; i < lights.size(); i++) {
+            Coordinate tempLight = lights.get(i);
+            lightOption[i] = tempLight.toString();
+        }
+        return lightOption;
     }
 
     /**
@@ -264,7 +427,10 @@ public class House {
         }
     }
 
-    //get Array of lockDoor String for UI
+    /**
+     * Get all locked doors
+     * @return string array with lock door locations
+     */
     public static String[] getAllLockDoor(){
         String[] lockDoorOption = new String[lockDoor.size()];
         for(int i = 0; i < lockDoor.size(); i++){
@@ -517,4 +683,5 @@ public class House {
         File houseLayout = new File(houseLayoutFileName+".json");
         return houseLayout.exists();
     }
+
 }

@@ -110,8 +110,10 @@ public class DashboardController {
         startAnimatedTime();
         House.getHouseLayout();
         House.indexHouseWindowAndDoor();
+        House.indexAllLights();
+        House.lockAllDoor();
         userController.initializeShsParametersSimStart();
-        shcParameterController.windowAndDoorChoiceBoxInit();
+        shcParameterController.initialize();
         drawHouseLayout();
         startButton.setText("Stop");
     }
@@ -124,7 +126,7 @@ public class DashboardController {
         House.saveHouseLayout();
         House.resetParams();
         userController.initializeShsParametersSimStart();
-        shcParameterController.windowAndDoorChoiceBoxInit();
+        shcParameterController.initialize();
         startButton.setText("Start");
     }
 

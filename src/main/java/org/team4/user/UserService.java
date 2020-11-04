@@ -2,12 +2,16 @@ package org.team4.user;
 
 import org.team4.common.Helper;
 import org.team4.common.Settings;
+import org.team4.common.observer.ObservableHandler;
 import org.team4.house.House;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserService {
+
+    @Deprecated
+    public static ObservableHandler userMovementObserver = new ObservableHandler();
 
     public UserService() {
     }
@@ -110,6 +114,7 @@ public class UserService {
         User newUser = new User(name, status, age);
         try {
             User.addNewUsers(newUser);
+            userMovementObserver.notifyUserMovement();
             return true;
         } catch (IOException e) {
             System.out.println("Failed while adding user");
@@ -131,6 +136,7 @@ public class UserService {
         User newUser = new User(name, status, age, x, y);
         try {
             User.addNewUsers(newUser);
+            userMovementObserver.notifyUserMovement();
             return true;
         } catch (IOException e) {
             System.out.println("Failed while editing user");
@@ -166,6 +172,7 @@ public class UserService {
             if(Settings.currentUser != null && Settings.currentUser.equals(name)) {
                 Settings.currentUser = null;
             }
+            userMovementObserver.notifyUserMovement();
             return true;
         } catch (IOException e) {
             System.out.println("Failed while deleting user");

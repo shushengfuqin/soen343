@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import org.team4.App;
@@ -374,10 +373,21 @@ public class HouseView {
 
         drawRoomWalls(roomPane, room);
 
+        Pane lightPane = new Pane();
+        lightPane.setPrefWidth(roomWidth);
+        lightPane.setPrefHeight(roomHeight);
+        if(!room.name.equals("outside") && !room.lightOn) {
+            Color c = Color.rgb(0, 0, 0, 0.7);
+            BackgroundFill bf = new BackgroundFill(c, null, null);
+            lightPane.setBackground(new Background(bf));
+        }
+
         ArrayList<String> allUserInRoom = userService.userInLocation(x,y);
         drawInformationBox(roomPane, room, allUserInRoom);
-
         updateBackgroundImage(roomPane, room.name);
+
+        roomPane.getChildren().add(lightPane);
+
         return roomPane;
     }
 }
