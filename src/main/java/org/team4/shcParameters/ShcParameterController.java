@@ -153,6 +153,9 @@ public class ShcParameterController {
         }
     }
 
+    /**
+     * Add or remove light from away list
+     */
     public void toggleLightsAwayAction() {
         if (lightsawayChoiceBox.getValue() != null) {
             House.toggleLightsAway(lightsawayChoiceBox.getValue());

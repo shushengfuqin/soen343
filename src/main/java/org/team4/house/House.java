@@ -35,10 +35,16 @@ public class House {
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
     }
 
+    /**
+     * get the status of if a window is closed or not
+     * @param s position of window
+     * @return boolean
+     */
     public static boolean getWindowStatusBlock(String s) {
         int[] windowLocation = getRoomLocation(s);
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
     }
+
     /**
      * Open or close a window
      * @param s the location of a window
@@ -56,6 +62,10 @@ public class House {
         Logger.info("Window " + action + " at location " + location);
     }
 
+    /**
+     * Open or close a window
+     * @param s window position
+     */
     public static void toggleWindowBlock(String s) {
         int[] windowLocation = getRoomLocation(s);
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
@@ -65,16 +75,27 @@ public class House {
         Logger.info("Window " + action + " at location " + location);
     }
 
+    /**
+     * Check if a light is on or off
+     * @param s location of light
+     * @return a boolean
+     */
     public static boolean getLightStatus(String s) {
         Coordinate lightLocation = new Coordinate(s);
         return rooms[lightLocation.x][lightLocation.y].lightOn;
     }
 
+    /**
+     * Check if the light is in away list
+     * @param s location of light
+     * @return boolean
+     */
     public static boolean getLightAwayStatus(String s) {
         Coordinate lightLocation = new Coordinate(s);
         boolean InArray = coordInArrayList(lightsAway, lightLocation);
         return InArray;
     }
+
     /**
      * Get the status of a door
      * @param s
@@ -184,7 +205,6 @@ public class House {
                 if(roomName.equals("outside")) continue;
                 Coordinate coord = new Coordinate(i, j);
                 lights.add(coord);
-                //System.out.println(coord);
             }
         }
     }
@@ -196,13 +216,22 @@ public class House {
         Coordinate coord = new Coordinate(c);
         boolean lightsOn = rooms[coord.x][coord.y].lightOn;
         rooms[coord.x][coord.y].lightOn = !lightsOn;
-        Logger.info("Light toggled in location" + coord.toString());
+        String action = lightsOn ? "turned off" : "turned on";
+        Logger.info("Light " + action + " in location" + coord.toString());
     }
 
+    /**
+     * Remove or add a light from away mode lights
+     * @param c coordinate of a light
+     */
     public static void toggleLightsAway(String c) {
         Coordinate coord = new Coordinate(c);
         boolean InArray = coordInArrayList(lightsAway, coord);
         if(InArray){
+            for(Coordinate coordinate: lightsAway) {
+                if(coordinate.x == coord.x && coordinate.y == coord.y)
+                    coord = coordinate;
+            }
             lightsAway.remove(coord);
             Logger.info("Light removed from lightsAway" + coord.toString());
         }
@@ -212,6 +241,12 @@ public class House {
         }
     }
 
+    /**
+     * Check if the coordinates are in the arraylist
+     * @param c coordinates array
+     * @param z coordinate
+     * @return a boolean
+     */
     public static boolean coordInArrayList(ArrayList<Coordinate> c, Coordinate z){
         for(Coordinate coords: c){
             if(coords.x == z.x && coords.y == z.y){
@@ -221,6 +256,10 @@ public class House {
         return false;
     }
 
+    /**
+     * Get all the lights in the house
+     * @return
+     */
     public static String[] getAllLightsOption(){
         String[] lightOption = new String[lights.size()];
         for(int i = 0; i < lights.size(); i++) {
