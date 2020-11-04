@@ -44,9 +44,53 @@ public class Permission {
         }
         return false;
     }
+    public static boolean checkUserDoorPermission(int x, int y) {
+        String currUser = Settings.currentUser;
+        if(currUser == null) return true;
 
-    public static void saveNewPermission(boolean[] window) {
+        User user = userService.getSingleUser(currUser);
+
+        if(doorPermission[3] && !user.isAdult()) return false;
+
+        if(doorPermission[4] && (user.getX() != x || user.getX() != y)) return false;
+
+        switch (user.getStatus()) {
+            case "family":
+                return doorPermission[0];
+            case "guest":
+                return doorPermission[1];
+            case "stranger":
+                return doorPermission[2];
+        }
+        return false;
+    }
+
+    public static boolean checkUserLightPermission(int x, int y) {
+        String currUser = Settings.currentUser;
+        if(currUser == null) return true;
+
+        User user = userService.getSingleUser(currUser);
+
+        if(lightPermission[3] && !user.isAdult()) return false;
+
+        if(lightPermission[4] && (user.getX() != x || user.getX() != y)) return false;
+
+        switch (user.getStatus()) {
+            case "family":
+                return windowPermission[0];
+            case "guest":
+                return windowPermission[1];
+            case "stranger":
+                return windowPermission[2];
+        }
+        return false;
+    }
+
+    public static void saveNewPermission(boolean[] window,boolean[] door,boolean[] light) {
         windowPermission = window;
+        doorPermission = door;
+        lightPermission = light;
+
         //todo: Door permission and light permission
         //todo: Save the new permission to the file
         savePermissionToFile();
@@ -70,9 +114,18 @@ public class Permission {
 
         JSONObject jo = new JSONObject(data);
         JSONArray arr = jo.getJSONArray("windowPermissions");
+
         for(int i = 0; i < windowPermission.length; i++) {
             windowPermission[i] = arr.getBoolean(i);
-            //todo: Do the same for doors and light
+
+        }
+        for(int i = 0; i < doorPermission.length; i++) {
+            doorPermission[i] = arr.getBoolean(i);
+
+        }
+        for(int i = 0; i < lightPermission.length; i++) {
+            lightPermission[i] = arr.getBoolean(i);
+
         }
     }
 
@@ -82,11 +135,11 @@ public class Permission {
      * @throws IOException
      */
     public static String readFromPermissionFile() {
-        File userFile = new File("permissionFileName.json");
-        if (userFile.exists()) {
+        File PermissionFile = new File("permissionFileName.json");
+        if (PermissionFile.exists()) {
             Scanner fileReader = null;
             try {
-                fileReader = new Scanner(userFile);
+                fileReader = new Scanner(PermissionFile);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

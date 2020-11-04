@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -7,30 +8,30 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="689.0" style="-fx-background-color: #555555;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.simulationParameters.permissionCheckController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="807.0" style="-fx-background-color: #555555;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.team4.simulationParameters.permissionCheckController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="67.0" prefHeight="51.0" prefWidth="100.0" text="Adults" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="494.0" layoutY="14.0" prefHeight="51.0" prefWidth="100.0" text="Adults" textFill="WHITE">
          <font>
 
             <Font name="Arial Rounded MT Bold" size="23.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="270.0" prefHeight="51.0" prefWidth="100.0" text="Guest" textFill="#fffdfd">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="171.0" layoutY="14.0" prefHeight="51.0" prefWidth="100.0" text="Guest" textFill="#fffdfd">
          <font>
             <Font name="Arial Rounded MT Bold" size="23.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="167.0" prefHeight="51.0" prefWidth="100.0" text="Children" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="14.0" prefHeight="51.0" prefWidth="100.0" text="Family" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="23.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="383.0" prefHeight="51.0" prefWidth="100.0" text="Stranger" textFill="#fffbfb">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="322.0" layoutY="14.0" prefHeight="51.0" prefWidth="100.0" text="Stranger" textFill="#fffbfb">
          <font>
             <Font name="Arial Rounded MT Bold" size="23.0" />
          </font>
       </Label>
-      <CheckBox fx:id="lightA" layoutX="171.0" layoutY="75.0" mnemonicParsing="false" text="Light">
+      <CheckBox fx:id="lightA" layoutX="499.0" layoutY="91.0" mnemonicParsing="false" text="Light">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -43,7 +44,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="lightG" layoutX="171.0" layoutY="280.0" mnemonicParsing="false" text="Light">
+      <CheckBox fx:id="lightG" layoutX="171.0" layoutY="91.0" mnemonicParsing="false" text="Light">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -56,7 +57,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="lightC" layoutX="171.0" layoutY="175.0" mnemonicParsing="false" text="Light">
+      <CheckBox fx:id="lightF" layoutX="30.0" layoutY="91.0" mnemonicParsing="false" text="Light">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -69,7 +70,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="lightS" layoutX="171.0" layoutY="393.0" mnemonicParsing="false" text="Light">
+      <CheckBox fx:id="lightS" layoutX="327.0" layoutY="91.0" mnemonicParsing="false" text="Light">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -82,7 +83,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="windowA" layoutX="308.0" layoutY="75.0" mnemonicParsing="false" text="Window">
+      <CheckBox fx:id="windowA" layoutX="494.0" layoutY="199.0" mnemonicParsing="false" text="Window">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -95,7 +96,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="windowC" layoutX="308.0" layoutY="175.0" mnemonicParsing="false" text="Window">
+      <CheckBox fx:id="windowF" layoutX="30.0" layoutY="199.0" mnemonicParsing="false" text="Window">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -108,7 +109,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="windowG" layoutX="308.0" layoutY="280.0" mnemonicParsing="false" text="Window">
+      <CheckBox fx:id="windowG" layoutX="170.0" layoutY="199.0" mnemonicParsing="false" text="Window">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -121,7 +122,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="windowS" layoutX="308.0" layoutY="393.0" mnemonicParsing="false" text="Window">
+      <CheckBox fx:id="windowS" layoutX="327.0" layoutY="199.0" mnemonicParsing="false" text="Window">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -134,7 +135,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="doorA" layoutX="465.0" layoutY="75.0" mnemonicParsing="false" text="Door">
+      <CheckBox fx:id="doorA" layoutX="498.0" layoutY="296.0" mnemonicParsing="false" text="Door">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -147,7 +148,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="doorG" layoutX="465.0" layoutY="280.0" mnemonicParsing="false" text="Door">
+      <CheckBox fx:id="doorG" layoutX="170.0" layoutY="302.0" mnemonicParsing="false" text="Door">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -160,7 +161,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="doorC" layoutX="465.0" layoutY="177.0" mnemonicParsing="false" text="Door">
+      <CheckBox fx:id="doorF" layoutX="34.0" layoutY="302.0" mnemonicParsing="false" text="Door">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -173,7 +174,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="doorS" layoutX="465.0" layoutY="393.0" mnemonicParsing="false" text="Door">
+      <CheckBox fx:id="doorS" layoutX="322.0" layoutY="302.0" mnemonicParsing="false" text="Door">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -187,12 +188,12 @@
          </textFill>
       </CheckBox>
       <Label fx:id="showText" alignment="CENTER" layoutX="158.0" layoutY="538.0" prefHeight="42.0" prefWidth="353.0" textFill="#fff51c" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="497.0" prefHeight="51.0" prefWidth="100.0" text="Location" textFill="#fffbfb">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="670.0" layoutY="14.0" prefHeight="51.0" prefWidth="100.0" text="Location" textFill="#fffbfb">
          <font>
             <Font name="Arial Rounded MT Bold" size="23.0" />
          </font>
       </Label>
-      <CheckBox fx:id="lightL" layoutX="171.0" layoutY="507.0" mnemonicParsing="false" text="Light">
+      <CheckBox fx:id="lightL" layoutX="675.0" layoutY="91.0" mnemonicParsing="false" text="Light">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -205,7 +206,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="windowL" layoutX="299.0" layoutY="507.0" mnemonicParsing="false" text="Window">
+      <CheckBox fx:id="windowL" layoutX="675.0" layoutY="188.0" mnemonicParsing="false" text="Window">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -218,7 +219,7 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
-      <CheckBox fx:id="doorL" layoutX="465.0" layoutY="507.0" mnemonicParsing="false" text="Door">
+      <CheckBox fx:id="doorL" layoutX="675.0" layoutY="296.0" mnemonicParsing="false" text="Door">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
@@ -231,5 +232,10 @@
             </RadialGradient>
          </textFill>
       </CheckBox>
+      <Button fx:id="SavePermissionButton" layoutX="105.0" layoutY="391.0" mnemonicParsing="false" onAction="#save" prefHeight="42.0" prefWidth="598.0" style="-fx-background-color: #ffa31a;" text="Save" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
