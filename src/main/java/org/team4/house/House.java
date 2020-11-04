@@ -299,7 +299,7 @@ public class House {
         boolean lightsOn = rooms[coord.x][coord.y].lightOn;
         rooms[coord.x][coord.y].lightOn = !lightsOn;
         String action = lightsOn ? "turned off" : "turned on";
-        Logger.info("Light " + action + " in location" + coord.toString());
+        Logger.info("Light " + action + " in location: " + coord.toString());
     }
 
     /**

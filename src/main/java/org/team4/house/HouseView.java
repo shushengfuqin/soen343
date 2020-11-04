@@ -382,7 +382,7 @@ public class HouseView {
         lightPane.setPrefWidth(roomWidth);
         lightPane.setPrefHeight(roomHeight);
         if(!room.name.equals("outside") && !room.lightOn) {
-            Color c = Color.rgb(0, 0, 0, 0.5);
+            Color c = Color.rgb(0, 0, 0, 0.7);
             BackgroundFill bf = new BackgroundFill(c, null, null);
             lightPane.setBackground(new Background(bf));
         }
