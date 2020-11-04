@@ -37,6 +37,11 @@ public class ShcParameterController {
     public ChoiceBox<String> lockDoorChoiceBox;
     public Button lockDoorSetButton;
 
+    public void initialize() {
+        windowAndDoorChoiceBoxInit();
+        lightInit();
+    }
+
     /**
      * Display all the windows and doors options
      */
