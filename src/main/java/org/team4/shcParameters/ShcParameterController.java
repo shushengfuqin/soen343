@@ -1,12 +1,18 @@
 package org.team4.shcParameters;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.stage.Stage;
 import org.team4.App;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Settings;
 import org.team4.house.House;
+
+import java.io.IOException;
 
 public class ShcParameterController {
     @FXML
@@ -29,7 +35,7 @@ public class ShcParameterController {
         doorsChoiceBox.getItems().clear();
         lockDoorChoiceBox.getItems().clear();
 
-        if(!Settings.simulationStarted) {
+        if (!Settings.simulationStarted) {
             windowSetButton.setDisable(true);
             doorSetButton.setDisable(true);
             lockDoorSetButton.setDisable(true);
@@ -41,12 +47,12 @@ public class ShcParameterController {
         lockDoorSetButton.setDisable(false);
 
         String[] windowList = House.getAllWindowsOption();
-        for(int i = 0; i < windowList.length; i++) {
+        for (int i = 0; i < windowList.length; i++) {
             windowChoiceBox.getItems().add(windowList[i]);
         }
 
         String[] doorList = House.getAllDoorsOption();
-        for(int i = 0; i < doorList.length; i++) {
+        for (int i = 0; i < doorList.length; i++) {
             doorsChoiceBox.getItems().add(doorList[i]);
         }
 
@@ -64,7 +70,8 @@ public class ShcParameterController {
      * Open/close a window
      */
     public void toggleWindowAction() {
-        if(windowChoiceBox.getValue() != null) {
+
+        if (windowChoiceBox.getValue() != null) {
             House.toggleWindowOpen(windowChoiceBox.getValue());
             windowAndDoorChoiceBoxInit();
             DashboardController dashboardController = App.fxmlLoader.getController();
@@ -76,7 +83,7 @@ public class ShcParameterController {
      * Get whether a window is closed or not
      */
     public void getWindowStatus() {
-        if(windowChoiceBox.getValue() != null) {
+        if (windowChoiceBox.getValue() != null) {
             boolean isOpen = House.getWindowStatusOpen(windowChoiceBox.getValue());
             windowSetButton.setText(isOpen ? "Close" : "Open");
         }
@@ -86,7 +93,7 @@ public class ShcParameterController {
      * Open/Close a door
      */
     public void toggleDoorAction() {
-        if(doorsChoiceBox.getValue() != null) {
+        if (doorsChoiceBox.getValue() != null) {
             House.toggleDoor(doorsChoiceBox.getValue());
             windowAndDoorChoiceBoxInit();
             DashboardController dashboardController = App.fxmlLoader.getController();
@@ -98,7 +105,7 @@ public class ShcParameterController {
      * Get whether a door is closed or not
      */
     public void getDoorStatus() {
-        if(doorsChoiceBox.getValue() != null) {
+        if (doorsChoiceBox.getValue() != null) {
             boolean isOpen = House.getDoorStatus(doorsChoiceBox.getValue());
             doorSetButton.setText(isOpen ? "Close" : "Open");
         }
@@ -125,3 +132,5 @@ public class ShcParameterController {
         }
     }
 }
+
+
