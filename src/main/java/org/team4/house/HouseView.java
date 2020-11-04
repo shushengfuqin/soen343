@@ -199,7 +199,7 @@ public class HouseView {
         return windowPane;
     }
 
-    public AnchorPane drawDoor(String side, boolean opened) {
+    public AnchorPane drawDoor(String side, boolean blocked, boolean opened) {
         AnchorPane doorPane = new AnchorPane();
         int backgroundDim = 0;
         if(side.equals("left") || side.equals("right")) {
@@ -214,6 +214,8 @@ public class HouseView {
         }
 
         URL url = App.class.getResource("/org/img/wood.png");
+        if(blocked)
+            url = App.class.getResource("/org/img/obsidian.png");
 
         BackgroundImage bi = new BackgroundImage(new Image(url.toString() ,backgroundDim, backgroundDim,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
@@ -297,7 +299,7 @@ public class HouseView {
         if(wall.type.equals("empty")) return wallPane;
 
         if(wall.type.equals("window")) wallPane.getChildren().add(drawWindow(side, wall.blocked, wall.open));
-        if(wall.type.equals("door")) wallPane.getChildren().add(drawDoor(side, wall.open));
+        if(wall.type.equals("door")) wallPane.getChildren().add(drawDoor(side, wall.blocked, wall.open));
 
         URL url = App.class.getResource("/org/img/brick.png");
 
