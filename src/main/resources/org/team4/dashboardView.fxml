@@ -245,6 +245,7 @@
                      <fx:include fx:id="shcParameter" source="shcParamView.fxml" />
                  </Tab>
                  <Tab text="SHP" />
+                     <fx:include fx:id="shpParameter" source="shpParamView.fxml" />
                  <Tab text="SHH" />
               </tabs>
             </TabPane>
