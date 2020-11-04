@@ -4,6 +4,7 @@ package org.team4.permissions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.team4.common.Settings;
+import org.team4.common.logger.Logger;
 import org.team4.user.User;
 import org.team4.user.UserService;
 
@@ -134,6 +135,7 @@ public class Permission {
 
         String permissionStr = jo.toString();
         writeToPermissionFile(permissionStr);
+        Logger.info("New permissions have been saved");
     }
 
     /**
