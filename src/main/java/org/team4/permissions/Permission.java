@@ -1,4 +1,4 @@
-package org.team4.simulationParameters;
+package org.team4.permissions;
 
 
 import org.json.JSONArray;
@@ -15,15 +15,25 @@ import java.util.Scanner;
 
 public class Permission {
 
-    //family, guest, stranger, adult, location
+    public static String permissionFileName = "permissions";
+
+    /**
+     * Permissions are comprised of a boolean of 5 index
+     * family, guest, stranger, adult, location
+     * If any of the requirement are true then they are allowed
+     */
     public static boolean windowPermission[]  = {true, true, false, true, true};
     public static boolean doorPermission[]  = {true, true, false, true, true};
     public static boolean lightPermission[]  = {true, true, false, true, true};
 
     public static UserService userService = new UserService();;
-    public Permission() { }
 
-    //Todo: do this method for doors and light
+    /**
+     * Check if the user can toggle a window
+     * @param x coordinate of the room
+     * @param y coordinate of the room
+     * @return a boolean
+     */
     public static boolean checkUserWindowPermission(int x, int y) {
         String currUser = Settings.currentUser;
         if(currUser == null) return true;
@@ -44,6 +54,13 @@ public class Permission {
         }
         return false;
     }
+
+    /**
+     * Check if the user can toggle a door
+     * @param x coordinate of the room
+     * @param y coordinate of the room
+     * @return a boolean
+     */
     public static boolean checkUserDoorPermission(int x, int y) {
         String currUser = Settings.currentUser;
         if(currUser == null) return true;
@@ -65,6 +82,12 @@ public class Permission {
         return false;
     }
 
+    /**
+     * Check if the user can toggle a light
+     * @param x coordinate of the room
+     * @param y coordinate of the room
+     * @return a boolean
+     */
     public static boolean checkUserLightPermission(int x, int y) {
         String currUser = Settings.currentUser;
         if(currUser == null) return true;
@@ -86,46 +109,51 @@ public class Permission {
         return false;
     }
 
-    public static void saveNewPermission(boolean[] window,boolean[] door,boolean[] light) {
+    /**
+     * Set the new permissions to the static variables and save to file
+     * @param window permissions
+     * @param door permissions
+     * @param light permissions
+     */
+    public static void saveNewPermission(boolean[] window, boolean[] door, boolean[] light) {
         windowPermission = window;
         doorPermission = door;
         lightPermission = light;
-
-        //todo: Door permission and light permission
-        //todo: Save the new permission to the file
         savePermissionToFile();
     }
 
 
+    /**
+     * Save the permissions to a file as a json object
+     */
     public static void savePermissionToFile() {
         JSONObject jo = new JSONObject();
         jo.put("windowPermissions", windowPermission);
-        //todo: add door permission and light permission
+        jo.put("lightPermissions", lightPermission);
+        jo.put("doorPermissions", doorPermission);
 
         String permissionStr = jo.toString();
         writeToPermissionFile(permissionStr);
     }
 
+    /**
+     * Get the permissions from the file
+     */
     public static void updatePermissionsFromFile() {
-        File userFile = new File("permissionFileName.json");
+        File userFile = new File(permissionFileName+".json");
         if(!userFile.exists()) return;
 
         String data = readFromPermissionFile();
 
         JSONObject jo = new JSONObject(data);
-        JSONArray arr = jo.getJSONArray("windowPermissions");
+        JSONArray windows = jo.getJSONArray("windowPermissions");
+        JSONArray lights = jo.getJSONArray("lightPermissions");
+        JSONArray doors = jo.getJSONArray("doorPermissions");
 
         for(int i = 0; i < windowPermission.length; i++) {
-            windowPermission[i] = arr.getBoolean(i);
-
-        }
-        for(int i = 0; i < doorPermission.length; i++) {
-            doorPermission[i] = arr.getBoolean(i);
-
-        }
-        for(int i = 0; i < lightPermission.length; i++) {
-            lightPermission[i] = arr.getBoolean(i);
-
+            windowPermission[i] = windows.getBoolean(i);
+            doorPermission[i] = doors.getBoolean(i);
+            lightPermission[i] = lights.getBoolean(i);
         }
     }
 
@@ -135,7 +163,7 @@ public class Permission {
      * @throws IOException
      */
     public static String readFromPermissionFile() {
-        File PermissionFile = new File("permissionFileName.json");
+        File PermissionFile = new File(permissionFileName+".json");
         if (PermissionFile.exists()) {
             Scanner fileReader = null;
             try {
@@ -156,7 +184,7 @@ public class Permission {
      */
     public static boolean writeToPermissionFile(String s) {
         try {
-            FileWriter myWriter = new FileWriter("permissionFileName.json");
+            FileWriter myWriter = new FileWriter(permissionFileName+".json");
             myWriter.write(s);
             myWriter.close();
             return true;

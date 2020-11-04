@@ -1,4 +1,4 @@
-package org.team4.simulationParameters;
+package org.team4.permissions;
 
 
 import javafx.fxml.FXML;
@@ -57,8 +57,10 @@ public class permissionCheckController
     @FXML
     private Button SavePermissionButton;
 
+    /**
+     * Save the permissions
+     */
     public void save() {
-
         boolean wa = windowA.isSelected();
         boolean wf = windowF.isSelected();
         boolean wg = windowG.isSelected();
@@ -79,19 +81,18 @@ public class permissionCheckController
         boolean ls = lightS.isSelected();
         boolean ll = lightL.isSelected();
         boolean lightPermission[]  = {lf,lg,ls,la,ll};
-        //todo: add the array for doors and light
-        //method should look like this:
-        // Permission.saveNewPermission(windowPermission, doorPermission, lightPermission);
-        Permission.saveNewPermission(windowPermission,doorPermission,lightPermission);
+        Permission.saveNewPermission(windowPermission, doorPermission, lightPermission);
 
-        //this will close the window
         Stage stage = (Stage) SavePermissionButton.getScene().getWindow();
         stage.close();
     }
 
-    //Set the default values for all checkbox
+    /**
+     * Initialize the checkboxes with the permissions
+     */
     public void initialize(){
         Permission.updatePermissionsFromFile();
+
         boolean[] windowPermission = Permission.windowPermission;
         windowF.setSelected(windowPermission[0]);
         windowG.setSelected(windowPermission[1]);
@@ -109,15 +110,9 @@ public class permissionCheckController
         boolean[] lightPermission = Permission.lightPermission;
         lightF.setSelected(lightPermission[0]);
         lightG.setSelected(lightPermission[1]);
-        lightS.setSelected(lightPermission[1]);
-        lightA.setSelected(lightPermission[1]);
-        lightL.setSelected(lightPermission[1]);
-
-
-
-
-
-
+        lightS.setSelected(lightPermission[2]);
+        lightA.setSelected(lightPermission[3]);
+        lightL.setSelected(lightPermission[4]);
     }
 
 }

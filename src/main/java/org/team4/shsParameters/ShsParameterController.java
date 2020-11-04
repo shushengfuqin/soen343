@@ -9,7 +9,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.team4.App;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Helper;
@@ -177,6 +179,7 @@ public class ShsParameterController {
         Parent part = FXMLLoader.load(App.class.getResource("permissionCheck.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.show();
     }
