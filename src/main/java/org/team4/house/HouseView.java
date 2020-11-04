@@ -327,11 +327,6 @@ public class HouseView {
         AnchorPane.setTopAnchor(info, (double) roomHeight/10);
         AnchorPane.setLeftAnchor(info, (double) roomWidth/10);
 
-        if(!room.name.equals("outside") && !room.lightOn) {
-            Color c = Color.rgb(0, 0, 0, 0.5);
-            BackgroundFill bf = new BackgroundFill(c, null, null);
-            info.setBackground(new Background(bf));
-        }
         StackPane infoPane = new StackPane();
         VBox infoBox = new VBox();
         infoPane.setPrefHeight(roomHeight-(2 * roomHeight/10));
@@ -384,10 +379,21 @@ public class HouseView {
 
         drawRoomWalls(roomPane, room);
 
+        Pane lightPane = new Pane();
+        lightPane.setPrefWidth(roomWidth);
+        lightPane.setPrefHeight(roomHeight);
+        if(!room.name.equals("outside") && !room.lightOn) {
+            Color c = Color.rgb(0, 0, 0, 0.5);
+            BackgroundFill bf = new BackgroundFill(c, null, null);
+            lightPane.setBackground(new Background(bf));
+        }
+
         ArrayList<String> allUserInRoom = userService.userInLocation(x,y);
         drawInformationBox(roomPane, room, allUserInRoom);
-
         updateBackgroundImage(roomPane, room.name);
+
+        roomPane.getChildren().add(lightPane);
+
         return roomPane;
     }
 }
