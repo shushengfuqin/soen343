@@ -20,6 +20,7 @@ public class House {
     public static ArrayList<int[]> windows = new ArrayList<int[]>();
     public static ArrayList<int[]> doors = new ArrayList<int[]>();
     public static ArrayList<Coordinate> lights = new ArrayList<>();
+    public static ArrayList<Coordinate> lightsAway = new ArrayList<>();
     public static int roomColumn = 5;
     public static int roomRow = 5;
     public static Room[][] rooms  = new Room[roomColumn][roomRow];
@@ -38,7 +39,6 @@ public class House {
         int[] windowLocation = getRoomLocation(s);
         return rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked;
     }
-
     /**
      * Open or close a window
      * @param s the location of a window
@@ -65,6 +65,16 @@ public class House {
         Logger.info("Window " + action + " at location " + location);
     }
 
+    public static boolean getLightStatus(String s) {
+        Coordinate lightLocation = new Coordinate(s);
+        return rooms[lightLocation.x][lightLocation.y].lightOn;
+    }
+
+    public static boolean getLightAwayStatus(String s) {
+        Coordinate lightLocation = new Coordinate(s);
+        boolean InArray = coordInArrayList(lightsAway, lightLocation);
+        return InArray;
+    }
     /**
      * Get the status of a door
      * @param s
@@ -163,7 +173,9 @@ public class House {
             }
         }
     }
-
+    /**
+     * Get the location of all lights in the house layout
+     */
     public static void indexAllLights() {
         for(int i = 0; i < roomColumn; i++) {
             for(int j = 0; j < roomRow; j++) {
@@ -172,14 +184,50 @@ public class House {
                 if(roomName.equals("outside")) continue;
                 Coordinate coord = new Coordinate(i, j);
                 lights.add(coord);
-                System.out.println(coord);
+                //System.out.println(coord);
             }
         }
     }
-
-    public static void toggleLights(Coordinate coord) {
+    /**
+     * Turn on and off the light
+     * @param c the location of a light
+     */
+    public static void toggleLights(String c) {
+        Coordinate coord = new Coordinate(c);
         boolean lightsOn = rooms[coord.x][coord.y].lightOn;
         rooms[coord.x][coord.y].lightOn = !lightsOn;
+        Logger.info("Light toggled in location" + coord.toString());
+    }
+
+    public static void toggleLightsAway(String c) {
+        Coordinate coord = new Coordinate(c);
+        boolean InArray = coordInArrayList(lightsAway, coord);
+        if(InArray){
+            lightsAway.remove(coord);
+            Logger.info("Light removed from lightsAway" + coord.toString());
+        }
+        else {
+            lightsAway.add(coord);
+            Logger.info("Light added from lightsAway" + coord.toString());
+        }
+    }
+
+    public static boolean coordInArrayList(ArrayList<Coordinate> c, Coordinate z){
+        for(Coordinate coords: c){
+            if(coords.x == z.x && coords.y == z.y){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String[] getAllLightsOption(){
+        String[] lightOption = new String[lights.size()];
+        for(int i = 0; i < lights.size(); i++) {
+            Coordinate tempLight = lights.get(i);
+            lightOption[i] = tempLight.toString();
+        }
+        return lightOption;
     }
 
     /**
@@ -426,4 +474,5 @@ public class House {
         File houseLayout = new File(houseLayoutFileName+".json");
         return houseLayout.exists();
     }
+
 }

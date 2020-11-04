@@ -9,7 +9,7 @@ public class Room {
     public Wall[] walls;
 
     public boolean lightOn;
-
+    // #1. constructor
     public Room(String name, String lw, String tw, String rw, String bw)
     {
         walls = new Wall[4];
@@ -21,6 +21,7 @@ public class Room {
         this.lightOn = true;
     }
 
+    // #2. constructor which accepts the room from the house layout.
     public Room(JSONObject jo) {
         walls = new Wall[4];
         this.name = jo.getString("name");
