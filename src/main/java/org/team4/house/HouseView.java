@@ -320,16 +320,12 @@ public class HouseView {
     }
 
     public void drawInformationBox(AnchorPane roomPane, Room room, ArrayList<String> allUsersInRoom) {
-        Pane info = new Pane();
-        info.setPrefHeight(roomHeight-(2 * roomHeight/10));
-        info.setPrefWidth(roomWidth-(2 * roomWidth/10));
-        AnchorPane.setTopAnchor(info, (double) roomHeight/10);
-        AnchorPane.setLeftAnchor(info, (double) roomWidth/10);
-
         StackPane infoPane = new StackPane();
         VBox infoBox = new VBox();
         infoPane.setPrefHeight(roomHeight-(2 * roomHeight/10));
         infoPane.setPrefWidth(roomWidth-(2 * roomWidth/10));
+        AnchorPane.setTopAnchor(infoPane, (double) roomHeight/10);
+        AnchorPane.setLeftAnchor(infoPane, (double) roomWidth/10);
 
         Text roomName = new Text();
         StackPane nameBox = new StackPane();
@@ -357,8 +353,7 @@ public class HouseView {
         infoPane.getChildren().addAll(infoBox);
         infoPane.setAlignment(infoBox, Pos.CENTER);
 
-        info.getChildren().add(infoPane);
-        roomPane.getChildren().add(info);
+        roomPane.getChildren().add(infoPane);
     }
 
     /**
