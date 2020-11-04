@@ -271,6 +271,15 @@ public class House {
     }
 
     /**
+     * turn off all lights in the house
+     */
+    public static void turnOffAllLights() {
+        for(Coordinate coord : lights) {
+            rooms[coord.x][coord.y].lightOn = false;
+        }
+    }
+
+    /**
      * Turn all lights in rooms containing users
      * turn off the other ones
      */
