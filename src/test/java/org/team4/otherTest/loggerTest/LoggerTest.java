@@ -1,4 +1,4 @@
-package org.team4.loggerTest;
+package org.team4.otherTest.loggerTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

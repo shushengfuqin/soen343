@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.team4.App;
+import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Helper;
 import org.team4.common.Settings;
@@ -157,6 +158,7 @@ public class ShsParameterController {
                 Settings.outsideTemperature = num;
                 temperatureInit();
             }
+            Logger.info("New outside temperature has been set");
         }
         catch (NumberFormatException  e) {
             tempError.setText("Integer Only");
@@ -174,6 +176,7 @@ public class ShsParameterController {
             return;
         }
         House.houseLayoutFileName = houseLocation;
+        Logger.info("House location has been updated");
         initialize();
     }
 

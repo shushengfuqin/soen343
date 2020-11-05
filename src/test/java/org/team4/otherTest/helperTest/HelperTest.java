@@ -1,4 +1,4 @@
-package org.team4.helperTest;
+package org.team4.otherTest.helperTest;
 
 import org.junit.Assert;
 import org.junit.Test;

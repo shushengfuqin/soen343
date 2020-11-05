@@ -1,26 +1,21 @@
-package org.team4.userTest;
+package org.team4.delivery2Test;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.team4.common.Settings;
 import org.team4.user.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(User.class)
-public class ModelTest {
-
+public class u2SaveUserIntoFileTest {
     User mockUser = new User("foo", "faa", 12);
 
     @Test

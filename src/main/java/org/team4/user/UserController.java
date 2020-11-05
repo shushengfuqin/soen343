@@ -6,6 +6,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.team4.App;
+import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Coordinate;
 import org.team4.common.Settings;
@@ -252,6 +253,7 @@ public class UserController {
     public void handleSelectCurrentUser() {
         String username = selectUserField.getValue();
         Settings.currentUser = username;
+        Logger.info("Current user " + username + " has been selected");
         initialize();
     }
 

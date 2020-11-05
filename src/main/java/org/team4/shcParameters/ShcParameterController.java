@@ -121,7 +121,7 @@ public class ShcParameterController {
      */
     public void toggleWindowAction() {
         if (windowChoiceBox.getValue() != null) {
-            House.toggleWindowOpen(windowChoiceBox.getValue());
+            House.toggleWindowOpen(windowChoiceBox.getValue(), false);
             windowAndDoorChoiceBoxInit();
             DashboardController dashboardController = App.fxmlLoader.getController();
             dashboardController.drawHouseLayout();
@@ -143,7 +143,7 @@ public class ShcParameterController {
      */
     public void toggleDoorAction() {
         if (doorsChoiceBox.getValue() != null) {
-            House.toggleDoor(doorsChoiceBox.getValue());
+            House.toggleDoor(doorsChoiceBox.getValue(), false);
             windowAndDoorChoiceBoxInit();
             DashboardController dashboardController = App.fxmlLoader.getController();
             dashboardController.drawHouseLayout();

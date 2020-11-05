@@ -2,6 +2,7 @@ package org.team4.user;
 
 import org.team4.common.Helper;
 import org.team4.common.Settings;
+import org.team4.common.logger.Logger;
 import org.team4.common.observer.ObservableHandler;
 import org.team4.house.House;
 
@@ -115,6 +116,7 @@ public class UserService {
         try {
             User.addNewUsers(newUser);
             userMovementObserver.notifyUserMovement();
+            Logger.info("New user has been added: " + newUser);
             return true;
         } catch (IOException e) {
             System.out.println("Failed while adding user");
@@ -137,6 +139,7 @@ public class UserService {
         try {
             User.addNewUsers(newUser);
             userMovementObserver.notifyUserMovement();
+            Logger.info("User has been edited: " + newUser);
             return true;
         } catch (IOException e) {
             System.out.println("Failed while editing user");
@@ -173,6 +176,7 @@ public class UserService {
                 Settings.currentUser = null;
             }
             userMovementObserver.notifyUserMovement();
+            Logger.info("User has been deleted: " + name);
             return true;
         } catch (IOException e) {
             System.out.println("Failed while deleting user");
