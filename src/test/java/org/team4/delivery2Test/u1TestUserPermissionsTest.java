@@ -32,8 +32,6 @@ public class u1TestUserPermissionsTest {
 
     @Test
     public void testWindowPermissionsFail() {
-        PowerMockito.mockStatic(Logger.class);
-        BDDMockito.given(Logger.warning(anyString())).willReturn(true);
         UserService userService = mock(UserService.class);
         PowerMockito.mockStatic(Logger.class);
         BDDMockito.given(Logger.warning(anyString())).willReturn(true);
