@@ -206,7 +206,7 @@ public class House {
 
         boolean doorLocked = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
         if(doorLocked) {
-            Logger.info("Unable to open door at location " + location + ". Door is locked");
+            Logger.warning("Unable to open door at location " + location + ". Door is locked");
             return false;
         }
 
