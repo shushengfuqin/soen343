@@ -9,6 +9,9 @@ import java.util.stream.Stream;
 
 public class ShpService {
 
+    /**
+     * Either enable or disable away mode
+     */
     public void toggleAwayMode() {
         if(Settings.awayMode) {
             turnOffAwayMode();
@@ -18,7 +21,9 @@ public class ShpService {
         }
     }
 
-    //todo
+    /**
+     * Disable away mode
+     */
     public void turnOffAwayMode() {
         Settings.awayMode = false;
         Settings.startTimeBeforeAlerting = false;
@@ -26,6 +31,9 @@ public class ShpService {
         Logger.info("Away mode has been deactivated");
     }
 
+    /**
+     * Enable away mode
+     */
     public void turnOnAwayMode() {
         if(House.userInHouse()) {
             Logger.warning("Unable to enable away mode. User is in the house");
@@ -47,11 +55,20 @@ public class ShpService {
         Logger.info("Away mode has been activated");
     }
 
+    /**
+     * Set the time until the authorities are alerted
+     * @param seconds
+     */
     public void setAwayModeNotifTime(int seconds) {
         Settings.timeBeforeAlerting = seconds;
         Logger.info("Time before alerting authorities has been updated");
     }
 
+    /**
+     * Verify if a time format is valid
+     * @param timeInput
+     * @return a boolean
+     */
     public boolean validateTime(String timeInput) {
         if (timeInput == null || timeInput.equals(""))
             return true;
@@ -60,6 +77,11 @@ public class ShpService {
         return true;
     }
 
+    /**
+     * Set the on and off time of the light during away mode
+     * @param on
+     * @param off
+     */
     public void setOnOffTime(String on, String off) {
         Logger.info("Light away mode on/off time has been updated");
 

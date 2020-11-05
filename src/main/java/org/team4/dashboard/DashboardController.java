@@ -86,12 +86,18 @@ public class DashboardController {
         if(Settings.simulationStarted) startButton.setText("Stop");
     }
 
+    /**
+     * Initialize the multiplier with default values
+     */
     public void initMultiplier() {
         Settings.simulationTime.setMultiplier(1);
         multiplierText.setText("1");
         multiplierSlider.setValue(1);
     }
 
+    /**
+     * Add listener to multiplier
+     */
     private void addListenerToMultiplierSlider() {
         multiplierSlider.valueProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
@@ -103,6 +109,9 @@ public class DashboardController {
         );
     }
 
+    /**
+     * Render the house layout in the ui
+     */
     public void drawHouseLayout() {
         if(Settings.simulationStarted) {
             Platform.runLater(
@@ -125,6 +134,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * What to do when the simulation starts
+     */
     private void startSimulation() {
         updateTime(Settings.simulationTime.getDate());
         Settings.startClock();
@@ -144,6 +156,9 @@ public class DashboardController {
         startButton.setText("Stop");
     }
 
+    /**
+     * What to do when the simulation stops
+     */
     private void stopSimulation() {
         initMultiplier();
         updateTime(Settings.simulationTime.getDate());
@@ -222,10 +237,16 @@ public class DashboardController {
         outputList.scrollTo(outputList.getItems().size());
     }
 
+    /**
+     * Disable or enable shc buttons depending on away mode or not
+     */
     public void toggleAwayShcButtons() {
         shcParameterController.toggleAwayShcButtons();
     }
 
+    /**
+     * Disable tabs if simulation did not start
+     */
     public void toggleTabs() {
         boolean started = Settings.simulationStarted;
         shcTab.setDisable(!started);

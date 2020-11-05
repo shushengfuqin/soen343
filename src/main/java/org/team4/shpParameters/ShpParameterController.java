@@ -61,6 +61,9 @@ ShpParameterController {
         shpService = new ShpService();
     }
 
+    /**
+     * Disable the buttons if in away mode
+     */
     public void toggleSHPButtons() {
         boolean disable = Settings.awayMode;
         updateAwayModeNotify.setDisable(disable);
@@ -68,6 +71,9 @@ ShpParameterController {
         lightOnTimeSet.setDisable(disable);
     }
 
+    /**
+     * Display the away mode button
+     */
     public void displayAwayModeButton() {
         toggleAwayMode.setText("Enable");
         if(!Settings.simulationStarted) {
@@ -78,6 +84,9 @@ ShpParameterController {
         toggleAwayMode.setText(Settings.awayMode ? "Disable" : "Enable");
     }
 
+    /**
+     * Display all the lights in away mode in the table
+     */
     public void displayLightsInAwayMode() {
         lightsTable.getItems().clear();
         lightsawayChoiceBox.getItems().clear();
@@ -100,10 +109,16 @@ ShpParameterController {
         if (lightList.length > 0) lightsawayChoiceBox.setValue(lightList[0]);
     }
 
+    /**
+     * Update the current notification time in the ui
+     */
     public void updateCurrentNotifTime() {
         currentNotifTime.setText(Integer.toString(Settings.timeBeforeAlerting));
     }
 
+    /**
+     * Resets all the invalid texts
+     */
     public void resetInvalidText() {
         invalidNotifText.setText("");
         invalidNotifText.setFill(Color.RED);
@@ -145,6 +160,9 @@ ShpParameterController {
         }
     }
 
+    /**
+     * Turn on or off away mode
+     */
     public void toggleAwayMode() {
         resetInvalidText();
         shpService.toggleAwayMode();
@@ -155,6 +173,9 @@ ShpParameterController {
         dashboardController.toggleAwayShcButtons();
     }
 
+    /**
+     * Set the time before notifying authorities
+     */
     public void setTimeToNotify() {
         String amountTime = amountTimeNotify.getText();
         try {
@@ -170,6 +191,9 @@ ShpParameterController {
         updateCurrentNotifTime();
     }
 
+    /**
+     * Update the time between when the lights stays on
+     */
     public void updateCurrentOnOffTimes() {
         Date onTime = Settings.awayLightOnTime;
         Date offTime = Settings.awayLightOffTime;
@@ -183,6 +207,9 @@ ShpParameterController {
         currentOffTime.setText("None");
     }
 
+    /**
+     * Set the new time between which a light stay on
+     */
     public void setNewOnOffTime() {
         resetInvalidText();
         String onTime = awayModeOnTime.getText();

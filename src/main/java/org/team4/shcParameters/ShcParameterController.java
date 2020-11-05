@@ -215,6 +215,9 @@ public class ShcParameterController {
         dashboardController.drawHouseLayout();
     }
 
+    /**
+     * Disable or enable buttons depending on away mode
+     */
     public void toggleAwayShcButtons() {
         boolean disable = Settings.awayMode;
         setLightAutoButton.setDisable(disable);

@@ -13,6 +13,12 @@ public class ShsParameterService {
     public ShsParameterService() {
     }
 
+    /**
+     * Set the new date of the simulation
+     * @param localDate date
+     * @param timeInput time
+     * @return boolean depending on success
+     */
     public boolean setDateTime(LocalDate localDate, String timeInput) {
 
         if (localDate == null || timeInput == null)

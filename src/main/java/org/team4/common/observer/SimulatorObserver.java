@@ -27,6 +27,9 @@ public class SimulatorObserver implements Observer {
         }
     }
 
+    /**
+     * Performs the away mode actions
+     */
     public void performAwayModeChecks() {
         if(House.userInHouse()) {
             Logger.warning("Movement detected inside the house.");
@@ -34,6 +37,9 @@ public class SimulatorObserver implements Observer {
         }
     }
 
+    /**
+     * Performs the auto mode action
+     */
     public void performAutoModeCheck() {
         House.turnOnAllLightsWithUsers();
 

@@ -15,6 +15,9 @@ public class Settings {
     public static Date awayLightOffTime = null;
     public static boolean awayLightOn = false;
 
+    /**
+     * Reset the settings to default values
+     */
     public static void resetSettings() {
         currentUser = null;
         outsideTemperature = 20;
@@ -29,11 +32,17 @@ public class Settings {
         awayLightOn = false;
     }
 
+    /**
+     * Start the clock
+     */
     public static void startClock() {
         simulationTime.stop = false;
         simulationTime.start();
     }
 
+    /**
+     * Stop the clock
+     */
     public static void stopClock() {
         simulationTime.stop = true;
         simulationTime = new SimulationClock();

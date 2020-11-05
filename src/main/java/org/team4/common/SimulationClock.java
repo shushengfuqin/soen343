@@ -52,6 +52,9 @@ public class SimulationClock extends Thread{
         }
     }
 
+    /**
+     * Automatically turn on and of light in away mode
+     */
     public void toggleAwayModeLights() {
         Date curr = getDate();
         Date on = Settings.awayLightOnTime;
@@ -76,6 +79,10 @@ public class SimulationClock extends Thread{
 
     }
 
+    /**
+     * Set the clock speed multiplier
+     * @param m int multiplier
+     */
     public synchronized  void setMultiplier(int m) {
         setting = true;
         this.multiplier = m;
@@ -83,6 +90,10 @@ public class SimulationClock extends Thread{
         notifyAll();
     }
 
+    /**
+     * Gets the current date
+     * @return date
+     */
     public synchronized Date getDate(){
         while(setting){
             try {
@@ -92,6 +103,10 @@ public class SimulationClock extends Thread{
         return this.date;
     }
 
+    /**
+     * Set the current date
+     * @param dt new date
+     */
     public synchronized void setDateTime(Date dt){
         setting = true;
         this.date = dt;
@@ -99,6 +114,13 @@ public class SimulationClock extends Thread{
         notifyAll();
     }
 
+    /**
+     * Check if the time is between two other times
+     * @param argCurr current time
+     * @param argOn on time
+     * @param argOff off time
+     * @return a boolean
+     */
     public static boolean isBettweenTime(Date argCurr, Date argOn, Date argOff) {
         boolean valid = false;
 
