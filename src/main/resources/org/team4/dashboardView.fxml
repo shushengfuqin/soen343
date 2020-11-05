@@ -130,7 +130,7 @@
                                                    <Image url="@../img/info.png" />
                                                 </image>
                                              </ImageView>
-                                             <GridPane layoutX="1.0" layoutY="94.0" prefHeight="80.0" prefWidth="160.0">
+                                             <GridPane layoutX="1.0" layoutY="94.0" prefHeight="100.0" prefWidth="160.0">
                                                 <columnConstraints>
                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -172,7 +172,7 @@
                                                    </Pane>
                                                    <Pane layoutX="10.0" layoutY="42.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                                       <children>
-                                                         <Label layoutX="3.0" text="Multiplier:" textFill="WHITE">
+                                                         <Label layoutX="3.0" text="Speed:" textFill="WHITE">
                                                             <font>
                                                                <Font name="Arial" size="18.0" />
                                                             </font>
@@ -194,14 +194,14 @@
                                                          <Font name="Arial" size="14.0" />
                                                       </font>
                                                    </Text>
-                                                   <Text fx:id="currentMultiplier" fill="#ffa31a" layoutX="90.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                   <Text fx:id="multiplierText" fill="#ffa31a" strokeType="OUTSIDE" strokeWidth="0.0" text="None" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                                       <font>
                                                          <Font name="Arial" size="14.0" />
                                                       </font>
                                                    </Text>
                                                 </children>
                                              </GridPane>
-                                             <Slider fx:id="multiplierSlider" blockIncrement="2.0" layoutX="11.0" layoutY="188.0" max="30.0" min="1.0" snapToTicks="true" value="1.0" />
+                                             <Slider fx:id="multiplierSlider" blockIncrement="2.0" layoutX="10.0" layoutY="203.0" max="55.0" min="1.0" snapToTicks="true" value="1.0" />
                                           </children>
                                        </Pane>
                                     </Pane>
@@ -241,11 +241,13 @@
                   <Tab text="SHS">
                      <fx:include fx:id="user" source="userView.fxml" />
                   </Tab>
-                 <Tab text="SHC">
+                 <Tab text="SHC" fx:id="shcTab">
                      <fx:include fx:id="shcParameter" source="shcParamView.fxml" />
                  </Tab>
-                 <Tab text="SHP" />
-                 <Tab text="SHH" />
+                 <Tab text="SHP" fx:id="shpTab">
+                     <fx:include fx:id="shpParameter" source="shpParamView.fxml" />
+                 </Tab>
+                 <Tab text="SHH" fx:id="shhTab"/>
               </tabs>
             </TabPane>
             <Pane layoutX="200.0" prefHeight="20.0" prefWidth="1300.0" style="-fx-background-color: #1b1b1b;" AnchorPane.topAnchor="0.0" />

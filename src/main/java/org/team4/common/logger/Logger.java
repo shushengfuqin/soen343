@@ -1,5 +1,6 @@
 package org.team4.common.logger;
 
+import javafx.application.Platform;
 import org.team4.App;
 import org.team4.common.Settings;
 import org.team4.dashboard.DashboardController;
@@ -21,8 +22,12 @@ public class Logger {
     public static boolean log(String message, String level, Date date, String user) {
         Log newLog = new Log(message, level, date, user);
         writeToLogFile(newLog);
-        DashboardController dashboardController = App.fxmlLoader.getController();
-        dashboardController.displayLog(newLog);
+        Platform.runLater(
+                () -> {
+                    DashboardController dashboardController = App.fxmlLoader.getController();
+                    dashboardController.displayLog(newLog);
+                }
+        );
         return true;
     }
 
@@ -32,7 +37,7 @@ public class Logger {
      */
     public static boolean info(String message) {
         String user = Settings.currentUser;
-        Date date = Settings.simulationTime.getDate().getTime();
+        Date date = Settings.simulationTime.getDate();
         String level = "info";
         return log(message, level, date, user);
     }
@@ -43,7 +48,7 @@ public class Logger {
      */
     public static boolean warning(String message) {
         String user = Settings.currentUser;
-        Date date = Settings.simulationTime.getDate().getTime();
+        Date date = Settings.simulationTime.getDate();
         String level = "warning";
         return log(message, level, date, user);
     }
@@ -54,7 +59,7 @@ public class Logger {
      */
     public static boolean error(String message) {
         String user = Settings.currentUser;
-        Date date = Settings.simulationTime.getDate().getTime();
+        Date date = Settings.simulationTime.getDate();
         String level = "error";
         return log(message, level, date, user);
     }

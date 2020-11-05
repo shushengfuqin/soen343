@@ -3,13 +3,12 @@ package org.team4.dashboard;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.team4.App;
+import org.team4.shpParameters.ShpParameterController;
 import org.team4.common.Settings;
 import org.team4.common.logger.Log;
 import org.team4.house.House;
@@ -21,7 +20,6 @@ import org.team4.user.UserService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.*;
 
 public class DashboardController {
@@ -39,6 +37,9 @@ public class DashboardController {
     public ShcParameterController shcParameterController;
 
     @FXML
+    public ShpParameterController shpParameterController;
+
+    @FXML
     public Button closeButton;
     public Button startButton;
 
@@ -48,8 +49,8 @@ public class DashboardController {
     public Text outsideTemp;
     public Text currentDate;
     public Text currentTime;
-    public Text currentMultiplier;
     public Slider multiplierSlider;
+    public Text multiplierText;
 
     @FXML
     //Current user dashboard
@@ -64,6 +65,12 @@ public class DashboardController {
     @FXML
     public ListView<Pane> outputList;
 
+    //tabs
+    public Tab shcTab;
+    public Tab shpTab;
+    public Tab shhTab;
+
+
     public DashboardController() {
         userService = new UserService();
         dashboardView = new DashboardView();
@@ -74,22 +81,45 @@ public class DashboardController {
         outputList.setStyle("-fx-control-inner-background: #292929;");
         updateInfo();
         addListenerToMultiplierSlider();
+        initMultiplier();
+        toggleTabs();
         if(Settings.simulationStarted) startButton.setText("Stop");
     }
 
+    /**
+     * Initialize the multiplier with default values
+     */
+    public void initMultiplier() {
+        Settings.simulationTime.setMultiplier(1);
+        multiplierText.setText("1");
+        multiplierSlider.setValue(1);
+    }
+
+    /**
+     * Add listener to multiplier
+     */
     private void addListenerToMultiplierSlider() {
         multiplierSlider.valueProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
                     double multiplier = Math.round((Double) newValue);
-                    Settings.simulationTime.setMultiplier(multiplier);
-                    currentMultiplier.setText(String.valueOf(multiplier));
-                    changeAnimatedTime();
+                    int mul = (int) multiplier;
+                    Settings.simulationTime.setMultiplier(mul);
+                    multiplierText.setText(String.valueOf(mul));
                 }
         );
     }
 
+    /**
+     * Render the house layout in the ui
+     */
     public void drawHouseLayout() {
-        if(Settings.simulationStarted) houseController.drawHouseLayout();
+        if(Settings.simulationStarted) {
+            Platform.runLater(
+                    () -> {
+                        houseController.drawHouseLayout();
+                    }
+            );
+        }
     }
 
     /**
@@ -104,49 +134,49 @@ public class DashboardController {
         }
     }
 
+    /**
+     * What to do when the simulation starts
+     */
     private void startSimulation() {
-        Settings.simulationTime.startTime();
+        updateTime(Settings.simulationTime.getDate());
+        Settings.startClock();
         Settings.simulationStarted = true;
-        startAnimatedTime();
         House.getHouseLayout();
         House.indexHouseWindowAndDoor();
         House.indexAllLights();
         House.lockAllDoor();
+        shpParameterController.displayLightsInAwayMode();
+        shpParameterController.displayAwayModeButton();
+        shpParameterController.updateCurrentOnOffTimes();
         userController.initializeShsParametersSimStart();
         shcParameterController.initialize();
+        shcParameterController.toggleAwayShcButtons();
+        toggleTabs();
         drawHouseLayout();
         startButton.setText("Stop");
     }
 
+    /**
+     * What to do when the simulation stops
+     */
     private void stopSimulation() {
-        Settings.simulationTime.stopTime();
-        Settings.simulationStarted = false;
-        stopAnimatedTime();
+        initMultiplier();
+        updateTime(Settings.simulationTime.getDate());
+        Settings.resetSettings();
         houseController.eraseHouseLayout();
         House.saveHouseLayout();
         House.resetParams();
+        shpParameterController.displayLightsInAwayMode();
+        shpParameterController.displayAwayModeButton();
+        shpParameterController.updateCurrentOnOffTimes();
+        shpParameterController.toggleSHPButtons();
         userController.initializeShsParametersSimStart();
         shcParameterController.initialize();
         startButton.setText("Start");
-    }
-
-    private void startAnimatedTime() {
-        clockTimer = new Timer();
-        clockTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> updateTime(Settings.simulationTime.getDate()));
-            }
-        },0, (long) (Duration.ofSeconds(1).toMillis()/Settings.simulationTime.getMultiplier()));
-    }
-
-    private void stopAnimatedTime() {
-        clockTimer.cancel();
-    }
-
-    private void changeAnimatedTime() {
-        stopAnimatedTime();
-        startAnimatedTime();
+        shcParameterController.toggleAwayShcButtons();
+        setCurrentUserDashboard();
+        toggleTabs();
+        updateInfo();
     }
 
     /**
@@ -166,15 +196,11 @@ public class DashboardController {
      */
     public void updateInfo() {
         outsideTemp.setText(Integer.toString(Settings.outsideTemperature));
+        updateTime(Settings.simulationTime.getDate());
     }
 
-    /**
-     * Update the current date/time in the dashboard
-     * @param calendar
-     */
-    public void updateTime(Calendar calendar) {
-        Date date = calendar.getTime();
-        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+    public void updateTime(Date date) {
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         currentTime.setText(timeFormat.format(date));
         currentDate.setText(dateFormat.format(date));
@@ -209,5 +235,22 @@ public class DashboardController {
         Pane logPane = dashboardView.generateLogPane(log);
         outputList.getItems().add(logPane);
         outputList.scrollTo(outputList.getItems().size());
+    }
+
+    /**
+     * Disable or enable shc buttons depending on away mode or not
+     */
+    public void toggleAwayShcButtons() {
+        shcParameterController.toggleAwayShcButtons();
+    }
+
+    /**
+     * Disable tabs if simulation did not start
+     */
+    public void toggleTabs() {
+        boolean started = Settings.simulationStarted;
+        shcTab.setDisable(!started);
+        shpTab.setDisable(!started);
+        shhTab.setDisable(!started);
     }
 }
