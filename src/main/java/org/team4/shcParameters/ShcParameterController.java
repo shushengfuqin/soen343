@@ -24,12 +24,6 @@ public class ShcParameterController {
     @FXML
     public Button lightSetButton;
 
-    //Light away mode control
-    @FXML
-    public ChoiceBox<String> lightsawayChoiceBox;
-    @FXML
-    public Button lightawaySetButton;
-
     //Light auto mode control
     public Button setLightAutoButton;
 
@@ -84,7 +78,7 @@ public class ShcParameterController {
      * Init all the light fields
      */
     public void lightInit() {
-        lightsAndLightAwayChoiceBoxInit();
+        lightsChoiceBoxInit();
         lightAutomaticModeInit();
     }
 
@@ -104,28 +98,22 @@ public class ShcParameterController {
     /**
      * Display all the lights and lightsAway mode options
      */
-    public void lightsAndLightAwayChoiceBoxInit() {
+    public void lightsChoiceBoxInit() {
         lightsChoiceBox.getItems().clear();
-        lightsawayChoiceBox.getItems().clear();
 
         if (!Settings.simulationStarted) {
             lightSetButton.setDisable(true);
-            lightawaySetButton.setDisable(true);
             return;
         }
 
         lightSetButton.setDisable(false);
-        lightawaySetButton.setDisable(false);
 
         String[] lightList = House.getAllLightsOption();
         for (int i = 0; i < lightList.length; i++) {
             lightsChoiceBox.getItems().add(lightList[i]);
-            lightsawayChoiceBox.getItems().add(lightList[i]);
         }
 
         if (lightList.length > 0) lightsChoiceBox.setValue(lightList[0]);
-        if (lightList.length > 0) lightsawayChoiceBox.setValue(lightList[0]);
-
     }
 
     /**
@@ -178,7 +166,7 @@ public class ShcParameterController {
     public void toggleLightsAction() {
         if (lightsChoiceBox.getValue() != null) {
             House.toggleLights(lightsChoiceBox.getValue());
-            lightsAndLightAwayChoiceBoxInit();
+            lightsChoiceBoxInit();
             DashboardController dashboardController = App.fxmlLoader.getController();
             dashboardController.drawHouseLayout();
         }
@@ -191,28 +179,6 @@ public class ShcParameterController {
         if(lockDoorChoiceBox.getValue() != null){
             House.toggleDoorLock(lockDoorChoiceBox.getValue());
             windowAndDoorChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
-        }
-    }
-
-    /**
-     * Get whether a light is on or off
-     */
-    public void getLightAwayStatus() {
-        if (lightsawayChoiceBox.getValue() != null) {
-            boolean isOn = House.getLightAwayStatus(lightsawayChoiceBox.getValue());
-            lightawaySetButton.setText(isOn ? "Remove" : "Add");
-        }
-    }
-
-    /**
-     * Add or remove light from away list
-     */
-    public void toggleLightsAwayAction() {
-        if (lightsawayChoiceBox.getValue() != null) {
-            House.toggleLightsAway(lightsawayChoiceBox.getValue());
-            lightsAndLightAwayChoiceBoxInit();
             DashboardController dashboardController = App.fxmlLoader.getController();
             dashboardController.drawHouseLayout();
         }
@@ -247,5 +213,14 @@ public class ShcParameterController {
         lightAutomaticModeInit();
         DashboardController dashboardController = App.fxmlLoader.getController();
         dashboardController.drawHouseLayout();
+    }
+
+    public void toggleAwayShcButtons() {
+        boolean disable = Settings.awayMode;
+        setLightAutoButton.setDisable(disable);
+        lockDoorSetButton.setDisable(disable);
+        lightSetButton.setDisable(disable);
+        doorSetButton.setDisable(disable);
+        windowSetButton.setDisable(disable);
     }
 }

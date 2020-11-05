@@ -2,8 +2,10 @@ package org.team4.shsParameters;
 
 import org.team4.common.Settings;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.stream.Stream;
 
 public class ShsParameterService {
@@ -19,15 +21,12 @@ public class ShsParameterService {
             return false;
 
         int[] time = Stream.of(timeInput.split(":")).mapToInt(Integer::parseInt).toArray();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, localDate.getYear());
-        calendar.set(Calendar.MONTH, localDate.getMonthValue());
-        calendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
-        calendar.set(Calendar.HOUR, time[0]);
-        calendar.set(Calendar.MINUTE, time[1]);
-        calendar.set(Calendar.SECOND, time[2]);
-        Settings.simulationTime.setDateTime(calendar);
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        Date date = Date.from(instant);
+        date.setHours(time[0]);
+        date.setMinutes(time[1]);
+        date.setSeconds(time[2]);
+        Settings.simulationTime.setDateTime(date);
         return true;
    }
 }

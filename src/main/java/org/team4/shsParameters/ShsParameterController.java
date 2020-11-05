@@ -20,6 +20,7 @@ import org.team4.house.House;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.spi.CalendarDataProvider;
 
 public class ShsParameterController {
@@ -125,6 +126,8 @@ public class ShsParameterController {
         else {
             dateError.setText("X");
         }
+        DashboardController dashboardController = App.fxmlLoader.getController();
+        dashboardController.updateTime(Settings.simulationTime.getDate());
     }
 
     /**

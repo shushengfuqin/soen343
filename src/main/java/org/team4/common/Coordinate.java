@@ -19,6 +19,14 @@ public class Coordinate {
         this.y = y;
     }
 
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
     /**
      *
      * @return A json object of the coordinates

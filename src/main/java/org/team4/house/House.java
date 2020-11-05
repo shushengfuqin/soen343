@@ -30,6 +30,52 @@ public class House {
     public static UserService userService = new UserService();
 
     /**
+     * Close all windows
+     * @return a boolean if it's a success or not
+     */
+    public static boolean closeAllWindowsAndDoors() {
+        String[] allWindows = getAllWindowsOption();
+        for(String window: allWindows) {
+            int[] loc = getRoomLocation(window);
+            if(rooms[loc[0]][loc[1]].walls[loc[2]].open) {
+                boolean success = toggleWindowOpen(window);
+                if(!success) return false;
+            }
+        }
+
+        String[] allDoors = getAllDoorsOption();
+        for(String door: allDoors) {
+            int[] loc = getRoomLocation(door);
+            if(rooms[loc[0]][loc[1]].walls[loc[2]].open) {
+                boolean success = toggleDoor(door);
+                if(!success) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Turns on all away mode lights
+     */
+    public static void turnOnAllAwayModeLights() {
+        for(Coordinate c : lightsAway) {
+            rooms[c.x][c.y].lightOn = true;
+        }
+    }
+
+    /**
+     * Check whether a user is in the house or not
+     */
+    public static boolean userInHouse() {
+        for(Coordinate coord : lights) {
+            ArrayList<String> allUsersInRoom = userService.userInLocation(coord.x, coord.y);
+            if(!allUsersInRoom.isEmpty())
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Get the status of a window
      * @param s
      * @return a boolean representing if a window is open or not
@@ -53,17 +99,18 @@ public class House {
      * Open or close a window
      * @param s the location of a window
      */
-    public static void toggleWindowOpen(String s) {
+    public static boolean toggleWindowOpen(String s) {
         int[] windowLocation = getRoomLocation(s);
         if(rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked) {
             Logger.warning("Can't open window. Blocked");
-            return;
+            return false;
         }
         boolean windowStatus = rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open;
         rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].open = !windowStatus;
         String location = "(" + windowLocation[0] + ", " + windowLocation[1] + ") " + Room.wallSideMapper(windowLocation[2]);
         String action = windowStatus ? "closed" : "opened";
         Logger.info("Window " + action + " at location " + location);
+        return true;
     }
 
     /**
@@ -148,14 +195,14 @@ public class House {
      * Open or close a door
      * @param s the location of the door
      */
-    public static void toggleDoor(String s) {
+    public static boolean toggleDoor(String s) {
         int[] doorLocation = getRoomLocation(s);
         String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
 
         boolean doorLocked = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
         if(doorLocked) {
             Logger.info("Unable to open door at location " + location + ". Door is locked");
-            return;
+            return false;
         }
 
         boolean doorStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open;
@@ -163,30 +210,31 @@ public class House {
 
         switch (doorLocation[2]) {
             case 0:
-                if(doorLocation[0] - 1 < 0) return;
+                if(doorLocation[0] - 1 < 0) return true;
                 if(rooms[doorLocation[0]-1][doorLocation[1]].walls[2].type.equals("door"))
                     rooms[doorLocation[0]-1][doorLocation[1]].walls[2].open = !doorStatus;
                 break;
             case 1:
-                if(doorLocation[1] - 1 < 0) return;
+                if(doorLocation[1] - 1 < 0) return true;
                 if(rooms[doorLocation[0]][doorLocation[1]-1].walls[3].type.equals("door")) {
                     rooms[doorLocation[0]][doorLocation[1] - 1].walls[3].open = !doorStatus;
                 }
                 break;
             case 2:
-                if(doorLocation[0] + 1 >= roomColumn) return;
+                if(doorLocation[0] + 1 >= roomColumn) return true;
                 if(rooms[doorLocation[0]+1][doorLocation[1]].walls[0].type.equals("door")) {
                     rooms[doorLocation[0] + 1][doorLocation[1]].walls[0].open = !doorStatus;
                 }
                 break;
             case 3:
-                if(doorLocation[1] + 1 >= roomRow) return;
+                if(doorLocation[1] + 1 >= roomRow) return true;
                 if(rooms[doorLocation[0]][doorLocation[1]+1].walls[1].type.equals("door"))
                     rooms[doorLocation[0]][doorLocation[1]+1].walls[1].open = !doorStatus;
                 break;
         }
         String action = doorStatus ? "closed" : "opened";
         Logger.info("Door " + action + " at location " + location);
+        return true;
     }
 
     /**
@@ -335,11 +383,11 @@ public class House {
                     coord = coordinate;
             }
             lightsAway.remove(coord);
-            Logger.info("Light removed from lightsAway" + coord.toString());
+            Logger.info("Light removed to light away list. Coordinate: " + coord.toString());
         }
         else {
             lightsAway.add(coord);
-            Logger.info("Light added from lightsAway" + coord.toString());
+            Logger.info("Light added to light away list. Coordinate: " + coord.toString());
         }
     }
 
