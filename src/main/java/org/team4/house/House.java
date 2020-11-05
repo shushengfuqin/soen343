@@ -7,6 +7,7 @@ import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
 import org.team4.house.components.Room;
 import org.team4.house.components.Wall;
+import org.team4.permissions.Permission;
 import org.team4.user.UserService;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class House {
         for(String window: allWindows) {
             int[] loc = getRoomLocation(window);
             if(rooms[loc[0]][loc[1]].walls[loc[2]].open) {
-                boolean success = toggleWindowOpen(window);
+                boolean success = toggleWindowOpen(window, true);
                 if(!success) return false;
             }
         }
@@ -47,7 +48,7 @@ public class House {
         for(String door: allDoors) {
             int[] loc = getRoomLocation(door);
             if(rooms[loc[0]][loc[1]].walls[loc[2]].open) {
-                boolean success = toggleDoor(door);
+                boolean success = toggleDoor(door, true);
                 if(!success) return false;
             }
         }
@@ -99,8 +100,10 @@ public class House {
      * Open or close a window
      * @param s the location of a window
      */
-    public static boolean toggleWindowOpen(String s) {
+    public static boolean toggleWindowOpen(String s, boolean byPassPermission) {
         int[] windowLocation = getRoomLocation(s);
+        if(!byPassPermission && !Permission.checkUserLightPermission(windowLocation[0], windowLocation[1])) return false;
+
         if(rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked) {
             Logger.warning("Can't open window. Blocked");
             return false;
@@ -128,6 +131,7 @@ public class House {
 
     public static void toggleDoorLock(String s){
         int[] doorLocation = getRoomLocation(s);
+        if(!Permission.checkUserLightPermission(doorLocation[0], doorLocation[1])) return;
         boolean doorLockStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
         if(rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open && !doorLockStatus){
             rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open = false;
@@ -195,8 +199,9 @@ public class House {
      * Open or close a door
      * @param s the location of the door
      */
-    public static boolean toggleDoor(String s) {
+    public static boolean toggleDoor(String s, boolean byPassPermission) {
         int[] doorLocation = getRoomLocation(s);
+        if(!byPassPermission && !Permission.checkUserLightPermission(doorLocation[0], doorLocation[1])) return false;
         String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
 
         boolean doorLocked = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
@@ -364,6 +369,7 @@ public class House {
      */
     public static void toggleLights(String c) {
         Coordinate coord = new Coordinate(c);
+        if(!Permission.checkUserLightPermission(coord.x, coord.y)) return;
         boolean lightsOn = rooms[coord.x][coord.y].lightOn;
         rooms[coord.x][coord.y].lightOn = !lightsOn;
         String action = lightsOn ? "turned off" : "turned on";
@@ -648,7 +654,7 @@ public class House {
     /**
      * Get the house layout from the layout file
      */
-    public static void getHouseLayout() {
+    public static Room[][] getHouseLayout() {
         if(fileExist()) {
             String houseLayout = readFromHouseFile();
             JSONObject house = new JSONObject(houseLayout);
@@ -665,6 +671,7 @@ public class House {
         else {
             generateHouse();
         }
+        return rooms;
     }
 
     /**

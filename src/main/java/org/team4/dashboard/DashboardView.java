@@ -46,7 +46,7 @@ public class DashboardView {
         Text moneyText = new Text();
         moneyText.setStyle("-fx-font: 17 arial;");;
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
         Date date = log.date;
         String strDate = dateFormat.format(date);
         dateText.setText("["+strDate+"]");

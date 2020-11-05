@@ -55,6 +55,13 @@ public class permissionCheckController
     public CheckBox doorL;
 
     @FXML
+    public CheckBox awayF;
+    public CheckBox awayG;
+    public CheckBox awayS;
+    public CheckBox awayA;
+    public CheckBox awayL;
+
+    @FXML
     private Button SavePermissionButton;
 
     /**
@@ -81,7 +88,15 @@ public class permissionCheckController
         boolean ls = lightS.isSelected();
         boolean ll = lightL.isSelected();
         boolean lightPermission[]  = {lf,lg,ls,la,ll};
-        Permission.saveNewPermission(windowPermission, doorPermission, lightPermission);
+
+        boolean aa = awayA.isSelected();
+        boolean af = awayF.isSelected();
+        boolean ag = awayG.isSelected();
+        boolean as = awayS.isSelected();
+        boolean al = awayL.isSelected();
+        boolean awayPermission[] = {af, ag, as, aa, al};
+
+        Permission.saveNewPermission(windowPermission, doorPermission, lightPermission, awayPermission);
 
         Stage stage = (Stage) SavePermissionButton.getScene().getWindow();
         stage.close();
@@ -113,6 +128,13 @@ public class permissionCheckController
         lightS.setSelected(lightPermission[2]);
         lightA.setSelected(lightPermission[3]);
         lightL.setSelected(lightPermission[4]);
+
+        boolean[] awayPermission = Permission.awayPermission;
+        awayF.setSelected(awayPermission[0]);
+        awayG.setSelected(awayPermission[1]);
+        awayS.setSelected(awayPermission[2]);
+        awayA.setSelected(awayPermission[3]);
+        awayL.setSelected(awayPermission[4]);
     }
 
 }

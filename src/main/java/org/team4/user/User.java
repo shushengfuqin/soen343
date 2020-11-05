@@ -82,7 +82,7 @@ public class User {
     }
 
     public String toString() {
-        return "Name: " + this.name + "\nStatus: " + this.status + "\nAge: " + this.age + "\nCoordinate: " + this.coord;
+        return "Name: " + this.name + " Status: " + this.status + " Age: " + this.age + " Coordinate: " + this.coord;
     }
 
 

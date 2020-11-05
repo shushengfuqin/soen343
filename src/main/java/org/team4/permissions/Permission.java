@@ -1,7 +1,9 @@
 package org.team4.permissions;
 
 
+import javafx.scene.chart.ScatterChart;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
@@ -26,8 +28,52 @@ public class Permission {
     public static boolean windowPermission[]  = {true, true, false, true, true};
     public static boolean doorPermission[]  = {true, true, false, true, true};
     public static boolean lightPermission[]  = {true, true, false, true, true};
+    public static boolean awayPermission[] = {true, false, false, false, false};
 
     public static UserService userService = new UserService();;
+
+    /**
+     * Check the permission of a user
+     */
+    private static boolean checkPermissions(String action, boolean[] permissionArr, int x, int y) {
+        String currUser = Settings.currentUser;
+        if(currUser == null) {
+            Logger.warning("Unable to perform action: " + action + ". Current user is not defined");
+            return false;
+        }
+
+        User user = userService.getSingleUser(currUser);
+
+        if(permissionArr[3] && !user.isAdult()) {
+            Logger.warning("Unable to perform action: " + action + ". Current user is not an adult");
+            return false;
+        }
+
+        if(permissionArr[4] && (user.getX() != x || user.getX() != y)) {
+            Logger.warning("Unable to perform action: " + action + ". Current user is not in the same location");
+            return false;
+        }
+
+        boolean valid = false;
+        switch (user.getStatus()) {
+            case "family":
+                valid = permissionArr[0];
+                break;
+            case "guest":
+                valid = permissionArr[1];
+                break;
+            case "stranger":
+                valid = permissionArr[2];
+                break;
+        }
+
+        if(!valid) {
+            Logger.warning("Unable to perform action: " + action + ". Current user does not have the right status");
+        }
+
+        return valid;
+    }
+
 
     /**
      * Check if the user can toggle a window
@@ -36,24 +82,7 @@ public class Permission {
      * @return a boolean
      */
     public static boolean checkUserWindowPermission(int x, int y) {
-        String currUser = Settings.currentUser;
-        if(currUser == null) return false;
-
-        User user = userService.getSingleUser(currUser);
-
-        if(windowPermission[3] && !user.isAdult()) return false;
-
-        if(windowPermission[4] && (user.getX() != x || user.getX() != y)) return false;
-
-        switch (user.getStatus()) {
-            case "family":
-                return windowPermission[0];
-            case "guest":
-                return windowPermission[1];
-            case "stranger":
-                return windowPermission[2];
-        }
-        return false;
+        return checkPermissions("toggle window", windowPermission, x, y);
     }
 
     /**
@@ -63,24 +92,7 @@ public class Permission {
      * @return a boolean
      */
     public static boolean checkUserDoorPermission(int x, int y) {
-        String currUser = Settings.currentUser;
-        if(currUser == null) return false;
-
-        User user = userService.getSingleUser(currUser);
-
-        if(doorPermission[3] && !user.isAdult()) return false;
-
-        if(doorPermission[4] && (user.getX() != x || user.getX() != y)) return false;
-
-        switch (user.getStatus()) {
-            case "family":
-                return doorPermission[0];
-            case "guest":
-                return doorPermission[1];
-            case "stranger":
-                return doorPermission[2];
-        }
-        return false;
+        return checkPermissions("toggle door", doorPermission, x, y);
     }
 
     /**
@@ -90,24 +102,15 @@ public class Permission {
      * @return a boolean
      */
     public static boolean checkUserLightPermission(int x, int y) {
-        String currUser = Settings.currentUser;
-        if(currUser == null) return false;
+        return checkPermissions("toggle light", lightPermission, x, y);
+    }
 
-        User user = userService.getSingleUser(currUser);
-
-        if(lightPermission[3] && !user.isAdult()) return false;
-
-        if(lightPermission[4] && (user.getX() != x || user.getX() != y)) return false;
-
-        switch (user.getStatus()) {
-            case "family":
-                return windowPermission[0];
-            case "guest":
-                return windowPermission[1];
-            case "stranger":
-                return windowPermission[2];
-        }
-        return false;
+    /**
+     * Check if the user can set away mode
+     * @return a boolean
+     */
+    public static boolean checkAwayModePermission() {
+        return checkPermissions("toggle away mode",awayPermission, 0,0);
     }
 
     /**
@@ -116,10 +119,11 @@ public class Permission {
      * @param door permissions
      * @param light permissions
      */
-    public static void saveNewPermission(boolean[] window, boolean[] door, boolean[] light) {
+    public static void saveNewPermission(boolean[] window, boolean[] door, boolean[] light, boolean[] away) {
         windowPermission = window;
         doorPermission = door;
         lightPermission = light;
+        awayPermission = away;
         savePermissionToFile();
     }
 
@@ -132,6 +136,7 @@ public class Permission {
         jo.put("windowPermissions", windowPermission);
         jo.put("lightPermissions", lightPermission);
         jo.put("doorPermissions", doorPermission);
+        jo.put("awayPermissions", awayPermission);
 
         String permissionStr = jo.toString();
         writeToPermissionFile(permissionStr);
@@ -147,16 +152,25 @@ public class Permission {
 
         String data = readFromPermissionFile();
 
-        JSONObject jo = new JSONObject(data);
-        JSONArray windows = jo.getJSONArray("windowPermissions");
-        JSONArray lights = jo.getJSONArray("lightPermissions");
-        JSONArray doors = jo.getJSONArray("doorPermissions");
+        try {
+            JSONObject jo = new JSONObject(data);
+            JSONArray windows = jo.getJSONArray("windowPermissions");
+            JSONArray lights = jo.getJSONArray("lightPermissions");
+            JSONArray doors = jo.getJSONArray("doorPermissions");
+            JSONArray away = jo.getJSONArray("awayPermissions");
 
-        for(int i = 0; i < windowPermission.length; i++) {
-            windowPermission[i] = windows.getBoolean(i);
-            doorPermission[i] = doors.getBoolean(i);
-            lightPermission[i] = lights.getBoolean(i);
+            for (int i = 0; i < windowPermission.length; i++) {
+                windowPermission[i] = windows.getBoolean(i);
+                doorPermission[i] = doors.getBoolean(i);
+                lightPermission[i] = lights.getBoolean(i);
+                awayPermission[i] = away.getBoolean(i);
+            }
         }
+        catch (JSONException e) {
+            System.out.println("error");
+            userFile.delete();
+        }
+
     }
 
     /**

@@ -3,6 +3,7 @@ package org.team4.shpParameters;
 import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
 import org.team4.house.House;
+import org.team4.permissions.Permission;
 
 import java.util.Date;
 import java.util.stream.Stream;
@@ -13,6 +14,8 @@ public class ShpService {
      * Either enable or disable away mode
      */
     public void toggleAwayMode() {
+        if(!Permission.checkAwayModePermission()) return;
+
         if(Settings.awayMode) {
             turnOffAwayMode();
         }

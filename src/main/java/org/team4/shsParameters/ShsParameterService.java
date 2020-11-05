@@ -1,6 +1,7 @@
 package org.team4.shsParameters;
 
 import org.team4.common.Settings;
+import org.team4.common.logger.Logger;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -33,6 +34,7 @@ public class ShsParameterService {
         date.setMinutes(time[1]);
         date.setSeconds(time[2]);
         Settings.simulationTime.setDateTime(date);
+        Logger.info("Date and time have been updated");
         return true;
    }
 }

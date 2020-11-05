@@ -1,4 +1,4 @@
-package org.team4.houseTest;
+package org.team4.otherTest.houseTest;
 
 import org.junit.Assert;
 import org.junit.Test;

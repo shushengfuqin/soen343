@@ -1,4 +1,4 @@
-package org.team4.shsParamTest;
+package org.team4.delivery1Test;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -7,9 +7,10 @@ import org.team4.shsParameters.ShsParameterService;
 
 import java.time.LocalDate;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class ControllerTest {
+public class u3ModifyDateTimeTest {
 
     @Ignore("To be implemented with JUnit")
     @Test

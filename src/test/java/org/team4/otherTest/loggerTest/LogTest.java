@@ -1,4 +1,4 @@
-package org.team4.loggerTest;
+package org.team4.otherTest.loggerTest;
 
 import org.json.JSONObject;
 import org.junit.Assert;
