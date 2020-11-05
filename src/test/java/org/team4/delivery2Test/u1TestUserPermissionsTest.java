@@ -39,7 +39,7 @@ public class u1TestUserPermissionsTest {
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserWindowPermission(0, 1);
-        Assert.assertFalse(valid);
+        Assert.assertTrue(valid);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class u1TestUserPermissionsTest {
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserDoorPermission(0, 1);
-        Assert.assertFalse(valid);
+        Assert.assertTrue(valid);
     }
 
 
@@ -88,6 +88,6 @@ public class u1TestUserPermissionsTest {
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserLightPermission(0, 1);
-        Assert.assertFalse(valid);
+        Assert.assertTrue(valid);
     }
 }
