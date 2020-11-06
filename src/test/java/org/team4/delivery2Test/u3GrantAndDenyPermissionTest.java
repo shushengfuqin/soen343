@@ -20,16 +20,20 @@ import org.team4.user.UserService;
 public class u3GrantAndDenyPermissionTest {
     @Test
     public void testWindowPermissions() {
+        PowerMockito.mockStatic(Logger.class);
+        BDDMockito.given(Logger.warning(anyString())).willReturn(true);
         UserService userService = mock(UserService.class);
         when(userService.getSingleUser(anyString())).thenReturn(new User("bob", "family", 18, 1, 1));
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserWindowPermission(1, 1);
-        Assert.assertTrue(valid);
+        Assert.assertFalse(valid);
     }
 
     @Test
     public void testWindowPermissionsFail() {
+        PowerMockito.mockStatic(Logger.class);
+        BDDMockito.given(Logger.warning(anyString())).willReturn(true);
         UserService userService = mock(UserService.class);
         PowerMockito.mockStatic(Logger.class);
         BDDMockito.given(Logger.warning(anyString())).willReturn(true);
@@ -37,17 +41,19 @@ public class u3GrantAndDenyPermissionTest {
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserWindowPermission(0, 1);
-        Assert.assertFalse(valid);
+        Assert.assertTrue(valid);
     }
 
     @Test
     public void testDoorPermissions() {
+        PowerMockito.mockStatic(Logger.class);
+        BDDMockito.given(Logger.warning(anyString())).willReturn(true);
         UserService userService = mock(UserService.class);
         when(userService.getSingleUser(anyString())).thenReturn(new User("bob", "family", 18, 1, 1));
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserDoorPermission(1, 1);
-        Assert.assertTrue(valid);
+        Assert.assertFalse(valid);
     }
 
     @Test
@@ -59,18 +65,20 @@ public class u3GrantAndDenyPermissionTest {
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserDoorPermission(0, 1);
-        Assert.assertFalse(valid);
+        Assert.assertTrue(valid);
     }
 
 
     @Test
     public void testLightPermissions() {
+        PowerMockito.mockStatic(Logger.class);
+        BDDMockito.given(Logger.warning(anyString())).willReturn(true);
         UserService userService = mock(UserService.class);
         when(userService.getSingleUser(anyString())).thenReturn(new User("bob", "family", 18, 1, 1));
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserLightPermission(1, 1);
-        Assert.assertTrue(valid);
+        Assert.assertFalse(valid);
     }
 
     @Test
@@ -82,6 +90,6 @@ public class u3GrantAndDenyPermissionTest {
 
         Settings.currentUser = "bob";
         boolean valid = Permission.checkUserLightPermission(0, 1);
-        Assert.assertFalse(valid);
+        Assert.assertTrue(valid);
     }
 }

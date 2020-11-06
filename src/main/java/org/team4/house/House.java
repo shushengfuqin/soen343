@@ -102,7 +102,7 @@ public class House {
      */
     public static boolean toggleWindowOpen(String s, boolean byPassPermission) {
         int[] windowLocation = getRoomLocation(s);
-        if(!byPassPermission && !Permission.checkUserLightPermission(windowLocation[0], windowLocation[1])) return false;
+        if(!byPassPermission && !Permission.checkUserWindowPermission(windowLocation[0], windowLocation[1])) return false;
 
         if(rooms[windowLocation[0]][windowLocation[1]].walls[windowLocation[2]].blocked) {
             Logger.warning("Can't open window. Blocked");
@@ -131,7 +131,7 @@ public class House {
 
     public static void toggleDoorLock(String s){
         int[] doorLocation = getRoomLocation(s);
-        if(!Permission.checkUserLightPermission(doorLocation[0], doorLocation[1])) return;
+        if(!Permission.checkUserDoorPermission(doorLocation[0], doorLocation[1])) return;
         boolean doorLockStatus = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
         if(rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open && !doorLockStatus){
             rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].open = false;
@@ -201,12 +201,12 @@ public class House {
      */
     public static boolean toggleDoor(String s, boolean byPassPermission) {
         int[] doorLocation = getRoomLocation(s);
-        if(!byPassPermission && !Permission.checkUserLightPermission(doorLocation[0], doorLocation[1])) return false;
+        if(!byPassPermission && !Permission.checkUserDoorPermission(doorLocation[0], doorLocation[1])) return false;
         String location = "(" + doorLocation[0] + ", " + doorLocation[1] + ") " + Room.wallSideMapper(doorLocation[2]);
 
         boolean doorLocked = rooms[doorLocation[0]][doorLocation[1]].walls[doorLocation[2]].blocked;
         if(doorLocked) {
-            Logger.info("Unable to open door at location " + location + ". Door is locked");
+            Logger.warning("Unable to open door at location " + location + ". Door is locked");
             return false;
         }
 

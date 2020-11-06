@@ -49,7 +49,7 @@ public class Permission {
             return false;
         }
 
-        if(permissionArr[4] && (user.getX() != x || user.getX() != y)) {
+        if(permissionArr[4] && (user.getX() != x || user.getY() != y)) {
             Logger.warning("Unable to perform action: " + action + ". Current user is not in the same location");
             return false;
         }
