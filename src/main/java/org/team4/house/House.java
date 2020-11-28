@@ -24,6 +24,7 @@ public class House {
     public static ArrayList<int[]> doors = new ArrayList<int[]>();
     public static ArrayList<Coordinate> lights = new ArrayList<>();
     public static ArrayList<Coordinate> lightsAway = new ArrayList<>();
+    public static ArrayList<Coordinate> indoorRooms = new ArrayList<>();
     public static ArrayList<int[]> lockDoor = new ArrayList<int[]>();
     public static int roomColumn = 5;
     public static int roomRow = 5;
@@ -252,6 +253,7 @@ public class House {
         lockDoor = new ArrayList<int[]>();
         lightsAway = new ArrayList<Coordinate>();
         lights = new ArrayList<Coordinate>();
+        indoorRooms = new ArrayList<Coordinate>();
         Settings.lightAutoMode = false;
     }
 
@@ -310,6 +312,21 @@ public class House {
                 if(roomName.equals("outside")) continue;
                 Coordinate coord = new Coordinate(i, j);
                 lights.add(coord);
+            }
+        }
+    }
+
+    /**
+     * Index all of the indoor rooms in the house
+     */
+    public static void indexAllIndoorRooms() {
+        for(int i = 0; i < roomColumn; i++) {
+            for(int j = 0; j < roomRow; j++) {
+                Room tempRoom = rooms[i][j];
+                String roomName = tempRoom.name;
+                if(roomName.equals("outside") || roomName.equals("backyard")) continue;
+                Coordinate coord = new Coordinate(i, j);
+                indoorRooms.add(coord);
             }
         }
     }

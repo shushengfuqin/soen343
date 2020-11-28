@@ -11,6 +11,7 @@ module org.team4 {
     opens org.team4.dashboard to javafx.fxml, javafx.base;
     opens org.team4.permissions to javafx.fxml, javafx.base;
     opens org.team4.shpParameters to javafx.fxml, javafx.base;
+    opens org.team4.shhParameters to javafx.fxml, javafx.base;
     opens org.team4.common to javafx.fxml, javafx.base;
 
     exports org.team4;

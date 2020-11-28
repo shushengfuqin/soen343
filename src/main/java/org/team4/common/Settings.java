@@ -3,6 +3,9 @@ package org.team4.common;
 import java.util.Date;
 
 public class Settings {
+    public static Double defaultTemp;
+    public static Integer summerBegin;
+    public static Integer summerEnd;
     public static String currentUser;
     public static int outsideTemperature = 20;
     public static SimulationClock simulationTime = new SimulationClock();
