@@ -21,6 +21,10 @@ public class TimePeriod {
         this.desiredTemperature = temp;
     }
 
+    /**
+     * Get the string format of a time period
+     * @return a string
+     */
     public String toString() {
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         String b = timeFormat.format(begin);
