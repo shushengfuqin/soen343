@@ -73,11 +73,16 @@ public class ShhParameterController {
     public Text overwriteError;
     public Button overwriteButton;
 
-
+    /**
+     * Controller
+     */
     public ShhParameterController() {
         zoneService = new ZoneService();
     }
 
+    /**
+     * Initial method
+     */
     public void initialize() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         defaultTempColumn.setCellValueFactory(new PropertyValueFactory<>("defaultTemp"));
@@ -88,6 +93,9 @@ public class ShhParameterController {
         resetErrorMessages();
     }
 
+    /**
+     * Resets all the error message
+     */
     public void resetErrorMessages() {
         addNameError.setText("");
         addTempError.setText("");
@@ -99,6 +107,9 @@ public class ShhParameterController {
         overwriteError.setText("");
     }
 
+    /**
+     * Display all of the rooms in choice box
+     */
     public void displayAllRooms() {
         ArrayList<Coordinate> allRooms = zoneService.getAllIndoorRooms();
         roomsChoiceBox.getItems().clear();
@@ -127,6 +138,9 @@ public class ShhParameterController {
         }
     }
 
+    /**
+     * Handle action to add new zone
+     */
     public void handleAddNewZone() {
         resetErrorMessages();
         String name = addName.getText();
@@ -149,6 +163,10 @@ public class ShhParameterController {
         displayAllZones();
     }
 
+    /**
+     * Enable or disable all edit buttons
+     * @param disable
+     */
     public void toggleAllEditButton(boolean disable) {
         setPeriodTemp1.setDisable(disable);
         setPeriodTemp2.setDisable(disable);
@@ -157,6 +175,9 @@ public class ShhParameterController {
         deleteZone.setDisable(disable);
     }
 
+    /**
+     * updates edit depending on zone in choice box
+     */
     public void handleZoneChoiceBox() {
         String selectedZone = zoneChoiceBox.getValue();
         if(selectedZone == null) {
@@ -183,6 +204,9 @@ public class ShhParameterController {
         editTemp.setText(Double.toString(temp));
     }
 
+    /**
+     * Edit the temperature
+     */
     public void handleEditTemperature() {
         resetErrorMessages();
         String temp = editTemp.getText();
@@ -196,6 +220,9 @@ public class ShhParameterController {
         displayAllZones();
     }
 
+    /**
+     * Set the time period 1 of zone
+     */
     public void handleSetPeriod1(){
         resetErrorMessages();
         String zone = zoneChoiceBox.getValue();
@@ -213,6 +240,9 @@ public class ShhParameterController {
         displayAllZones();
     }
 
+    /**
+     * Set the time period 2 of zone
+     */
     public void handleSetPeriod2(){
         resetErrorMessages();
         String zone = zoneChoiceBox.getValue();
@@ -230,6 +260,9 @@ public class ShhParameterController {
         displayAllZones();
     }
 
+    /**
+     * Set the time period 3 of zone
+     */
     public void handleSetPeriod3(){
         resetErrorMessages();
         String zone = zoneChoiceBox.getValue();
@@ -248,6 +281,9 @@ public class ShhParameterController {
 
     }
 
+    /**
+     * Delete a zone
+     */
     public void handleDeleteZone() {
         resetErrorMessages();
         String zone = zoneChoiceBox.getValue();
@@ -259,6 +295,9 @@ public class ShhParameterController {
         deleteError.setText("Failed to delete zone");
     }
 
+    /**
+     * Add room to a zone
+     */
     public void handleAddRoom() {
         resetErrorMessages();
         String room = roomsChoiceBox.getValue();
@@ -268,6 +307,9 @@ public class ShhParameterController {
         zoneService.setRoomZone(zone, coord.x, coord.y);
     }
 
+    /**
+     * Get room temperature
+     */
     public void handleGetRoomTemp() {
         resetErrorMessages();
         String room = roomsChoiceBox1.getValue();
@@ -275,6 +317,9 @@ public class ShhParameterController {
         zoneService.requestRoomTemperature(new Coordinate(room));
     }
 
+    /**
+     * Overwrite room temperature
+     */
     public void handleOverwriteTemperature() {
         resetErrorMessages();
         String room = roomChoiceBox2.getValue();
