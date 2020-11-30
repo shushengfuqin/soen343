@@ -1,9 +1,15 @@
 package org.team4.house.components;
 
 import org.json.JSONObject;
+import org.team4.common.Settings;
 
 public class Room {
     public String name;
+    public String zone;
+    public boolean tempOverWritten;
+    public double currentTemp;
+    public boolean airConditioning = false;
+    public boolean heater = false;
 
     //Left wall = 0 ; Top wall = 1 ; Right wall = 2 ; Bottom wall = 3;
     public Wall[] walls;
@@ -14,6 +20,9 @@ public class Room {
     {
         walls = new Wall[4];
         this.name = name;
+        this.tempOverWritten = false;
+        this.currentTemp = Settings.defaultTemp;
+        this.zone = name.equals("outside") || name.equals("backyard") ? null : "default";
         walls[0] = new Wall(lw);
         walls[1] = new Wall(tw);
         walls[2] = new Wall(rw);
@@ -24,6 +33,9 @@ public class Room {
     // #2. constructor which accepts the room from the house layout.
     public Room(JSONObject jo) {
         walls = new Wall[4];
+        this.tempOverWritten = false;
+        this.currentTemp = Settings.defaultTemp;
+        this.zone = "default";
         this.name = jo.getString("name");
 
         String leftWallType = jo.getString("leftWall");

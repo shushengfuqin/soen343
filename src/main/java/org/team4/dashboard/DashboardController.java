@@ -8,6 +8,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.team4.App;
+import org.team4.common.logger.Logger;
+import org.team4.shhParameters.ShhParameterController;
 import org.team4.shpParameters.ShpParameterController;
 import org.team4.common.Settings;
 import org.team4.common.logger.Log;
@@ -40,6 +42,9 @@ public class DashboardController {
     public ShpParameterController shpParameterController;
 
     @FXML
+    public ShhParameterController shhParameterController;
+
+    @FXML
     public Button closeButton;
     public Button startButton;
 
@@ -69,6 +74,11 @@ public class DashboardController {
     public Tab shcTab;
     public Tab shpTab;
     public Tab shhTab;
+
+    //summer & default temp
+    public Text defaultTemp;
+    public Text summerBegin;
+    public Text summerEnd;
 
 
     public DashboardController() {
@@ -128,6 +138,19 @@ public class DashboardController {
      */
     public void startButtonAction(ActionEvent event) {
         if(startButton.getText().equals("Start")) {
+            boolean valid = true;
+            if(Settings.defaultTemp == null) {
+                Logger.error("Default temperature is not defined");
+                valid = false;
+            }
+
+            if(Settings.summerBegin == null || Settings.summerEnd == null) {
+                Logger.error("Summer months are not defined");
+                valid = false;
+            }
+
+            if(!valid) return;
+
             startSimulation();
         } else {
             stopSimulation();
@@ -143,6 +166,7 @@ public class DashboardController {
         Settings.simulationStarted = true;
         House.getHouseLayout();
         House.indexHouseWindowAndDoor();
+        House.indexAllIndoorRooms();
         House.indexAllLights();
         House.lockAllDoor();
         shpParameterController.displayLightsInAwayMode();
@@ -151,6 +175,7 @@ public class DashboardController {
         userController.initializeShsParametersSimStart();
         shcParameterController.initialize();
         shcParameterController.toggleAwayShcButtons();
+        shhParameterController.displayAllRooms();
         toggleTabs();
         drawHouseLayout();
         startButton.setText("Stop");
@@ -195,8 +220,13 @@ public class DashboardController {
      * Update the current shs params in the dashboard
      */
     public void updateInfo() {
-        outsideTemp.setText(Integer.toString(Settings.outsideTemperature));
+        outsideTemp.setText((Settings.outsideTemperature) + "°C");
         updateTime(Settings.simulationTime.getDate());
+
+        defaultTemp.setText(Settings.defaultTemp == null ? ("None") : (Settings.defaultTemp.toString() + "°C"));
+        summerBegin.setText(Settings.summerBegin == null ? ("None") : (Settings.summerBegin.toString()));
+        summerEnd.setText(Settings.summerEnd == null ? ("None") : (Settings.summerEnd.toString()));
+
     }
 
     public void updateTime(Date date) {

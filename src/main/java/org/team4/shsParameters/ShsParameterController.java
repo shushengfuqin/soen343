@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.team4.App;
+import org.team4.common.logger.Log;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Helper;
@@ -49,6 +50,17 @@ public class ShsParameterController {
     public ChoiceBox<String> windowChoices;
     public Button blockWindowButton;
 
+    //Default temp
+    public TextField defaultTemp;
+    public Button setDefaultTemp;
+    public Text defaultTempError;
+
+    //Summer
+    public TextField summerBegin;
+    public TextField summerEnd;
+    public Button setSummerMonth;
+    public Text summerBeginError;
+    public Text summerEndError;
 
     public ShsParameterController() {
         shsParameterService = new ShsParameterService();
@@ -59,6 +71,20 @@ public class ShsParameterController {
         dateTimeInit();
         houseLocationInit();
         initWindowChoices();
+        defaultTempInit();
+        summerMonthInit();
+    }
+
+    public void summerMonthInit() {
+        summerBegin.setText("");
+        summerEnd.setText("");
+        summerBeginError.setText("");
+        summerEndError.setText("");
+    }
+
+    public void defaultTempInit() {
+        defaultTempError.setText("");
+        defaultTemp.setText("");
     }
 
     public void initWindowChoices() {
@@ -180,6 +206,10 @@ public class ShsParameterController {
         initialize();
     }
 
+    /**
+     * Open the permission page
+     * @throws IOException
+     */
     public void openPermissionPage() throws IOException
     {
         Parent part = FXMLLoader.load(App.class.getResource("permissionCheck.fxml"));
@@ -188,6 +218,46 @@ public class ShsParameterController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Set the summer months beginning and end
+     */
+    public void handleSummerMonth() {
+        summerBeginError.setText("");
+        String b = summerBegin.getText();
+        String e = summerEnd.getText();
+        try {
+            int begin = Integer.parseInt(b);
+            int end = Integer.parseInt(e);
+            if(begin > end || begin > 12 || end > 12 || begin < 0 || end < 0) throw new Exception();
+            Settings.summerBegin = begin;
+            Settings.summerEnd = end;
+            Logger.info("New summer months have been set");
+            DashboardController dashboardController = App.fxmlLoader.getController();
+            dashboardController.updateInfo();
+        }
+        catch (Exception ex) {
+            summerBeginError.setText("Integer from 0 - 12 : Begin <= End");
+        }
+    }
+
+    /**
+     * Set the default temperature
+     */
+    public void handleDefaultTemp() {
+        defaultTempError.setText("");
+        String temp = defaultTemp.getText();
+        try {
+            double defaultTemp = Double.parseDouble(temp);
+            Settings.defaultTemp = defaultTemp;
+            Logger.info("New default temperature has been set");
+            DashboardController dashboardController = App.fxmlLoader.getController();
+            dashboardController.updateInfo();
+        }
+        catch (Exception e) {
+            defaultTempError.setText("Double only");
+        }
     }
 }
 

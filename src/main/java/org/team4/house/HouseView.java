@@ -319,36 +319,99 @@ public class HouseView {
         }
     }
 
+    public HBox getIconBox(Room room, Boolean containUsers) {
+        HBox iconBox = new HBox();
+        double height = (roomWidth-(2 * roomWidth/10))/4;
+        iconBox.setPrefHeight(height);
+        iconBox.setPrefWidth(roomWidth-(2 * roomWidth/10));
+
+        Pane userIcon = new Pane();
+        userIcon.setPrefHeight(height);
+        userIcon.setPrefWidth(height);
+        if(containUsers) {
+            URL url = App.class.getResource("/org/img/userIcon.png");
+            BackgroundImage userBI = new BackgroundImage(new Image(url.toString(), height, height, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            userIcon.setBackground(new Background(userBI));
+        }
+
+        Pane acIcon = new Pane();
+        acIcon.setPrefHeight(height);
+        acIcon.setPrefWidth(height);
+        if(room.airConditioning) {
+            URL url = App.class.getResource("/org/img/acIcon.png");
+            BackgroundImage acBI = new BackgroundImage(new Image(url.toString(), height, height, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            acIcon.setBackground(new Background(acBI));
+        }
+
+        Pane heaterIcon = new Pane();
+        heaterIcon.setPrefHeight(height);
+        heaterIcon.setPrefWidth(height);
+        if(room.heater) {
+            URL url = App.class.getResource("/org/img/heaterIcon.png");
+            BackgroundImage heaterBI = new BackgroundImage(new Image(url.toString(), height, height, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            heaterIcon.setBackground(new Background(heaterBI));
+        }
+
+        Pane lightIcon = new Pane();
+        lightIcon.setPrefHeight(height);
+        lightIcon.setPrefWidth(height);
+        if(room.lightOn && !room.name.equals("outside")) {
+            URL url = App.class.getResource("/org/img/lightIcon.png");
+            BackgroundImage heaterBI = new BackgroundImage(new Image(url.toString(), height, height, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            lightIcon.setBackground(new Background(heaterBI));
+        }
+
+        iconBox.getChildren().addAll(userIcon, acIcon, heaterIcon, lightIcon);
+        return iconBox;
+    }
+
     public void drawInformationBox(AnchorPane roomPane, Room room, ArrayList<String> allUsersInRoom) {
         StackPane infoPane = new StackPane();
         VBox infoBox = new VBox();
-        infoPane.setPrefHeight(roomHeight-(2 * roomHeight/10));
-        infoPane.setPrefWidth(roomWidth-(2 * roomWidth/10));
+        double remainingHeight = roomHeight-(2 * roomHeight/10);
+        double remainingWidth = roomWidth-(2 * roomWidth/10);
+        infoPane.setPrefHeight(remainingHeight);
+        infoPane.setPrefWidth(remainingWidth);
         AnchorPane.setTopAnchor(infoPane, (double) roomHeight/10);
         AnchorPane.setLeftAnchor(infoPane, (double) roomWidth/10);
 
+        remainingHeight -= (roomWidth-(2 * roomWidth/10))/4;
+        HBox iconBox = getIconBox(room, !allUsersInRoom.isEmpty());
+
         Text roomName = new Text();
         StackPane nameBox = new StackPane();
+        nameBox.setPrefHeight(0.2 * remainingHeight);
+        nameBox.setPrefWidth(remainingWidth);
         roomName.setText(room.name);
         roomName.setFill(Color.BLACK);
-        roomName.setStyle("-fx-font: bold 17 arial;");
+        roomName.setStyle("-fx-font: bold 14 arial;");
         nameBox.getChildren().add(roomName);
         nameBox.setAlignment(roomName, Pos.CENTER);
 
-
-        Text roomUsers = new Text();
-        StackPane userBox = new StackPane();
-        String users = "";
-        for(String s : allUsersInRoom) {
-            users += s + "\n";
+        Pane infoArea = new Pane();
+        infoArea.setPrefHeight(0.8 * remainingHeight);
+        infoArea.setPrefWidth(remainingWidth);
+        if(!room.name.equals("outside") && !room.name.equals("backyard")) {
+            Text roomInfo = new Text();
+            StackPane infoContainer = new StackPane();
+            String info = "Current temp:\n" + room.currentTemp + "°C\n" + "Zone: " + room.zone + "\nOW: " + room.tempOverWritten;
+            roomInfo.setText(info);
+            roomInfo.setFill(Color.BLACK);
+            roomInfo.setStyle("-fx-font: 13 arial");
+            infoContainer.getChildren().add(roomInfo);
+            infoContainer.setAlignment(roomName, Pos.CENTER);
+            infoArea.getChildren().add(infoContainer);
         }
-        roomUsers.setText(users);
-        roomUsers.setFill(Color.BLACK);
-        roomUsers.setStyle("-fx-font: 15 arial");
-        userBox.getChildren().add(roomUsers);
-        userBox.setAlignment(roomName, Pos.CENTER);
 
-        infoBox.getChildren().addAll(nameBox, userBox);
+        infoBox.getChildren().addAll(nameBox, infoArea, iconBox);
 
         infoPane.getChildren().addAll(infoBox);
         infoPane.setAlignment(infoBox, Pos.CENTER);
