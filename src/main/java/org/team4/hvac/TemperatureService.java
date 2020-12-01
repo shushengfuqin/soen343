@@ -15,10 +15,16 @@ import java.util.Date;
 public class TemperatureService {
     private ZoneService zoneService;
 
+    /**
+     * The constructor
+     */
     public TemperatureService(){
         zoneService = new ZoneService();
     }
 
+    /**
+     * Update the temp of all indoor rooms
+     */
     public void updateTemperature(){
         for(Coordinate coord : House.indoorRooms){
             Room currentRoom = House.rooms[coord.x][coord.y];
@@ -32,6 +38,12 @@ public class TemperatureService {
         }
     }
 
+    /**
+     * Gets the desired temperature of the room
+     * @param room the current room
+     * @param date the current date
+     * @return the desired temp of a room
+     */
     public double getDesiredTemp(Room room, Date date) {
         //return the overwritten desired temperature
         if(room.tempOverWritten) return room.desiredTemp;
@@ -57,10 +69,19 @@ public class TemperatureService {
         return currentZone.defaultTemp;
     }
 
+    /**
+     * Update the temperature of a single room
+     * @param x coordinate of the room
+     * @param y coordinate of the room
+     * @param desiredTemp the desired temp of the room
+     * @param currentTemp the current temp of the room
+     * @param date the current date
+     * @param room the selected room
+     */
     public void updateRoomTemp(int x, int y, double desiredTemp, double currentTemp, Date date, Room room){
         double outsideTemp = Settings.outsideTemperature;
         double tempDiff = Math.abs(desiredTemp - currentTemp);
-        boolean canOpenWindow = openWindowOrNot(x, y, date);
+        boolean canOpenWindow = openWindowOrNot(date);
         boolean containWindow = House.hasWindow(x, y);
         boolean windowsBlocked = House.checkWindowBlock(x, y);
         boolean heaterOn = false;
@@ -103,11 +124,21 @@ public class TemperatureService {
         House.toggleWindowsInRoom(x, y, windowOpened);
     }
 
+    /**
+     * Check if the current date is in summer
+     * @param date current date
+     * @return true if it's summer
+     */
     public boolean seasonIsSummer(Date date) {
         return date.getMonth()+1 >= Settings.summerBegin && date.getMonth()+1 <= Settings.summerEnd;
     }
 
-    public boolean openWindowOrNot(int x, int y, Date date){
+    /**
+     * Check if a window can be opened or not
+     * @param date current date
+     * @return a boolean if a window can be opened or not
+     */
+    public boolean openWindowOrNot(Date date){
         if (Settings.awayMode) return false;
         if(seasonIsSummer(date)) return true;
         return false;
