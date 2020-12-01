@@ -78,7 +78,6 @@ public class UserController {
 
         DashboardController dashboardController = App.fxmlLoader.getController();
         dashboardController.setCurrentUserDashboard();
-        dashboardController.drawHouseLayout();
     }
 
     public void clearInputField() {

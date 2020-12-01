@@ -17,4 +17,14 @@ public class Helper {
         }
         return true;
     }
+
+    /**
+     * Round double to 2 decimal
+     * @param x
+     * @return
+     */
+    public static double roundToTwoDecimal(double x) {
+        return Math.round((x) * 100.0) / 100.0;
+    }
+
 }

@@ -78,25 +78,26 @@ public class House {
     }
 
     /**
-     * Open all windows from x, y, room
+     * Check if a room contains windows
+     * @param x
+     * @param y
+     * @return
      */
-    public static void openAllWindowInRoom(int x, int y){
-        for(int i = 0; i < 4 ; i++){
-            if(rooms[x][y].walls[i].type.equals("window")){
-                rooms[x][y].walls[i].open = true;
-            }
-        }
+    public static boolean hasWindow(int x, int y) {
+        for(Wall wall : rooms[x][y].walls)
+            if(wall.type.equals("window")) return true;
+        return false;
     }
 
     /**
-     * close all windows from x, y, room
+     * Open or close windows in a room
+     * @param x
+     * @param y
+     * @param open
      */
-    public static void closeAllWindowInRoom(int x, int y){
-        for(int i = 0; i < 4 ; i++){
-            if(rooms[x][y].walls[i].type.equals("window")){
-                rooms[x][y].walls[i].open = false;
-            }
-        }
+    public static void toggleWindowsInRoom(int x, int y, boolean open) {
+        for(Wall wall : rooms[x][y].walls)
+            if(wall.type.equals("window")) wall.open = open;
     }
 
     /**

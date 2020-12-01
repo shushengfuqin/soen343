@@ -162,7 +162,6 @@ public class DashboardController {
      */
     private void startSimulation() {
         updateTime(Settings.simulationTime.getDate());
-        Settings.startClock();
         Settings.simulationStarted = true;
         House.getHouseLayout();
         House.indexHouseWindowAndDoor();
@@ -177,7 +176,7 @@ public class DashboardController {
         shcParameterController.toggleAwayShcButtons();
         shhParameterController.displayAllRooms();
         toggleTabs();
-        drawHouseLayout();
+        Settings.startClock();
         startButton.setText("Stop");
     }
 

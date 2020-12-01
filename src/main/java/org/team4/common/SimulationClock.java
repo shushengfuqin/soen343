@@ -4,12 +4,8 @@ import org.team4.App;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
 import org.team4.house.House;
-import org.team4.house.TemperatureService;
+import org.team4.hvac.TemperatureService;
 
-import java.nio.channels.SeekableByteChannel;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +18,7 @@ public class SimulationClock extends Thread{
     public void run(){
         Date dt;
         int timeBeforeAlert = Settings.timeBeforeAlerting;
+        DashboardController dashboardController = App.fxmlLoader.getController();
         TemperatureService temperatureService = new TemperatureService();
         while(!stop){
             try {
@@ -51,7 +48,6 @@ public class SimulationClock extends Thread{
             setDateTime(dt);
 
             temperatureService.updateTemperature();
-            DashboardController dashboardController = App.fxmlLoader.getController();
             dashboardController.updateTime(getDate());
             dashboardController.drawHouseLayout();
         }
@@ -71,15 +67,11 @@ public class SimulationClock extends Thread{
             House.turnOnAllAwayModeLights();
             Logger.info("All away mode lights have been turned on");
             Settings.awayLightOn = true;
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
         else if (!targetInZone && Settings.awayLightOn) {
             House.turnOffAllLights();
             Logger.info("All away mode lights have been turned off");
             Settings.awayLightOn = false;
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
 
     }
@@ -88,7 +80,7 @@ public class SimulationClock extends Thread{
      * Set the clock speed multiplier
      * @param m int multiplier
      */
-    public synchronized  void setMultiplier(int m) {
+    public synchronized void setMultiplier(int m) {
         setting = true;
         this.multiplier = m;
         setting = false;

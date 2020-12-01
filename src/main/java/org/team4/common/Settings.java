@@ -17,6 +17,10 @@ public class Settings {
     public static Date awayLightOnTime = null;
     public static Date awayLightOffTime = null;
     public static boolean awayLightOn = false;
+    public static double tempAlertUpperBound = 100;
+    public static double tempAlertLowerBound = 0;
+    public static double summerTemperature = 20;
+    public static double winterTemperature = 20;
 
     /**
      * Reset the settings to default values
@@ -33,6 +37,10 @@ public class Settings {
         awayLightOnTime = null;
         awayLightOffTime = null;
         awayLightOn = false;
+        tempAlertUpperBound = 100;
+        tempAlertLowerBound = 0;
+        summerTemperature = 20;
+        winterTemperature = 20;
     }
 
     /**

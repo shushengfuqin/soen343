@@ -2,6 +2,7 @@ package org.team4.shhParameters;
 
 import org.team4.App;
 import org.team4.common.Coordinate;
+import org.team4.common.Settings;
 import org.team4.common.TimePeriod;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
@@ -181,8 +182,6 @@ public class ZoneService {
     public void setRoomZone(String zone, int x, int y) {
         House.rooms[x][y].zone = zone;
         Logger.info("Room has been added to zone");
-        DashboardController dashboardController = App.fxmlLoader.getController();
-        dashboardController.drawHouseLayout();
     }
 
     /**
@@ -200,10 +199,30 @@ public class ZoneService {
      * @param temp new temp
      */
     public void overwriteTemperature(Coordinate coord, double temp) {
-        House.rooms[coord.x][coord.y].currentTemp = temp;
+        House.rooms[coord.x][coord.y].desiredTemp = temp;
         House.rooms[coord.x][coord.y].tempOverWritten = true;
         Logger.info("Room temperature has been overwritten");
-        DashboardController dashboardController = App.fxmlLoader.getController();
-        dashboardController.drawHouseLayout();
+    }
+
+    /**
+     * Set the default summer and winter temperature
+     * @param summer temperature
+     * @param winter winter temperature
+     */
+    public void setSeasonalTemperature(double summer, double winter) {
+        Settings.summerTemperature = summer;
+        Settings.winterTemperature = winter;
+        Logger.info("Seasonal temperature have been updated");
+    }
+
+    /**
+     * Set temperature alert thresholds
+     * @param upper bound
+     * @param lower lower
+     */
+    public void setTemperatureAlertThreshold(double upper, double lower) {
+        Settings.tempAlertUpperBound = upper;
+        Settings.tempAlertLowerBound = lower;
+        Logger.info("Alert temperature thresholds have been updated");
     }
 }

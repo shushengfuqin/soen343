@@ -402,7 +402,7 @@ public class HouseView {
         if(!room.name.equals("outside") && !room.name.equals("backyard")) {
             Text roomInfo = new Text();
             StackPane infoContainer = new StackPane();
-            String info = "Current temp:\n" + room.currentTemp + "°C\n" + "Zone: " + room.zone + "\nOW: " + room.tempOverWritten;
+            String info = "Current temp:\n" + room.currentTemp + "°C\n" + "Zone: " + room.zone + (room.tempOverWritten ? "\nOverwritten" : "");
             roomInfo.setText(info);
             roomInfo.setFill(Color.BLACK);
             roomInfo.setStyle("-fx-font: 13 arial");
