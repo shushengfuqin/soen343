@@ -57,12 +57,47 @@ public class House {
     }
 
     /**
+     * Checks if a window in a room is blocked
+     * @param x coordinate of the room
+     * @param y coordinate of the room
+     * @return true if there's a blocked window
+     */
+    public static boolean checkWindowBlock(int x, int y){
+        for(Wall wall : rooms[x][y].walls)
+            if(wall.type.equals("window") && wall.blocked) return true;
+        return false;
+    }
+
+    /**
      * Turns on all away mode lights
      */
     public static void turnOnAllAwayModeLights() {
         for(Coordinate c : lightsAway) {
             rooms[c.x][c.y].lightOn = true;
         }
+    }
+
+    /**
+     * Check if a room contains windows
+     * @param x
+     * @param y
+     * @return
+     */
+    public static boolean hasWindow(int x, int y) {
+        for(Wall wall : rooms[x][y].walls)
+            if(wall.type.equals("window")) return true;
+        return false;
+    }
+
+    /**
+     * Open or close windows in a room
+     * @param x
+     * @param y
+     * @param open
+     */
+    public static void toggleWindowsInRoom(int x, int y, boolean open) {
+        for(Wall wall : rooms[x][y].walls)
+            if(wall.type.equals("window")) wall.open = open;
     }
 
     /**

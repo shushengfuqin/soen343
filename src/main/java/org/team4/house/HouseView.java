@@ -339,7 +339,7 @@ public class HouseView {
         Pane acIcon = new Pane();
         acIcon.setPrefHeight(height);
         acIcon.setPrefWidth(height);
-        if(room.airConditioning) {
+        if(room.airConditioning && !room.name.equals("outside") && !room.name.equals("backyard")) {
             URL url = App.class.getResource("/org/img/acIcon.png");
             BackgroundImage acBI = new BackgroundImage(new Image(url.toString(), height, height, false, true),
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -350,7 +350,7 @@ public class HouseView {
         Pane heaterIcon = new Pane();
         heaterIcon.setPrefHeight(height);
         heaterIcon.setPrefWidth(height);
-        if(room.heater) {
+        if(room.heater && !room.name.equals("outside") && !room.name.equals("backyard")) {
             URL url = App.class.getResource("/org/img/heaterIcon.png");
             BackgroundImage heaterBI = new BackgroundImage(new Image(url.toString(), height, height, false, true),
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -402,7 +402,7 @@ public class HouseView {
         if(!room.name.equals("outside") && !room.name.equals("backyard")) {
             Text roomInfo = new Text();
             StackPane infoContainer = new StackPane();
-            String info = "Current temp:\n" + room.currentTemp + "°C\n" + "Zone: " + room.zone + "\nOW: " + room.tempOverWritten;
+            String info = "Current temp:\n" + room.currentTemp + "°C\n" + "Zone: " + room.zone + (room.tempOverWritten ? "\nOverwritten" : "");
             roomInfo.setText(info);
             roomInfo.setFill(Color.BLACK);
             roomInfo.setStyle("-fx-font: 13 arial");

@@ -73,6 +73,18 @@ public class ShhParameterController {
     public Text overwriteError;
     public Button overwriteButton;
 
+    //Set seasonal temperature
+    public TextField summerTemp;
+    public TextField winterTemp;
+    public Button seasonTempButton;
+    public Text seasonTempError;
+
+    //Temperature alert threshold
+    public TextField upperBound;
+    public TextField lowerBound;
+    public Button thresholdButton;
+    public Text thresholdError;
+
     /**
      * Controller
      */
@@ -105,6 +117,8 @@ public class ShhParameterController {
         editPeriodError3.setText("");
         deleteError.setText("");
         overwriteError.setText("");
+        seasonTempError.setText("");
+        thresholdError.setText("");
     }
 
     /**
@@ -329,5 +343,35 @@ public class ShhParameterController {
             return;
         }
         zoneService.overwriteTemperature(new Coordinate(room), temp);
+    }
+
+    /**
+     * Sets the seasonal temperature
+     */
+    public void handleSetSeasonTemperature() {
+        resetErrorMessages();
+        try {
+            double sum = Double.parseDouble(summerTemp.getText());
+            double win = Double.parseDouble(winterTemp.getText());
+            zoneService.setSeasonalTemperature(sum, win);
+        }
+        catch (Exception e) {
+            seasonTempError.setText("X");
+        }
+    }
+
+    /**
+     * Sets the temperature alert thresholds
+     */
+    public void handleSetTemperatureThreshold() {
+        resetErrorMessages();
+        try {
+            double upper = Double.parseDouble(upperBound.getText());
+            double lower = Double.parseDouble(lowerBound.getText());
+            zoneService.setTemperatureAlertThreshold(upper, lower);
+        }
+        catch (Exception e) {
+            thresholdError.setText("X");
+        }
     }
 }

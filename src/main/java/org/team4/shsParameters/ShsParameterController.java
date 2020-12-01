@@ -112,8 +112,6 @@ public class ShsParameterController {
         if(windowChoices.getValue() != null) {
             House.toggleWindowBlock(windowChoices.getValue());
             initWindowChoices();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
     }
 

@@ -123,8 +123,6 @@ public class ShcParameterController {
         if (windowChoiceBox.getValue() != null) {
             House.toggleWindowOpen(windowChoiceBox.getValue(), false);
             windowAndDoorChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
     }
 
@@ -145,8 +143,6 @@ public class ShcParameterController {
         if (doorsChoiceBox.getValue() != null) {
             House.toggleDoor(doorsChoiceBox.getValue(), false);
             windowAndDoorChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
     }
 
@@ -167,8 +163,6 @@ public class ShcParameterController {
         if (lightsChoiceBox.getValue() != null) {
             House.toggleLights(lightsChoiceBox.getValue());
             lightsChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
     }
 
@@ -179,8 +173,6 @@ public class ShcParameterController {
         if(lockDoorChoiceBox.getValue() != null){
             House.toggleDoorLock(lockDoorChoiceBox.getValue());
             windowAndDoorChoiceBoxInit();
-            DashboardController dashboardController = App.fxmlLoader.getController();
-            dashboardController.drawHouseLayout();
         }
     }
 
@@ -211,8 +203,6 @@ public class ShcParameterController {
     public void toggleLightAutomaticMode() {
         House.toggleLightAuto();
         lightAutomaticModeInit();
-        DashboardController dashboardController = App.fxmlLoader.getController();
-        dashboardController.drawHouseLayout();
     }
 
     /**

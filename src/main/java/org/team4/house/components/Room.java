@@ -7,6 +7,7 @@ public class Room {
     public String name;
     public String zone;
     public boolean tempOverWritten;
+    public double desiredTemp;
     public double currentTemp;
     public boolean airConditioning = false;
     public boolean heater = false;
@@ -22,6 +23,7 @@ public class Room {
         this.name = name;
         this.tempOverWritten = false;
         this.currentTemp = Settings.defaultTemp;
+        this.desiredTemp = Settings.defaultTemp;
         this.zone = name.equals("outside") || name.equals("backyard") ? null : "default";
         walls[0] = new Wall(lw);
         walls[1] = new Wall(tw);
@@ -35,6 +37,7 @@ public class Room {
         walls = new Wall[4];
         this.tempOverWritten = false;
         this.currentTemp = Settings.defaultTemp;
+        this.desiredTemp = Settings.defaultTemp;
         this.zone = "default";
         this.name = jo.getString("name");
 

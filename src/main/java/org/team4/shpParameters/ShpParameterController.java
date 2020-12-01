@@ -169,7 +169,6 @@ ShpParameterController {
         displayAwayModeButton();
         toggleSHPButtons();
         DashboardController dashboardController = App.fxmlLoader.getController();
-        dashboardController.drawHouseLayout();
         dashboardController.toggleAwayShcButtons();
     }
 
