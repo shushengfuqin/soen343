@@ -1,12 +1,13 @@
 package org.team4.shhParameters;
 
 import org.team4.common.TimePeriod;
-import org.team4.house.House;
+import org.team4.house.HouseService;
 import org.team4.house.components.Room;
 
 import java.util.HashSet;
 
 public class HouseZones {
+    private HouseService houseService;
     public HashSet<Zone> allZones;
 
     /**
@@ -14,6 +15,7 @@ public class HouseZones {
      */
     public HouseZones() {
         this.allZones = new HashSet<>();
+        this.houseService = new HouseService();
         addZone("default", 20);
     }
 
@@ -52,9 +54,9 @@ public class HouseZones {
         if(!zoneExist(name)) return true;
 
         //Check if there's a room in the zone
-        Room[][] rooms = House.rooms;
-        for(int i = 0; i < House.roomColumn; i++) {
-            for (int j = 0; j < House.roomRow; j++) {
+        Room[][] rooms = houseService.house.rooms;
+        for(int i = 0; i < houseService.house.roomColumn; i++) {
+            for (int j = 0; j < houseService.house.roomRow; j++) {
                 if(rooms[i][j].zone.equals(name)) {
                     return false;
                 }

@@ -1,20 +1,24 @@
 package org.team4.user;
 
+import org.team4.common.Coordinate;
 import org.team4.common.Helper;
 import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
 import org.team4.common.observer.ObservableHandler;
-import org.team4.house.House;
+import org.team4.house.HouseService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserService {
 
+    private HouseService houseService;
+
     @Deprecated
     public static ObservableHandler userMovementObserver = new ObservableHandler();
 
     public UserService() {
+        houseService = new HouseService();
     }
 
     /**
@@ -82,12 +86,12 @@ public class UserService {
         failReasons[1] = validatePositiveInt(y);
         if(failReasons[0] == null) {
             int intX = Integer.parseInt(x);
-            if(intX >= House.roomRow) failReasons[0] = "[0-"+(House.roomRow-1) +"]";
+            if(intX >= houseService.house.roomRow) failReasons[0] = "[0-"+(houseService.house.roomRow-1) +"]";
         }
 
         if(failReasons[1] == null) {
             int intY = Integer.parseInt(y);
-            if(intY >= House.roomColumn) failReasons[1] = "[0-"+(House.roomColumn-1)+"]";
+            if(intY >= houseService.house.roomColumn) failReasons[1] = "[0-"+(houseService.house.roomColumn-1)+"]";
         }
         return failReasons;
     }
@@ -202,5 +206,17 @@ public class UserService {
                 allUserInLocation.add(u.name);
         }
         return allUserInLocation;
+    }
+
+    /**
+     * Check whether a user is in the house or not
+     */
+    public boolean userInHouse() {
+        for(Coordinate coord : houseService.house.lights) {
+            ArrayList<String> allUsersInRoom = userInLocation(coord.x, coord.y);
+            if(!allUsersInRoom.isEmpty())
+                return true;
+        }
+        return false;
     }
 }

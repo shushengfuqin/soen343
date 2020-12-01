@@ -1,11 +1,11 @@
-package org.team4.hvac;
+package org.team4.house.services;
 
 import org.team4.common.Coordinate;
 import org.team4.common.Helper;
 import org.team4.common.Settings;
 import org.team4.common.SimulationClock;
 import org.team4.common.logger.Logger;
-import org.team4.house.House;
+import org.team4.house.HouseService;
 import org.team4.house.components.Room;
 import org.team4.shhParameters.Zone;
 import org.team4.shhParameters.ZoneService;
@@ -14,20 +14,24 @@ import java.util.Date;
 
 public class TemperatureService {
     private ZoneService zoneService;
+    private WindowService windowService;
+    private HouseService houseService;
 
     /**
      * The constructor
      */
     public TemperatureService(){
         zoneService = new ZoneService();
+        windowService = new WindowService();
+        houseService = new HouseService();
     }
 
     /**
      * Update the temp of all indoor rooms
      */
     public void updateTemperature(){
-        for(Coordinate coord : House.indoorRooms){
-            Room currentRoom = House.rooms[coord.x][coord.y];
+        for(Coordinate coord : houseService.house.indoorRooms){
+            Room currentRoom = houseService.getRooms()[coord.x][coord.y];
             double currentTemp = currentRoom.currentTemp;
             if(currentTemp < Settings.tempAlertLowerBound || currentTemp > Settings.tempAlertUpperBound)
                 Logger.warning("The temperature in room " + coord + " is unusual");
@@ -82,8 +86,8 @@ public class TemperatureService {
         double outsideTemp = Settings.outsideTemperature;
         double tempDiff = Math.abs(desiredTemp - currentTemp);
         boolean canOpenWindow = openWindowOrNot(date);
-        boolean containWindow = House.hasWindow(x, y);
-        boolean windowsBlocked = House.checkWindowBlock(x, y);
+        boolean containWindow = windowService.hasWindow(x, y);
+        boolean windowsBlocked = windowService.checkWindowBlock(x, y);
         boolean heaterOn = false;
         boolean airConditioningOn = false;
         boolean windowOpened = false;
@@ -121,7 +125,7 @@ public class TemperatureService {
         room.airConditioning = airConditioningOn;
         room.heater = heaterOn;
         room.currentTemp = newTemp;
-        House.toggleWindowsInRoom(x, y, windowOpened);
+        windowService.toggleWindowsInRoom(x, y, windowOpened);
     }
 
     /**

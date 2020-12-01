@@ -11,23 +11,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.team4.App;
-import org.team4.common.logger.Log;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
 import org.team4.common.Helper;
 import org.team4.common.Settings;
-import org.team4.house.House;
+import org.team4.house.HouseService;
+import org.team4.house.services.WindowService;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Set;
-import java.util.spi.CalendarDataProvider;
 
 public class ShsParameterController {
 
     private ShsParameterService shsParameterService;
+    private WindowService windowService;
+    private HouseService houseService;
 
     @FXML
     //outside temperature
@@ -64,6 +63,8 @@ public class ShsParameterController {
 
     public ShsParameterController() {
         shsParameterService = new ShsParameterService();
+        windowService = new WindowService();
+        houseService = new HouseService();
     }
 
     public void initialize() {
@@ -94,7 +95,7 @@ public class ShsParameterController {
            return;
         }
         blockWindowButton.setDisable(false);
-        String[] windowList = House.getAllWindowsOption();
+        String[] windowList = windowService.getAllWindowsOption();
         for(int i = 0; i < windowList.length; i++) {
             windowChoices.getItems().add(windowList[i]);
         }
@@ -103,14 +104,14 @@ public class ShsParameterController {
 
     public void getWindowStatus() {
         if(windowChoices.getValue() != null) {
-            boolean isBlocked = House.getWindowStatusBlock(windowChoices.getValue());
+            boolean isBlocked = windowService.getWindowStatusBlock(windowChoices.getValue());
             blockWindowButton.setText(isBlocked ? "Open" : "Block");
         }
     }
 
     public void toggleWindowBlock() {
         if(windowChoices.getValue() != null) {
-            House.toggleWindowBlock(windowChoices.getValue());
+            windowService.toggleWindowBlock(windowChoices.getValue());
             initWindowChoices();
         }
     }
@@ -119,7 +120,7 @@ public class ShsParameterController {
      * Prepare the text field to get the house layout location
      */
     public void houseLocationInit() {
-        houseLocationText.setText(House.houseLayoutFileName);
+        houseLocationText.setText(houseService.house.houseLayoutFileName);
         locationError.setText("");
         setHouseLocationButton.setDisable(Settings.simulationStarted);
     }
@@ -199,7 +200,7 @@ public class ShsParameterController {
             locationError.setText("Letters only");
             return;
         }
-        House.houseLayoutFileName = houseLocation;
+        houseService.house.houseLayoutFileName = houseLocation;
         Logger.info("House location has been updated");
         initialize();
     }

@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.team4.App;
 import org.team4.common.Settings;
+import org.team4.house.components.House;
 import org.team4.house.components.Room;
 
 import java.net.URL;
@@ -13,6 +14,9 @@ import java.net.URL;
 public class HouseController {
 
     private HouseView houseView;
+    private HouseService houseService;
+    public int roomWidth;
+    public int roomHeight;
 
     @FXML
     public Pane housePane;
@@ -22,7 +26,10 @@ public class HouseController {
     public Pane backgroundPane;
 
     public HouseController() {
-        houseView = new HouseView();
+        houseService = new HouseService();
+        roomWidth = 600/ houseService.house.roomColumn;
+        roomHeight = 600/ houseService.house.roomRow;
+        houseView = new HouseView(roomWidth, roomHeight);
     }
 
     /**
@@ -30,7 +37,7 @@ public class HouseController {
      */
     public void backgroundImageInit() {
         URL url = App.class.getResource("/org/img/grass.png");
-        BackgroundImage myBI= new BackgroundImage(new Image(url.toString() ,HouseView.roomWidth, HouseView.roomHeight,false,true),
+        BackgroundImage myBI= new BackgroundImage(new Image(url.toString() , roomWidth, roomHeight,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         if(Settings.simulationStarted) {
@@ -48,7 +55,7 @@ public class HouseController {
         backgroundImageInit();
         eraseHouseLayout();
         houseView.drawIndex(rowIndex, columnIndex);
-        Room[][] roomArr = House.rooms;
+        Room[][] roomArr = houseService.getRooms();
         for(int i = 0; i < roomArr.length; i++) {
             for(int j = 0; j < roomArr[i].length; j++) {
                 AnchorPane roomPane = houseView.getRoomPane(roomArr[i][j], i, j);
