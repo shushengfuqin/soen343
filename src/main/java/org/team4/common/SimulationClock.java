@@ -4,6 +4,7 @@ import org.team4.App;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
 import org.team4.house.House;
+import org.team4.house.TemperatureService;
 
 import java.nio.channels.SeekableByteChannel;
 import java.text.DateFormat;
@@ -21,6 +22,7 @@ public class SimulationClock extends Thread{
     public void run(){
         Date dt;
         int timeBeforeAlert = Settings.timeBeforeAlerting;
+        TemperatureService temperatureService = new TemperatureService();
         while(!stop){
             try {
                 sleep(1000/multiplier);
@@ -47,8 +49,11 @@ public class SimulationClock extends Thread{
             c.add(Calendar.SECOND, 1);
             dt = c.getTime();
             setDateTime(dt);
+
+            temperatureService.updateTemperature();
             DashboardController dashboardController = App.fxmlLoader.getController();
             dashboardController.updateTime(getDate());
+            dashboardController.drawHouseLayout();
         }
     }
 

@@ -56,12 +56,46 @@ public class House {
         return true;
     }
 
+    //Check if window are blocked. return true if blocked
+    public static boolean checkWindowBlock(int x, int y){
+        for(int i = 0; i < 4 ; i++){
+            if(rooms[x][y].walls[i].type.equals("window")){
+                if(rooms[x][y].walls[i].blocked){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Turns on all away mode lights
      */
     public static void turnOnAllAwayModeLights() {
         for(Coordinate c : lightsAway) {
             rooms[c.x][c.y].lightOn = true;
+        }
+    }
+
+    /**
+     * Open all windows from x, y, room
+     */
+    public static void openAllWindowInRoom(int x, int y){
+        for(int i = 0; i < 4 ; i++){
+            if(rooms[x][y].walls[i].type.equals("window")){
+                rooms[x][y].walls[i].open = true;
+            }
+        }
+    }
+
+    /**
+     * close all windows from x, y, room
+     */
+    public static void closeAllWindowInRoom(int x, int y){
+        for(int i = 0; i < 4 ; i++){
+            if(rooms[x][y].walls[i].type.equals("window")){
+                rooms[x][y].walls[i].open = false;
+            }
         }
     }
 
