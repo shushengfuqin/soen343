@@ -56,15 +56,15 @@ public class House {
         return true;
     }
 
-    //Check if window are blocked. return true if blocked
+    /**
+     * Checks if a window in a room is blocked
+     * @param x coordinate of the room
+     * @param y coordinate of the room
+     * @return true if there's a blocked window
+     */
     public static boolean checkWindowBlock(int x, int y){
-        for(int i = 0; i < 4 ; i++){
-            if(rooms[x][y].walls[i].type.equals("window")){
-                if(rooms[x][y].walls[i].blocked){
-                    return true;
-                }
-            }
-        }
+        for(Wall wall : rooms[x][y].walls)
+            if(wall.type.equals("window") && wall.blocked) return true;
         return false;
     }
 
