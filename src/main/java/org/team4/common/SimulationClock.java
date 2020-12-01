@@ -3,6 +3,7 @@ package org.team4.common;
 import org.team4.App;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
+import org.team4.house.HouseService;
 import org.team4.house.services.LightService;
 import org.team4.house.services.TemperatureService;
 
@@ -50,7 +51,6 @@ public class SimulationClock extends Thread{
 
             temperatureService.updateTemperature();
             dashboardController.updateTime(getDate());
-            dashboardController.drawHouseLayout();
         }
     }
 
