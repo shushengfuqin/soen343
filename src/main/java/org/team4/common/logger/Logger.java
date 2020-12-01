@@ -75,6 +75,7 @@ public class Logger {
             FileWriter myWriter = new FileWriter(fileName, true);
             String logStr = log.toJson().toString();
             myWriter.write(logStr + "\n");
+            myWriter.close();
         } catch (IOException e) {
             throw new logException("Cannot find the file",e);
         }
