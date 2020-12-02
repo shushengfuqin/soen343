@@ -1,11 +1,11 @@
 package org.team4.permissions;
 
 
-import javafx.scene.chart.ScatterChart;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.team4.common.Settings;
+import org.team4.common.exceptions.InvalidPermissionFileException;
 import org.team4.common.logger.Logger;
 import org.team4.user.User;
 import org.team4.user.UserService;
@@ -144,11 +144,37 @@ public class Permission {
     }
 
     /**
+     * Gets the permissions
+     */
+    public static void updatePermissions() {
+        try {
+            updatePermissionsFromFile();
+        } catch (InvalidPermissionFileException invalidPermissionFileName) {
+            updatePermissionsFromDefault();
+        }
+    }
+
+    /**
+     * Gets the permissions from default config
+     */
+    public static void updatePermissionsFromDefault() {
+        boolean[] defaultWindow = {true, true, false, true, true};
+        boolean[] defaultDoor = {true, true, false, true, true};
+        boolean[] defaultLight = {true, true, false, true, true};
+        boolean[] defaultAway = {true, false, false, false, false};
+        windowPermission = defaultWindow;
+        doorPermission  = defaultDoor;
+        lightPermission  = defaultLight;
+        awayPermission = defaultAway;
+    }
+
+    /**
      * Get the permissions from the file
      */
-    public static void updatePermissionsFromFile() {
+    public static void updatePermissionsFromFile() throws InvalidPermissionFileException {
         File userFile = new File(permissionFileName+".json");
-        if(!userFile.exists()) return;
+
+        if(!userFile.exists()) throw new InvalidPermissionFileException();
 
         String data = readFromPermissionFile();
 

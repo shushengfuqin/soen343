@@ -76,7 +76,6 @@ public class Logger {
             myWriter.close();
         }
         catch (IOException e) {
-            System.out.println("Error occured while writing to org.team4.user file");
             e.printStackTrace();
         }
     }

@@ -106,7 +106,7 @@ public class permissionCheckController
      * Initialize the checkboxes with the permissions
      */
     public void initialize(){
-        Permission.updatePermissionsFromFile();
+        Permission.updatePermissions();
 
         boolean[] windowPermission = Permission.windowPermission;
         windowF.setSelected(windowPermission[0]);

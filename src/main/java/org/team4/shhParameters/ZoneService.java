@@ -4,6 +4,7 @@ import org.team4.common.Coordinate;
 import org.team4.common.Settings;
 import org.team4.common.TimePeriod;
 import org.team4.common.logger.Logger;
+import org.team4.common.exceptions.InvalidTimeEntryException;
 import org.team4.house.HouseService;
 
 import java.util.ArrayList;
@@ -27,9 +28,9 @@ public class ZoneService {
      * @param time
      * @return date if valid else null
      */
-    public Date validateTimeEntry(String time) {
+    public Date validateTimeEntry(String time) throws InvalidTimeEntryException {
         if (!time.matches("^(?:(?:([01]?\\d|2[0-3]):)?([0-5]?\\d):)?([0-5]?\\d)$"))
-            return null;
+                throw new InvalidTimeEntryException();
         int[] newTime = Stream.of(time.split(":")).mapToInt(Integer::parseInt).toArray();
         Date date = new Date();
         date.setHours(newTime[0]);
