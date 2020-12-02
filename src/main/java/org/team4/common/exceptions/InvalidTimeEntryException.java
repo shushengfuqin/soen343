@@ -1,4 +1,4 @@
-package org.team4.exceptionClass;
+package org.team4.common.exceptions;
 
 public class InvalidTimeEntryException extends Exception{
     public InvalidTimeEntryException(){

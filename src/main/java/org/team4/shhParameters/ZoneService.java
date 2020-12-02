@@ -4,7 +4,7 @@ import org.team4.common.Coordinate;
 import org.team4.common.Settings;
 import org.team4.common.TimePeriod;
 import org.team4.common.logger.Logger;
-import org.team4.exceptionClass.InvalidTimeEntryException;
+import org.team4.common.exceptions.InvalidTimeEntryException;
 import org.team4.house.HouseService;
 
 import java.util.ArrayList;

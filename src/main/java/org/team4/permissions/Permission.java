@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
-import org.team4.exceptionClass.InvalidPermissionFileName;
+import org.team4.common.exceptions.InvalidPermissionFileName;
 import org.team4.user.User;
 import org.team4.user.UserService;
 
