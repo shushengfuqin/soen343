@@ -201,7 +201,7 @@
                                                    </Text>
                                                 </children>
                                              </GridPane>
-                                             <Slider fx:id="multiplierSlider" blockIncrement="1.0" layoutX="10.0" layoutY="203.0" max="3.0" min="1.0" snapToTicks="true" value="1.0" />
+                                             <Slider fx:id="multiplierSlider" blockIncrement="1.0" layoutX="10.0" layoutY="203.0" majorTickUnit="20.0" max="60.0" min="1.0" minorTickCount="20" value="1.0" />
                                           </children>
                                        </Pane>
                                     </Pane>

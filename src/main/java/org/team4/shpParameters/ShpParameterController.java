@@ -9,18 +9,20 @@ import org.team4.App;
 import org.team4.common.Coordinate;
 import org.team4.common.Settings;
 import org.team4.dashboard.DashboardController;
-import org.team4.house.House;
+import org.team4.house.HouseService;
+import org.team4.house.services.LightService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 public class
 ShpParameterController {
 
     private ShpService shpService;
+    private LightService lightService;
+    private HouseService houseService;
 
     @FXML
     //lights table
@@ -59,6 +61,8 @@ ShpParameterController {
 
     public ShpParameterController() {
         shpService = new ShpService();
+        lightService = new LightService();
+        houseService = new HouseService();
     }
 
     /**
@@ -98,8 +102,8 @@ ShpParameterController {
 
         lightawaySetButton.setDisable(false);
 
-        ArrayList<Coordinate> allLightAway = House.lightsAway;
-        String[] lightList = House.getAllLightsOption();
+        ArrayList<Coordinate> allLightAway = houseService.house.lightsAway;
+        String[] lightList = lightService.getAllLightsOption();
         for(Coordinate c : allLightAway) {
             lightsTable.getItems().add(c);
         }
@@ -144,7 +148,7 @@ ShpParameterController {
     public void getLightAwayStatus() {
         resetInvalidText();
         if (lightsawayChoiceBox.getValue() != null) {
-            boolean isOn = House.getLightAwayStatus(lightsawayChoiceBox.getValue());
+            boolean isOn = lightService.getLightAwayStatus(lightsawayChoiceBox.getValue());
             lightawaySetButton.setText(isOn ? "Remove" : "Add");
         }
     }
@@ -155,7 +159,7 @@ ShpParameterController {
     public void toggleLightsAwayAction() {
         resetInvalidText();
         if (lightsawayChoiceBox.getValue() != null) {
-            House.toggleLightsAway(lightsawayChoiceBox.getValue());
+            lightService.toggleLightsAway(lightsawayChoiceBox.getValue());
             displayLightsInAwayMode();
         }
     }

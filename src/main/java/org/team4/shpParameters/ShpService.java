@@ -2,13 +2,31 @@ package org.team4.shpParameters;
 
 import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
-import org.team4.house.House;
+import org.team4.house.services.DoorService;
+import org.team4.house.HouseService;
+import org.team4.house.services.LightService;
+import org.team4.house.services.WindowService;
 import org.team4.permissions.Permission;
+import org.team4.user.UserService;
 
 import java.util.Date;
 import java.util.stream.Stream;
 
 public class ShpService {
+
+    LightService lightService;
+    DoorService doorService;
+    UserService userService;
+    WindowService windowService;
+    HouseService houseService;
+
+    public ShpService() {
+        lightService = new LightService();
+        doorService = new DoorService();
+        userService = new UserService();
+        windowService = new WindowService();
+        houseService = new HouseService();
+    }
 
     /**
      * Either enable or disable away mode
@@ -30,7 +48,7 @@ public class ShpService {
     public void turnOffAwayMode() {
         Settings.awayMode = false;
         Settings.startTimeBeforeAlerting = false;
-        House.turnOnAllLights();
+        lightService.turnOnAllLights();
         Logger.info("Away mode has been deactivated");
     }
 
@@ -38,22 +56,22 @@ public class ShpService {
      * Enable away mode
      */
     public void turnOnAwayMode() {
-        if(House.userInHouse()) {
+        if(userService.userInHouse()) {
             Logger.warning("Unable to enable away mode. User is in the house");
             return;
         }
 
-        boolean successCloseWindowAndDoor = House.closeAllWindowsAndDoors();
+        boolean successCloseWindowAndDoor = closeAllWindowsAndDoors();
         if(!successCloseWindowAndDoor) {
             Logger.warning("Unable to enable away mode. Failed to close all doors and windows");
             return;
         }
 
         Settings.awayMode = true;
-        if(Settings.lightAutoMode) House.toggleLightAuto();
-        House.turnOffAllLights();
-        House.lockAllDoor();
-        House.turnOnAllAwayModeLights();
+        if(Settings.lightAutoMode) lightService.toggleLightAuto();
+        lightService.turnOffAllLights();
+        doorService.lockAllDoor();
+        lightService.turnOnAllAwayModeLights();
         Settings.awayLightOn = true;
         Logger.info("Away mode has been activated");
     }
@@ -111,4 +129,29 @@ public class ShpService {
         Settings.awayLightOffTime = offDate;
     }
 
+
+    /**
+     * Close all windows
+     * @return a boolean if it's a success or not
+     */
+    public boolean closeAllWindowsAndDoors() {
+        String[] allWindows = windowService.getAllWindowsOption();
+        for(String window: allWindows) {
+            int[] loc = houseService.getRoomLocation(window);
+            if(houseService.getRooms()[loc[0]][loc[1]].walls[loc[2]].open) {
+                boolean success = windowService.toggleWindowOpen(window, true);
+                if(!success) return false;
+            }
+        }
+
+        String[] allDoors = doorService.getAllDoorsOption();
+        for(String door: allDoors) {
+            int[] loc = houseService.getRoomLocation(door);
+            if(houseService.getRooms()[loc[0]][loc[1]].walls[loc[2]].open) {
+                boolean success = doorService.toggleDoor(door, true);
+                if(!success) return false;
+            }
+        }
+        return true;
+    }
 }

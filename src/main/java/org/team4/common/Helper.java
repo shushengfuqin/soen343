@@ -1,5 +1,7 @@
 package org.team4.common;
 
+import java.util.ArrayList;
+
 public class Helper {
 
     /**
@@ -27,4 +29,18 @@ public class Helper {
         return Math.round((x) * 100.0) / 100.0;
     }
 
+    /**
+     * Check if the coordinates are in the arraylist
+     * @param c coordinates array
+     * @param z coordinate
+     * @return a boolean
+     */
+    public static boolean coordInArrayList(ArrayList<Coordinate> c, Coordinate z){
+        for(Coordinate coords: c){
+            if(coords.x == z.x && coords.y == z.y){
+                return true;
+            }
+        }
+        return false;
+    }
 }
