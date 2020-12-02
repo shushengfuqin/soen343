@@ -3,7 +3,7 @@ package org.team4.common.logger;
 import javafx.application.Platform;
 import org.team4.App;
 import org.team4.common.Settings;
-import org.team4.common.logException;
+import org.team4.exceptionClass.LogException;
 import org.team4.dashboard.DashboardController;
 
 import java.io.FileWriter;
@@ -21,7 +21,7 @@ public class Logger {
      * @param date current date/time
      * @param user current user
      */
-    public static boolean log(String message, String level, Date date, String user) throws logException {
+    public static boolean log(String message, String level, Date date, String user){
         Log newLog = new Log(message, level, date, user);
         writeToLogFile(newLog);
         Platform.runLater(
@@ -37,7 +37,7 @@ public class Logger {
      * Generate a log level info
      * @param message
      */
-    public static boolean info(String message) throws logException {
+    public static boolean info(String message){
         String user = Settings.currentUser;
         Date date = Settings.simulationTime.getDate();
         String level = "info";
@@ -48,7 +48,7 @@ public class Logger {
      * Generate a log level warning
      * @param message
      */
-    public static boolean warning(String message) throws logException {
+    public static boolean warning(String message) {
         String user = Settings.currentUser;
         Date date = Settings.simulationTime.getDate();
         String level = "warning";
@@ -59,7 +59,7 @@ public class Logger {
      * Generate a log level error
      * @param message
      */
-    public static boolean error(String message) throws logException {
+    public static boolean error(String message) {
         String user = Settings.currentUser;
         Date date = Settings.simulationTime.getDate();
         String level = "error";
@@ -70,13 +70,23 @@ public class Logger {
      * Write logs to file
      * @param log
      */
-    private static void writeToLogFile(Log log) throws logException {
+    private static void writeToLogFile(Log log){
         try {
             FileWriter myWriter = new FileWriter(fileName, true);
             String logStr = log.toJson().toString();
+            //check whether the information that user entered is correct
+            try {
+                if(logStr==null||logStr.equals("")){
+                    throw new LogException();
+                }
+
+            }catch (LogException e){
+                e.printStackTrace();
+            }
             myWriter.write(logStr + "\n");
+            myWriter.close();
         } catch (IOException e) {
-            throw new logException("Cannot find the file",e);
+            e.printStackTrace();
         }
     }
 }

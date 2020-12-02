@@ -1,12 +1,12 @@
 package org.team4.permissions;
 
 
-import javafx.scene.chart.ScatterChart;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.team4.common.Settings;
 import org.team4.common.logger.Logger;
+import org.team4.exceptionClass.InvalidPermissionFileName;
 import org.team4.user.User;
 import org.team4.user.UserService;
 
@@ -148,7 +148,11 @@ public class Permission {
      */
     public static void updatePermissionsFromFile() {
         File userFile = new File(permissionFileName+".json");
-        if(!userFile.exists()) return;
+        try {
+            if(!userFile.exists()) throw new InvalidPermissionFileName();
+        }catch (InvalidPermissionFileName e){
+            e.printStackTrace();
+        }
 
         String data = readFromPermissionFile();
 
