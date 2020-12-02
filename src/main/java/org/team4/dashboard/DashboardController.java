@@ -98,6 +98,9 @@ public class DashboardController {
         initMultiplier();
         toggleTabs();
         if(Settings.simulationStarted) startButton.setText("Stop");
+        shhTab.setOnSelectionChanged(event -> {
+            shhParameterController.verifyCurrentUserSHHPermission();
+        });
     }
 
     /**
