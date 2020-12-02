@@ -68,13 +68,14 @@ public class Logger {
      * Write logs to file
      * @param log
      */
-    private static void writeToLogFile(Log log){
+    private static void writeToLogFile(Log log) {
         try {
             FileWriter myWriter = new FileWriter(fileName, true);
             String logStr = log.toJson().toString();
             myWriter.write(logStr + "\n");
             myWriter.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -28,14 +28,9 @@ public class ZoneService {
      * @param time
      * @return date if valid else null
      */
-    public Date validateTimeEntry(String time) {
-        try {
-            if (!time.matches("^(?:(?:([01]?\\d|2[0-3]):)?([0-5]?\\d):)?([0-5]?\\d)$"))
+    public Date validateTimeEntry(String time) throws InvalidTimeEntryException {
+        if (!time.matches("^(?:(?:([01]?\\d|2[0-3]):)?([0-5]?\\d):)?([0-5]?\\d)$"))
                 throw new InvalidTimeEntryException();
-        }
-        catch (InvalidTimeEntryException e){
-            e.printStackTrace();
-        }
         int[] newTime = Stream.of(time.split(":")).mapToInt(Integer::parseInt).toArray();
         Date date = new Date();
         date.setHours(newTime[0]);

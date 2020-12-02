@@ -5,8 +5,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.team4.common.Settings;
+import org.team4.common.exceptions.InvalidPermissionFileException;
 import org.team4.common.logger.Logger;
-import org.team4.common.exceptions.InvalidPermissionFileName;
 import org.team4.user.User;
 import org.team4.user.UserService;
 
@@ -149,7 +149,7 @@ public class Permission {
     public static void updatePermissions() {
         try {
             updatePermissionsFromFile();
-        } catch (InvalidPermissionFileName invalidPermissionFileName) {
+        } catch (InvalidPermissionFileException invalidPermissionFileName) {
             updatePermissionsFromDefault();
         }
     }
@@ -171,10 +171,10 @@ public class Permission {
     /**
      * Get the permissions from the file
      */
-    public static void updatePermissionsFromFile() throws InvalidPermissionFileName {
+    public static void updatePermissionsFromFile() throws InvalidPermissionFileException {
         File userFile = new File(permissionFileName+".json");
 
-        if(!userFile.exists()) throw new InvalidPermissionFileName();
+        if(!userFile.exists()) throw new InvalidPermissionFileException();
 
         String data = readFromPermissionFile();
 

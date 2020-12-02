@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import org.team4.common.Coordinate;
 import org.team4.common.Settings;
 import org.team4.common.TimePeriod;
+import org.team4.common.exceptions.InvalidTimeEntryException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -243,8 +244,16 @@ public class ShhParameterController {
         String b = periodBegin1.getText();
         String e = periodEnd1.getText();
         String temp = periodTemp1.getText();
-        Date begin = zoneService.validateTimeEntry(b);
-        Date end = zoneService.validateTimeEntry(e);
+        Date begin;
+        Date end;
+        try {
+            begin = zoneService.validateTimeEntry(b);
+            end = zoneService.validateTimeEntry(e);
+        } catch (InvalidTimeEntryException invalidTimeEntryException) {
+            invalidTimeEntryException.printStackTrace();
+            editPeriodError1.setText("X");
+            return;
+        }
         Double newTemp = zoneService.verifyTemp(temp);
         if(begin == null || end == null || newTemp == null) {
             editPeriodError1.setText("X");
@@ -263,8 +272,16 @@ public class ShhParameterController {
         String b = periodBegin2.getText();
         String e = periodEnd2.getText();
         String temp = periodTemp2.getText();
-        Date begin = zoneService.validateTimeEntry(b);
-        Date end = zoneService.validateTimeEntry(e);
+        Date begin;
+        Date end;
+        try {
+            begin = zoneService.validateTimeEntry(b);
+            end = zoneService.validateTimeEntry(e);
+        } catch (InvalidTimeEntryException invalidTimeEntryException) {
+            invalidTimeEntryException.printStackTrace();
+            editPeriodError2.setText("X");
+            return;
+        }
         Double newTemp = zoneService.verifyTemp(temp);
         if(begin == null || end == null || newTemp == null) {
             editPeriodError2.setText("X");
@@ -283,8 +300,16 @@ public class ShhParameterController {
         String b = periodBegin3.getText();
         String e = periodEnd3.getText();
         String temp = periodTemp3.getText();
-        Date begin = zoneService.validateTimeEntry(b);
-        Date end = zoneService.validateTimeEntry(e);
+        Date begin;
+        Date end;
+        try {
+            begin = zoneService.validateTimeEntry(b);
+            end = zoneService.validateTimeEntry(e);
+        } catch (InvalidTimeEntryException invalidTimeEntryException) {
+            invalidTimeEntryException.printStackTrace();
+            editPeriodError3.setText("X");
+            return;
+        }
         Double newTemp = zoneService.verifyTemp(temp);
         if(begin == null || end == null || newTemp == null) {
             editPeriodError3.setText("X");
