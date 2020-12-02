@@ -144,15 +144,37 @@ public class Permission {
     }
 
     /**
+     * Gets the permissions
+     */
+    public static void updatePermissions() {
+        try {
+            updatePermissionsFromFile();
+        } catch (InvalidPermissionFileName invalidPermissionFileName) {
+            updatePermissionsFromDefault();
+        }
+    }
+
+    /**
+     * Gets the permissions from default config
+     */
+    public static void updatePermissionsFromDefault() {
+        boolean[] defaultWindow = {true, true, false, true, true};
+        boolean[] defaultDoor = {true, true, false, true, true};
+        boolean[] defaultLight = {true, true, false, true, true};
+        boolean[] defaultAway = {true, false, false, false, false};
+        windowPermission = defaultWindow;
+        doorPermission  = defaultDoor;
+        lightPermission  = defaultLight;
+        awayPermission = defaultAway;
+    }
+
+    /**
      * Get the permissions from the file
      */
-    public static void updatePermissionsFromFile() {
+    public static void updatePermissionsFromFile() throws InvalidPermissionFileName {
         File userFile = new File(permissionFileName+".json");
-        try {
-            if(!userFile.exists()) throw new InvalidPermissionFileName();
-        }catch (InvalidPermissionFileName e){
-            e.printStackTrace();
-        }
+
+        if(!userFile.exists()) throw new InvalidPermissionFileName();
 
         String data = readFromPermissionFile();
 
