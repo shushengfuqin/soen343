@@ -11,7 +11,6 @@ import static org.mockito.Mockito.*;
 
 public class ControllerTest {
 
-    @Ignore("To be implemented with JUnit")
     @Test
     public void testSetDateTime_fails() {
         ShsParameterService mockService = mock(ShsParameterService.class);
@@ -22,7 +21,6 @@ public class ControllerTest {
         Assert.assertFalse(result);
     }
 
-    @Ignore("To be implemented with JUnit")
     @Test
     public void testSetDateTime_fails_out_of_bound() {
         ShsParameterService mockService = mock(ShsParameterService.class);
@@ -33,7 +31,6 @@ public class ControllerTest {
         Assert.assertFalse(result);
     }
 
-    @Ignore("To be implemented with JUnit")
     @Test
     public void testSetDateTime_fails_missing_field_time() {
         ShsParameterService mockService = mock(ShsParameterService.class);
@@ -44,7 +41,6 @@ public class ControllerTest {
         Assert.assertFalse(result);
     }
 
-    @Ignore("To be implemented with JUnit")
     @Test
     public void testSetDateTime_fails_missing_field_date() {
         ShsParameterService mockService = mock(ShsParameterService.class);

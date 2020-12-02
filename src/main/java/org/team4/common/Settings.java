@@ -9,6 +9,7 @@ public class Settings {
     public static String currentUser;
     public static int outsideTemperature = 20;
     public static SimulationClock simulationTime = new SimulationClock();
+    public static LayoutUpdater layoutUpdater = new LayoutUpdater();
     public static boolean simulationStarted = false;
     public static boolean lightAutoMode = false;
     public static boolean awayMode = false;
@@ -49,6 +50,8 @@ public class Settings {
     public static void startClock() {
         simulationTime.stop = false;
         simulationTime.start();
+        layoutUpdater.stop = false;
+        layoutUpdater.start();
     }
 
     /**
@@ -57,5 +60,7 @@ public class Settings {
     public static void stopClock() {
         simulationTime.stop = true;
         simulationTime = new SimulationClock();
+        layoutUpdater.stop = true;
+        layoutUpdater = new LayoutUpdater();
     }
 }

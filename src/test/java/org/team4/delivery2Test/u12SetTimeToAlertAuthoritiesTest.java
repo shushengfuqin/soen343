@@ -2,7 +2,6 @@ package org.team4.delivery2Test;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.team4.house.House;
 import org.team4.shpParameters.ShpService;
 
 public class u12SetTimeToAlertAuthoritiesTest {

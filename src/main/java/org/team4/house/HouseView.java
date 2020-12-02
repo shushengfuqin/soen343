@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import org.team4.App;
 import org.team4.common.Settings;
+import org.team4.house.components.House;
 import org.team4.house.components.Room;
 import org.team4.house.components.Wall;
 import org.team4.user.UserService;
@@ -18,18 +19,21 @@ import java.util.ArrayList;
 public class HouseView {
 
     private UserService userService;
+    private HouseService houseService;
+    public int roomWidth;
+    public int roomHeight;
 
-    public static int roomWidth = 600/House.roomColumn;
-    public static int roomHeight = 600/House.roomRow;
-
-    public HouseView() {
+    public HouseView(int width, int height) {
         userService = new UserService();
+        houseService = new HouseService();
+        roomWidth = width;
+        roomHeight = height;
     }
 
     public void drawIndex(AnchorPane row, AnchorPane col) {
         //Draw row
         double pos = 0;
-        for(int i = 0; i < House.roomColumn; i++) {
+        for(int i = 0; i < houseService.house.roomColumn; i++) {
             Text tempText = new Text();
             StackPane textBox = new StackPane();
             StackPane textPane = new StackPane();
@@ -58,7 +62,7 @@ public class HouseView {
         }
 
         pos = 0;
-        for(int i = 0; i < House.roomRow; i++) {
+        for(int i = 0; i < houseService.house.roomRow; i++) {
             Text tempText = new Text();
             StackPane textBox = new StackPane();
             StackPane textPane = new StackPane();

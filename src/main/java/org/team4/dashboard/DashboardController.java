@@ -7,13 +7,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.team4.App;
 import org.team4.common.logger.Logger;
+import org.team4.house.services.DoorService;
+import org.team4.house.HouseService;
 import org.team4.shhParameters.ShhParameterController;
 import org.team4.shpParameters.ShpParameterController;
 import org.team4.common.Settings;
 import org.team4.common.logger.Log;
-import org.team4.house.House;
 import org.team4.house.HouseController;
 import org.team4.shcParameters.ShcParameterController;
 import org.team4.user.User;
@@ -28,6 +28,8 @@ public class DashboardController {
 
     private UserService userService;
     private DashboardView dashboardView;
+    private HouseService houseService;
+    private DoorService doorService;
 
     @FXML
     public HouseController houseController;
@@ -84,6 +86,8 @@ public class DashboardController {
     public DashboardController() {
         userService = new UserService();
         dashboardView = new DashboardView();
+        houseService = new HouseService();
+        doorService = new DoorService();
     }
 
     @FXML
@@ -163,11 +167,8 @@ public class DashboardController {
     private void startSimulation() {
         updateTime(Settings.simulationTime.getDate());
         Settings.simulationStarted = true;
-        House.getHouseLayout();
-        House.indexHouseWindowAndDoor();
-        House.indexAllIndoorRooms();
-        House.indexAllLights();
-        House.lockAllDoor();
+        houseService.getHouseLayout();
+        doorService.lockAllDoor();
         shpParameterController.displayLightsInAwayMode();
         shpParameterController.displayAwayModeButton();
         shpParameterController.updateCurrentOnOffTimes();
@@ -188,8 +189,8 @@ public class DashboardController {
         updateTime(Settings.simulationTime.getDate());
         Settings.resetSettings();
         houseController.eraseHouseLayout();
-        House.saveHouseLayout();
-        House.resetParams();
+        houseService.saveHouseLayout();
+        houseService.resetParams();
         shpParameterController.displayLightsInAwayMode();
         shpParameterController.displayAwayModeButton();
         shpParameterController.updateCurrentOnOffTimes();

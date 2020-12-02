@@ -3,14 +3,16 @@ package org.team4.common;
 import org.team4.App;
 import org.team4.common.logger.Logger;
 import org.team4.dashboard.DashboardController;
-import org.team4.house.House;
-import org.team4.hvac.TemperatureService;
+import org.team4.house.HouseService;
+import org.team4.house.services.LightService;
+import org.team4.house.services.TemperatureService;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class SimulationClock extends Thread{
     private Date date = new Date();
+    private LightService lightService = new LightService();
     private boolean setting = false;
     public boolean stop = false;
     public int multiplier = 1;
@@ -49,7 +51,6 @@ public class SimulationClock extends Thread{
 
             temperatureService.updateTemperature();
             dashboardController.updateTime(getDate());
-            dashboardController.drawHouseLayout();
         }
     }
 
@@ -64,12 +65,12 @@ public class SimulationClock extends Thread{
         Boolean targetInZone = isBettweenTime(curr, on, off);
 
         if(targetInZone && !Settings.awayLightOn) {
-            House.turnOnAllAwayModeLights();
+            lightService.turnOnAllAwayModeLights();
             Logger.info("All away mode lights have been turned on");
             Settings.awayLightOn = true;
         }
         else if (!targetInZone && Settings.awayLightOn) {
-            House.turnOffAllLights();
+            lightService.turnOffAllLights();
             Logger.info("All away mode lights have been turned off");
             Settings.awayLightOn = false;
         }

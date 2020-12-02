@@ -1,12 +1,10 @@
 package org.team4.shhParameters;
 
-import org.team4.App;
 import org.team4.common.Coordinate;
 import org.team4.common.Settings;
 import org.team4.common.TimePeriod;
 import org.team4.common.logger.Logger;
-import org.team4.dashboard.DashboardController;
-import org.team4.house.House;
+import org.team4.house.HouseService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,11 +13,14 @@ import java.util.stream.Stream;
 
 public class ZoneService {
     public static HouseZones houseZones= new HouseZones();
+    public HouseService houseService;
 
     /**
      * Constructor
      */
-    public ZoneService() { }
+    public ZoneService() {
+        houseService = new HouseService();
+    }
 
     /**
      * Check if a string of time is valid
@@ -170,7 +171,7 @@ public class ZoneService {
      * @return return array of indoor rooms
      */
     public ArrayList<Coordinate> getAllIndoorRooms() {
-        return House.indoorRooms;
+        return houseService.house.indoorRooms;
     }
 
     /**
@@ -180,7 +181,7 @@ public class ZoneService {
      * @param y coordinate of room
      */
     public void setRoomZone(String zone, int x, int y) {
-        House.rooms[x][y].zone = zone;
+        houseService.house.rooms[x][y].zone = zone;
         Logger.info("Room has been added to zone");
     }
 
@@ -189,7 +190,7 @@ public class ZoneService {
      * @param coord of a room
      */
     public void requestRoomTemperature(Coordinate coord) {
-        Double currentTemp = House.rooms[coord.x][coord.y].currentTemp;
+        Double currentTemp = houseService.house.rooms[coord.x][coord.y].currentTemp;
         Logger.info("As requested: Current temp of room " + coord + " is " + currentTemp + " °C");
     }
 
@@ -199,8 +200,8 @@ public class ZoneService {
      * @param temp new temp
      */
     public void overwriteTemperature(Coordinate coord, double temp) {
-        House.rooms[coord.x][coord.y].desiredTemp = temp;
-        House.rooms[coord.x][coord.y].tempOverWritten = true;
+        houseService.house.rooms[coord.x][coord.y].desiredTemp = temp;
+        houseService.house.rooms[coord.x][coord.y].tempOverWritten = true;
         Logger.info("Room temperature has been overwritten");
     }
 

@@ -5,17 +5,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.team4.house.House;
+import org.team4.house.HouseService;
+import org.team4.house.components.House;
 import org.team4.house.components.Room;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(House.class)
 public class ModelTest {
 
     @Test
     public void getRoomLocationTest() {
         int[] expectedResult = {1,2,0};
-        int[] result = House.getRoomLocation("(1, 2) - left");
+        int[] result = new HouseService().getRoomLocation("(1, 2) - left");
         Assert.assertEquals(result[0], expectedResult[0]);
         Assert.assertEquals(result[1], expectedResult[1]);
         Assert.assertEquals(result[2], expectedResult[2]);
@@ -47,7 +47,13 @@ public class ModelTest {
 
     @Test
     public void generateHouseTest() {
-        House.generateHouse();
-        Assert.assertNotNull(House.rooms[0][0]);
+        try {
+            House house = new House();
+            house.getHouseLayout();
+            Assert.assertNotNull(house.rooms[0][0]);
+        }
+        catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 }

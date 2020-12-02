@@ -3,12 +3,16 @@ package org.team4.shcParameters;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import org.team4.App;
-import org.team4.dashboard.DashboardController;
 import org.team4.common.Settings;
-import org.team4.house.House;
+import org.team4.house.services.DoorService;
+import org.team4.house.services.LightService;
+import org.team4.house.services.WindowService;
 
 public class ShcParameterController {
+    private LightService lightService;
+    private WindowService windowService;
+    private DoorService doorService;
+
     @FXML
     //Windows control
     public ChoiceBox<String> windowChoiceBox;
@@ -30,6 +34,12 @@ public class ShcParameterController {
     //Lock Door control
     public ChoiceBox<String> lockDoorChoiceBox;
     public Button lockDoorSetButton;
+
+    public ShcParameterController() {
+        lightService = new LightService();
+        windowService = new WindowService();
+        doorService = new DoorService();
+    }
 
     public void initialize() {
         windowAndDoorChoiceBoxInit();
@@ -55,17 +65,17 @@ public class ShcParameterController {
         doorSetButton.setDisable(false);
         lockDoorSetButton.setDisable(false);
 
-        String[] windowList = House.getAllWindowsOption();
+        String[] windowList = windowService.getAllWindowsOption();
         for (int i = 0; i < windowList.length; i++) {
             windowChoiceBox.getItems().add(windowList[i]);
         }
 
-        String[] doorList = House.getAllDoorsOption();
+        String[] doorList = doorService.getAllDoorsOption();
         for (int i = 0; i < doorList.length; i++) {
             doorsChoiceBox.getItems().add(doorList[i]);
         }
 
-        String[] lockDoorList = House.getAllLockDoor();
+        String[] lockDoorList = doorService.getAllLockDoor();
         for(int i = 0; i < lockDoorList.length; i++){
             lockDoorChoiceBox.getItems().add(lockDoorList[i]);
         }
@@ -108,7 +118,7 @@ public class ShcParameterController {
 
         lightSetButton.setDisable(false);
 
-        String[] lightList = House.getAllLightsOption();
+        String[] lightList = lightService.getAllLightsOption();
         for (int i = 0; i < lightList.length; i++) {
             lightsChoiceBox.getItems().add(lightList[i]);
         }
@@ -121,7 +131,7 @@ public class ShcParameterController {
      */
     public void toggleWindowAction() {
         if (windowChoiceBox.getValue() != null) {
-            House.toggleWindowOpen(windowChoiceBox.getValue(), false);
+            windowService.toggleWindowOpen(windowChoiceBox.getValue(), false);
             windowAndDoorChoiceBoxInit();
         }
     }
@@ -131,7 +141,7 @@ public class ShcParameterController {
      */
     public void getWindowStatus() {
         if (windowChoiceBox.getValue() != null) {
-            boolean isOpen = House.getWindowStatusOpen(windowChoiceBox.getValue());
+            boolean isOpen = windowService.getWindowStatusOpen(windowChoiceBox.getValue());
             windowSetButton.setText(isOpen ? "Close" : "Open");
         }
     }
@@ -141,7 +151,7 @@ public class ShcParameterController {
      */
     public void toggleDoorAction() {
         if (doorsChoiceBox.getValue() != null) {
-            House.toggleDoor(doorsChoiceBox.getValue(), false);
+            doorService.toggleDoor(doorsChoiceBox.getValue(), false);
             windowAndDoorChoiceBoxInit();
         }
     }
@@ -151,7 +161,7 @@ public class ShcParameterController {
      */
     public void getDoorStatus() {
         if (doorsChoiceBox.getValue() != null) {
-            boolean isOpen = House.getDoorStatus(doorsChoiceBox.getValue());
+            boolean isOpen = doorService.getDoorStatus(doorsChoiceBox.getValue());
             doorSetButton.setText(isOpen ? "Close" : "Open");
         }
     }
@@ -161,7 +171,7 @@ public class ShcParameterController {
      */
     public void toggleLightsAction() {
         if (lightsChoiceBox.getValue() != null) {
-            House.toggleLights(lightsChoiceBox.getValue());
+            lightService.toggleLights(lightsChoiceBox.getValue());
             lightsChoiceBoxInit();
         }
     }
@@ -171,7 +181,7 @@ public class ShcParameterController {
      */
     public void toggleLockDoorAction(){
         if(lockDoorChoiceBox.getValue() != null){
-            House.toggleDoorLock(lockDoorChoiceBox.getValue());
+            doorService.toggleDoorLock(lockDoorChoiceBox.getValue());
             windowAndDoorChoiceBoxInit();
         }
     }
@@ -181,7 +191,7 @@ public class ShcParameterController {
      */
     public void getLightStatus() {
         if (lightsChoiceBox.getValue() != null) {
-            boolean isOn = House.getLightStatus(lightsChoiceBox.getValue());
+            boolean isOn = lightService.getLightStatus(lightsChoiceBox.getValue());
             lightSetButton.setText(isOn ? "Off" : "On");
         }
 
@@ -192,7 +202,7 @@ public class ShcParameterController {
      */
     public void getDoorLockStatus(){
         if(lockDoorChoiceBox.getValue() != null){
-            boolean isLocked = House.getLockDoorStatus(lockDoorChoiceBox.getValue());
+            boolean isLocked = doorService.getLockDoorStatus(lockDoorChoiceBox.getValue());
             lockDoorSetButton.setText(isLocked ? "Unlock" : "Lock");
         }
     }
@@ -201,7 +211,7 @@ public class ShcParameterController {
      * Enable or disable light auto mode
      */
     public void toggleLightAutomaticMode() {
-        House.toggleLightAuto();
+        lightService.toggleLightAuto();
         lightAutomaticModeInit();
     }
 
