@@ -250,7 +250,6 @@ public class ShhParameterController {
             begin = zoneService.validateTimeEntry(b);
             end = zoneService.validateTimeEntry(e);
         } catch (InvalidTimeEntryException invalidTimeEntryException) {
-            invalidTimeEntryException.printStackTrace();
             editPeriodError1.setText("X");
             return;
         }
@@ -278,7 +277,6 @@ public class ShhParameterController {
             begin = zoneService.validateTimeEntry(b);
             end = zoneService.validateTimeEntry(e);
         } catch (InvalidTimeEntryException invalidTimeEntryException) {
-            invalidTimeEntryException.printStackTrace();
             editPeriodError2.setText("X");
             return;
         }
@@ -306,7 +304,6 @@ public class ShhParameterController {
             begin = zoneService.validateTimeEntry(b);
             end = zoneService.validateTimeEntry(e);
         } catch (InvalidTimeEntryException invalidTimeEntryException) {
-            invalidTimeEntryException.printStackTrace();
             editPeriodError3.setText("X");
             return;
         }
