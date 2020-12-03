@@ -20,6 +20,7 @@ public class Logger {
      * @param user current user
      */
     public static boolean log(String message, String level, Date date, String user) {
+        if(!Settings.logging) return true;
         Log newLog = new Log(message, level, date, user);
         writeToLogFile(newLog);
         Platform.runLater(

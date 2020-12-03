@@ -190,9 +190,10 @@ public class ZoneService {
      * Get the room temperature
      * @param coord of a room
      */
-    public void requestRoomTemperature(Coordinate coord) {
+    public double requestRoomTemperature(Coordinate coord) {
         Double currentTemp = houseService.house.rooms[coord.x][coord.y].currentTemp;
         Logger.info("As requested: Current temp of room " + coord + " is " + currentTemp + " °C");
+        return currentTemp;
     }
 
     /**

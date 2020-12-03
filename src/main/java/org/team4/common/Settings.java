@@ -3,6 +3,7 @@ package org.team4.common;
 import java.util.Date;
 
 public class Settings {
+    public static boolean logging = true;
     public static Double defaultTemp;
     public static Integer summerBegin;
     public static Integer summerEnd;
