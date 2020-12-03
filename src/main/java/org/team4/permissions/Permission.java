@@ -30,7 +30,7 @@ public class Permission {
     public static boolean lightPermission[]  = {true, true, false, true, true};
     public static boolean awayPermission[] = {true, false, false, false, false};
 
-    public static UserService userService = new UserService();;
+    public static UserService userService = new UserService();
 
     /**
      * Check the permission of a user
@@ -111,6 +111,24 @@ public class Permission {
      */
     public static boolean checkAwayModePermission() {
         return checkPermissions("toggle away mode",awayPermission, 0,0);
+    }
+
+    public static boolean checkSHHPermission(User user) {
+        if (user != null && user.status.equals("family") && user.isAdult()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static boolean checkChangeTempPermission(User user, int x, int y) {
+        if (user != null && user.status.equals("guest") && x == user.getX() && y == user.getY()) {
+            return true;
+        }else if (user != null && user.status.equals("family") && user.isAdult()) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

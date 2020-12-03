@@ -7,7 +7,11 @@ import javafx.scene.text.Text;
 import org.team4.common.Coordinate;
 import org.team4.common.Settings;
 import org.team4.common.TimePeriod;
+import org.team4.permissions.Permission;
+import org.team4.user.User;
+import org.team4.user.UserService;
 import org.team4.common.exceptions.InvalidTimeEntryException;
+
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -92,6 +96,8 @@ public class ShhParameterController {
     public ShhParameterController() {
         zoneService = new ZoneService();
     }
+
+    public static UserService userService = new UserService();
 
     /**
      * Initial method
@@ -188,6 +194,7 @@ public class ShhParameterController {
         setPeriodTemp3.setDisable(disable);
         setTemp.setDisable(disable);
         deleteZone.setDisable(disable);
+        verifyCurrentUserSHHPermission();
     }
 
     /**
@@ -359,12 +366,15 @@ public class ShhParameterController {
     public void handleOverwriteTemperature() {
         resetErrorMessages();
         String room = roomChoiceBox2.getValue();
-        Double temp = zoneService.verifyTemp(overwriteTemp.getText());
-        if(room == null || temp == null) {
-            overwriteError.setText("X");
-            return;
+        if (room != null) {
+            Coordinate coord = new Coordinate(room);
+            Double temp = zoneService.verifyTemp(overwriteTemp.getText());
+            if(temp == null || !checkChangeTempPermission(coord.getX(), coord.getY())) {
+                overwriteError.setText("X");
+                return;
+            }
+            zoneService.overwriteTemperature(coord, temp);
         }
-        zoneService.overwriteTemperature(new Coordinate(room), temp);
     }
 
     /**
@@ -395,5 +405,73 @@ public class ShhParameterController {
         catch (Exception e) {
             thresholdError.setText("X");
         }
+    }
+
+    public boolean checkSHHPermission() {
+        User user = userService.getSingleUser(Settings.currentUser);
+        return Permission.checkSHHPermission(user);
+    }
+
+    public boolean checkChangeTempPermission(int x, int y) {
+        User user = userService.getSingleUser(Settings.currentUser);
+        return Permission.checkChangeTempPermission(user,x,y);
+    }
+
+    public void verifyCurrentUserSHHPermission() {
+        if (!checkSHHPermission()) {
+            disableSHHPanel(true);
+        } else {
+            disableSHHPanel(false);
+        }
+    }
+
+    public void disableSHHPanel(boolean bool) {
+
+        zoneTable.setDisable(bool);
+        addTemp.setDisable(bool);
+        addName.setDisable(bool);
+        addButton.setDisable(bool);
+
+        //Zone ChoiceBox
+        zoneChoiceBox.setDisable(bool);
+
+        //Edit zone variables
+        editTemp.setDisable(bool);
+        setTemp.setDisable(bool);
+        periodBegin1.setDisable(bool);
+        periodBegin2.setDisable(bool);
+        periodBegin3.setDisable(bool);
+        periodEnd1.setDisable(bool);
+        periodEnd2.setDisable(bool);
+        periodEnd3.setDisable(bool);
+        periodTemp1.setDisable(bool);
+        periodTemp2.setDisable(bool);
+        periodTemp3.setDisable(bool);
+        setPeriodTemp1.setDisable(bool);
+        setPeriodTemp2.setDisable(bool);
+        setPeriodTemp3.setDisable(bool);
+        editPeriodError1.setDisable(bool);
+        editPeriodError2.setDisable(bool);
+        editPeriodError3.setDisable(bool);
+        deleteZone.setDisable(bool);
+
+        //add room to zone
+        addRoom.setDisable(bool);
+        roomsChoiceBox.setDisable(bool);
+        addZoneChoiceBox.setDisable(bool);
+
+        //request room
+        requestRoom.setDisable(bool);
+        roomsChoiceBox1.setDisable(bool);
+
+        //Set seasonal temperature
+        summerTemp.setDisable(bool);
+        winterTemp.setDisable(bool);
+        seasonTempButton.setDisable(bool);
+
+        //Temperature alert threshold
+        upperBound.setDisable(bool);
+        lowerBound.setDisable(bool);
+        thresholdButton.setDisable(bool);
     }
 }
