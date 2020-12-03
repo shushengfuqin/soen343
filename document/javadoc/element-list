@@ -1,13 +1,16 @@
 module:org.team4
 org.team4
 org.team4.common
+org.team4.common.exceptions
 org.team4.common.logger
 org.team4.common.observer
 org.team4.dashboard
 org.team4.delivery1Test
 org.team4.delivery2Test
+org.team4.delivery3Test
 org.team4.house
 org.team4.house.components
+org.team4.house.services
 org.team4.otherTest.helperTest
 org.team4.otherTest.houseTest
 org.team4.otherTest.loggerTest
@@ -16,6 +19,7 @@ org.team4.otherTest.shsParamTest
 org.team4.otherTest.userTest
 org.team4.permissions
 org.team4.shcParameters
+org.team4.shhParameters
 org.team4.shpParameters
 org.team4.shsParameters
 org.team4.user
