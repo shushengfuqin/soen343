@@ -33,13 +33,20 @@ public class TemperatureService {
         for(Coordinate coord : houseService.house.indoorRooms){
             Room currentRoom = houseService.getRooms()[coord.x][coord.y];
             double currentTemp = currentRoom.currentTemp;
-            if(currentTemp < Settings.tempAlertLowerBound || currentTemp > Settings.tempAlertUpperBound)
+            if(isCurrentTempUnusual(currentTemp))
                 Logger.warning("The temperature in room " + coord + " is unusual");
 
             Date date = Settings.simulationTime.getDate();
             double desiredTemp = getDesiredTemp(currentRoom, date);
             updateRoomTemp(coord.x, coord.y , desiredTemp, currentTemp, date, currentRoom);
         }
+    }
+
+    /**
+     * Check if temperature is unusual
+     */
+    public boolean isCurrentTempUnusual(double currentTemp) {
+        return currentTemp < Settings.tempAlertLowerBound || currentTemp > Settings.tempAlertUpperBound;
     }
 
     /**

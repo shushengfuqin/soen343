@@ -7,7 +7,7 @@ import org.team4.user.User;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
-public class SHHPermissionTest {
+public class u12SHHPermissionTest {
 
     private static final User bob = new User("bob", "family", 30, 1, 1);
     private static final User billy = new User("billy", "family", 5, 1, 2);
