@@ -98,6 +98,7 @@ public class DashboardController {
         initMultiplier();
         toggleTabs();
         if(Settings.simulationStarted) startButton.setText("Stop");
+        //Whenever the shhTab is on focus, trigger shhParameterController to verify if the current user should have access or not.
         shhTab.setOnSelectionChanged(event -> {
             shhParameterController.verifyCurrentUserSHHPermission();
         });

@@ -407,16 +407,27 @@ public class ShhParameterController {
         }
     }
 
+    /**
+     * @return true if current user has permissions to edit SHH or false if not.
+     */
     public boolean checkSHHPermission() {
         User user = userService.getSingleUser(Settings.currentUser);
         return Permission.checkSHHPermission(user);
     }
 
+    /**
+     * @param x The x coordinate of the room the user is trying to modify.
+     * @param y The y coordinate of the room the user is trying to modify.
+     * @return  true if the user is allowed to modify room temperature or false if not.
+     */
     public boolean checkChangeTempPermission(int x, int y) {
         User user = userService.getSingleUser(Settings.currentUser);
         return Permission.checkChangeTempPermission(user,x,y);
     }
 
+    /**
+     * Verifies if the user has permission to modify and access SHH. If the user has permission, the panel is accessible, if the user does not have permission, the panel is disabled.
+     */
     public void verifyCurrentUserSHHPermission() {
         if (!checkSHHPermission()) {
             disableSHHPanel(true);
@@ -425,6 +436,9 @@ public class ShhParameterController {
         }
     }
 
+    /**
+     * @param bool true, the panel will be disabled except for the temperature override. false, the panel will not be disabled.
+     */
     public void disableSHHPanel(boolean bool) {
 
         zoneTable.setDisable(bool);
