@@ -113,6 +113,11 @@ public class Permission {
         return checkPermissions("toggle away mode",awayPermission, 0,0);
     }
 
+    /**
+     *  Checks if a user has permission to modify SHH. The user must be an adult and part of the family (father, mother).
+     * @param user The user whom the permissions of modifying SHH are tested against.
+     * @return true if the user is allowed to modify SHH. false if the user is not allowed.
+     */
     public static boolean checkSHHPermission(User user) {
         if (user != null && user.status.equals("family") && user.isAdult()) {
             return true;
@@ -121,6 +126,13 @@ public class Permission {
         }
     }
 
+    /**
+     *  Checks if a user has permission to modify room temperature.  The user must be an adult and part of the family (father, mother), or a guest within the same room that is wanted to modify.
+     * @param user The user whom the permissions of modifying the room temperature are tested against.
+     * @param x The x position of the room is tested to modify.
+     * @param y The y position of the room is tested to modify.
+     * @return true if the user is allowed to modify room temperature. false if the user is not allowed.
+     */
     public static boolean checkChangeTempPermission(User user, int x, int y) {
         if (user != null && user.status.equals("guest") && x == user.getX() && y == user.getY()) {
             return true;
