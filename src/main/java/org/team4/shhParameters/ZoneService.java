@@ -197,14 +197,14 @@ public class ZoneService {
     }
 
     /**
-     * Overwrite the temperature of a room
+     * Override the temperature of a room
      * @param coord of room
      * @param temp new temp
      */
-    public void overwriteTemperature(Coordinate coord, double temp) {
+    public void overrideTemperature(Coordinate coord, double temp) {
         houseService.house.rooms[coord.x][coord.y].desiredTemp = temp;
-        houseService.house.rooms[coord.x][coord.y].tempOverWritten = true;
-        Logger.info("Room temperature has been overwritten");
+        houseService.house.rooms[coord.x][coord.y].tempOverridden = true;
+        Logger.info("Room temperature has been overridden");
     }
 
     /**

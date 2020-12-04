@@ -8,9 +8,9 @@ import org.team4.house.HouseService;
 import org.team4.house.services.TemperatureService;
 import org.team4.shhParameters.ZoneService;
 
-public class u11OverwriteRoomTemperatureTest {
+public class u11OverrideRoomTemperatureTest {
     @Test
-    public void TestOverwriteRoomTemperature() {
+    public void TestOverrideRoomTemperature() {
         Settings.logging = false;
         Settings.defaultTemp = 20.0;
         Settings.summerBegin = 6;
@@ -22,7 +22,7 @@ public class u11OverwriteRoomTemperatureTest {
         double roomTempBefore = zoneService.requestRoomTemperature(new Coordinate(1, 1));
 
         Settings.outsideTemperature = 20;
-        zoneService.overwriteTemperature(new Coordinate(1,1), 10);
+        zoneService.overrideTemperature(new Coordinate(1,1), 10);
 
         TemperatureService temperatureService = new TemperatureService();
         temperatureService.updateTemperature();

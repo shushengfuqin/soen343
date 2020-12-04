@@ -6,7 +6,7 @@ import org.team4.common.Settings;
 public class Room {
     public String name;
     public String zone;
-    public boolean tempOverWritten;
+    public boolean tempOverridden;
     public double desiredTemp;
     public double currentTemp;
     public boolean airConditioning = false;
@@ -21,7 +21,7 @@ public class Room {
     {
         walls = new Wall[4];
         this.name = name;
-        this.tempOverWritten = false;
+        this.tempOverridden = false;
         this.currentTemp = Settings.defaultTemp;
         this.desiredTemp = Settings.defaultTemp;
         this.zone = name.equals("outside") || name.equals("backyard") ? null : "default";
@@ -35,7 +35,7 @@ public class Room {
     // #2. constructor which accepts the room from the house layout.
     public Room(JSONObject jo) {
         walls = new Wall[4];
-        this.tempOverWritten = false;
+        this.tempOverridden = false;
         this.currentTemp = Settings.defaultTemp;
         this.desiredTemp = Settings.defaultTemp;
         this.zone = "default";

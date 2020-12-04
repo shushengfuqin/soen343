@@ -57,7 +57,7 @@ public class TemperatureService {
      */
     public double getDesiredTemp(Room room, Date date) {
         //return the overwritten desired temperature
-        if(room.tempOverWritten) return room.desiredTemp;
+        if(room.tempOverridden) return room.desiredTemp;
 
         //return the seasonal temperature
         if(Settings.awayMode) return seasonIsSummer(date) ? Settings.summerTemperature : Settings.winterTemperature;
