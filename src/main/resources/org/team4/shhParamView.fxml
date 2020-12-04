@@ -187,15 +187,15 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Overwrite room:" textFill="WHITE">
+                  <Label text="Override room:" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="overwriteButton" mnemonicParsing="false" onAction="#handleOverwriteTemperature" prefHeight="25.0" prefWidth="93.0" style="-fx-background-color: #ffa31a;" text="OW" GridPane.columnIndex="6" />
+                  <Button fx:id="overrideButton" mnemonicParsing="false" onAction="#handleOverrideTemperature" prefHeight="25.0" prefWidth="93.0" style="-fx-background-color: #ffa31a;" text="OR" GridPane.columnIndex="6" />
                   <ChoiceBox fx:id="roomChoiceBox2" onAction="#handleZoneChoiceBox" prefWidth="150.0" GridPane.columnIndex="2" />
-                  <TextField fx:id="overwriteTemp" prefHeight="25.0" prefWidth="98.0" promptText="Temperature" GridPane.columnIndex="4" />
-                  <Text fx:id="overwriteError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="X" GridPane.columnIndex="5" />
+                  <TextField fx:id="overrideTemp" prefHeight="25.0" prefWidth="98.0" promptText="Temperature" GridPane.columnIndex="4" />
+                  <Text fx:id="overrideError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="X" GridPane.columnIndex="5" />
                </children>
             </GridPane>
             <GridPane layoutX="10.0" layoutY="420.0" prefHeight="30.0" prefWidth="490.0">

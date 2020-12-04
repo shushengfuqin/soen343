@@ -72,11 +72,11 @@ public class ShhParameterController {
     public Button requestRoom;
     public ChoiceBox<String> roomsChoiceBox1;
 
-    //Overwrite room temp
+    //Override room temp
     public ChoiceBox<String> roomChoiceBox2;
-    public TextField overwriteTemp;
-    public Text overwriteError;
-    public Button overwriteButton;
+    public TextField overrideTemp;
+    public Text overrideError;
+    public Button overrideButton;
 
     //Set seasonal temperature
     public TextField summerTemp;
@@ -123,7 +123,7 @@ public class ShhParameterController {
         editPeriodError2.setText("");
         editPeriodError3.setText("");
         deleteError.setText("");
-        overwriteError.setText("");
+        overrideError.setText("");
         seasonTempError.setText("");
         thresholdError.setText("");
     }
@@ -363,17 +363,17 @@ public class ShhParameterController {
     /**
      * Overwrite room temperature
      */
-    public void handleOverwriteTemperature() {
+    public void handleOverrideTemperature() {
         resetErrorMessages();
         String room = roomChoiceBox2.getValue();
         if (room != null) {
             Coordinate coord = new Coordinate(room);
-            Double temp = zoneService.verifyTemp(overwriteTemp.getText());
+            Double temp = zoneService.verifyTemp(overrideTemp.getText());
             if(temp == null || !checkChangeTempPermission(coord.getX(), coord.getY())) {
-                overwriteError.setText("X");
+                overrideError.setText("X");
                 return;
             }
-            zoneService.overwriteTemperature(coord, temp);
+            zoneService.overrideTemperature(coord, temp);
         }
     }
 
