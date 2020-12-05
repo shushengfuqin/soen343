@@ -6,7 +6,7 @@ import org.team4.common.Settings;
 import org.team4.shhParameters.Zone;
 import org.team4.shhParameters.ZoneService;
 
-public class u2SetAndEditZoneTemperatureTest {
+public class u3SetAndEditZoneTemperatureTest {
     @Test
     public void TestSetZoneTemperature() {
         Settings.logging = false;

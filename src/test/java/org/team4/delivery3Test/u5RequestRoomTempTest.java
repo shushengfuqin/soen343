@@ -7,7 +7,7 @@ import org.team4.common.Settings;
 import org.team4.house.HouseService;
 import org.team4.shhParameters.ZoneService;
 
-public class u4RequestRoomTempTest {
+public class u5RequestRoomTempTest {
     @Test
     public void TestRequestRoomTemperature() {
         Settings.logging = false;

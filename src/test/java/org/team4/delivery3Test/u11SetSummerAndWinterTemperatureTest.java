@@ -10,7 +10,7 @@ import org.team4.shhParameters.ZoneService;
 
 import java.util.Date;
 
-public class u9SetSummerAndWinterTemperatureTest {
+public class u11SetSummerAndWinterTemperatureTest {
     @Test
     public void TestSetSummerAndWinterTemperatureSummer() {
         Settings.logging = false;

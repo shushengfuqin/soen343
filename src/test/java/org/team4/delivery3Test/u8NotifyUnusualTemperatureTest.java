@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.team4.house.services.TemperatureService;
 
-public class u7NotifyUnusualTemperatureTest {
+public class u8NotifyUnusualTemperatureTest {
     @Test
     public void TestUnusualTemperatureValid() {
         TemperatureService mockService = new TemperatureService();

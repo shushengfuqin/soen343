@@ -8,7 +8,7 @@ import org.team4.house.HouseService;
 import org.team4.house.services.TemperatureService;
 import org.team4.shhParameters.ZoneService;
 
-public class u11OverrideRoomTemperatureTest {
+public class u13OverrideRoomTemperatureTest {
     @Test
     public void TestOverrideRoomTemperature() {
         Settings.logging = false;
