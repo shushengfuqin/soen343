@@ -8,11 +8,13 @@ import org.team4.house.HouseService;
 import org.team4.house.services.TemperatureService;
 import org.team4.shhParameters.ZoneService;
 
-public class u5RegulateTemperatureTest {
+public class u7RegulateTemperatureInAwayModeTest {
+
     @Test
-    public void TestRegulateTemperature() {
+    public void TestRegulateTemperatureInAwayModeSummer() {
         Settings.logging = false;
         Settings.defaultTemp = 10.0;
+        Settings.awayMode = true;
         Settings.summerBegin = 11;
         Settings.summerEnd = 12;
         HouseService houseService = new HouseService();
@@ -25,6 +27,7 @@ public class u5RegulateTemperatureTest {
         temperatureService.updateTemperature();
 
         double roomTempAfter = zoneService.requestRoomTemperature(new Coordinate(1, 1));
-        Assert.assertTrue(roomTempBefore < roomTempAfter);
+        Assert.assertFalse(roomTempBefore < roomTempAfter);
     }
+
 }

@@ -6,7 +6,7 @@ import org.team4.common.Settings;
 import org.team4.house.services.TemperatureService;
 import org.team4.shhParameters.ZoneService;
 
-public class u8SetTemperatureThresholdTest {
+public class u9SetTemperatureThresholdTest {
     @Test
     public void TestSetNewTemperatureThresholds() {
         Settings.logging = false;

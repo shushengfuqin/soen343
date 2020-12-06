@@ -8,7 +8,7 @@ import org.team4.shhParameters.ZoneService;
 
 import java.util.Date;
 
-public class u3SetAndEditZoneTimePeriodTest {
+public class u4SetAndEditZoneTimePeriodTest {
     @Test
     public void TestCreateTimePeriod1() {
         Settings.logging = false;

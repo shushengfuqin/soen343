@@ -8,26 +8,23 @@ import org.team4.house.HouseService;
 import org.team4.house.services.TemperatureService;
 import org.team4.shhParameters.ZoneService;
 
-public class u10SetOutsideTemperatureTest {
+public class u6RegulateTemperatureTest {
     @Test
-    public void TestSetOutsideTemperature() {
+    public void TestRegulateTemperature() {
         Settings.logging = false;
-        Settings.defaultTemp = 20.0;
-        Settings.awayMode = true;
-        Settings.summerBegin = 6;
-        Settings.summerEnd = 5;
+        Settings.defaultTemp = 10.0;
+        Settings.summerBegin = 11;
+        Settings.summerEnd = 12;
         HouseService houseService = new HouseService();
         houseService.getHouseLayout();
 
         ZoneService zoneService = new ZoneService();
         double roomTempBefore = zoneService.requestRoomTemperature(new Coordinate(1, 1));
 
-        Settings.outsideTemperature = 5;
-
         TemperatureService temperatureService = new TemperatureService();
         temperatureService.updateTemperature();
 
         double roomTempAfter = zoneService.requestRoomTemperature(new Coordinate(1, 1));
-        Assert.assertTrue(roomTempBefore > roomTempAfter);
+        Assert.assertFalse(roomTempBefore < roomTempAfter);
     }
 }

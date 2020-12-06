@@ -6,7 +6,7 @@ import org.team4.house.HouseService;
 import org.team4.house.components.Room;
 import org.team4.shhParameters.ZoneService;
 
-public class u13AddRoomToZoneTest {
+public class u2AddRoomToZoneTest {
     @Test
     public void TestAddRoomToZone() {
         HouseService houseService = new HouseService();
